@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Form_Registration</title>
+</head>
+<body>
+   <div th:fragment="notify">
+	   <div th:if="${notification != null}">
+		<h3>Notification</h3>
+		<div>nfCpuUsage=<span th:text="${notification.getEventNotifications().get(0).getNfLoadLevelInfos().get(0).getNfCpuUsage()}"></span></div>
+		<div>nfMemoryUsage=<span th:text="${notification.getEventNotifications().get(0).getNfLoadLevelInfos().get(0).getNfMemoryUsage()}"></span></div>
+		<div>nfStorageUsage=<span th:text="${notification.getEventNotifications().get(0).getNfLoadLevelInfos().get(0).getNfStorageUsage()}"></span></div>
+		<br>
+		<h3>Notification Body</h3>
+		<div style="white-space: pre-wrap;" th:text="${notification}"></div>
+	</div>
+   </div>
+</body>
+</html>
