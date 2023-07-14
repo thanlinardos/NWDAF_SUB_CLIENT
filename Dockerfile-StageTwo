@@ -1,0 +1,9 @@
+# The deployment Image
+FROM docker.io/oraclelinux:8-slim
+
+EXPOSE 8082
+
+# Copy the native executable into the containers
+
+COPY --from=thanlinardos/nwdaf_sub_client:stageOne /build/target/NWDAF_SUB_CLIENT .
+ENTRYPOINT ["/NWDAF_SUB_CLIENT"]

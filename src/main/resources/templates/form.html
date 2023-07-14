@@ -11,27 +11,27 @@
 		
         <div>
             <label>Notification URI</label> 
-            <input type="text" th:field="*{notificationURI}" th:value=${nnwdafEventsSubscription.getNotificationURI()} disabled/>
+            <input type="text" th:field="*{notificationURI}" th:value="${notificationURI}" disabled/>
         </div>
         <!-- th:attrappend="selected=${type.toString() == 'THRESHOLD'}?@{selected}" -->
         <h3>Optional Subscription Info</h3>
 		<div>
             <label>Id</label> 
-            <input type="text" th:field="*{id}" th:value=${nnwdafEventsSubscription.getId()} disabled/>
+            <input type="text" th:field="*{id}" th:value="${id}" disabled/>
         </div>
         <div>
         <label>Show EvtReq Fields</label>
-        <input type="checkbox" th:field="*{showEvtReq}" th:value=${showEvtReq}/>
+        <input type="checkbox" th:field="*{showEvtReq}" th:value="${showEvtReq}"/>
         <label>Show PrevSub Fields</label>
-        <input type="checkbox" th:field="*{showPrevSub}" th:value=${showPrevSub}/>
+        <input type="checkbox" th:field="*{showPrevSub}" th:value="${showPrevSub}"/>
         <label>Show ConsNfInfo Fields</label>
-        <input type="checkbox" th:field="*{showConsNfInfo}" th:value=${showConsNfInfo}/>
+        <input type="checkbox" th:field="*{showConsNfInfo}" th:value="*{showConsNfInfo}"/>
         <button type="submit" name="update" th:text="Update">Update shown fields</button>
         </div>
         <br>
         <div>
 	        <label>Notification Correlation ID</label> 
-	        <input type="text" th:field="*{notifCorrId}" th:value=${notifCorrId} pattern="[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}"/>
+	        <input type="text" th:field="*{notifCorrId}" th:value="*{notifCorrId}" pattern="[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}"/>
 	    </div>
 	    <br>
         <div th:if="*{showEvtReq}==true">
@@ -48,23 +48,23 @@
 			</select>
 			<div>
 	            <label>Max number of Reports</label> 
-	            <input type="number" th:field="*{maxReportNbr}" th:value=${maxReportNbr}/>
+	            <input type="number" th:field="*{maxReportNbr}" th:value="*{maxReportNbr}"/>
 	        </div>
 	        <div>
 	            <label>Monitoring Duration</label> 
-	            <input type="datetime-local" th:field="*{monDur}" th:value=${monDur}/>
+	            <input type="datetime-local" th:field="*{monDur}" th:value="*{monDur}"/>
 	        </div>
 	        <div>
 	            <label>Repetition Period for periodic reporting</label> 
-	            <input type="number" th:field="*{repPeriod}" th:value=${repPeriod}/>
+	            <input type="number" th:field="*{repPeriod}" th:value="*{repPeriod}"/>
 	        </div>
 	        <div>
 	            <label>Percentage of Sampling among impacted UEs</label> 
-	            <input type="number" th:field="*{sampRatio}" th:value=${sampRatio}/>
+	            <input type="number" th:field="*{sampRatio}" th:value="*{sampRatio}"/>
 	        </div>
 	        <div>
 	            <label> Group Reporting Guard Time for aggregating the reports for a group of UEs</label> 
-	            <input type="number" th:field="*{grpRepTime}" th:value=${grpRepTime}/>
+	            <input type="number" th:field="*{grpRepTime}" th:value="*{grpRepTime}"/>
 	        </div>
 	        <label>Notification Flag</label>
 	        <select th:field="*{notifFlag}">
@@ -94,15 +94,15 @@
 			<hr>
 			<div>
 	            <label>Producer NF Instance ID </label> 
-	            <input type="text" th:field="*{producerId}" th:value=${producerId} pattern="^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$"/>
+	            <input type="text" th:field="*{producerId}" th:value="*{producerId}" pattern="^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$"/>
 	        </div>
 			<div>
 	            <label>Producer NF Set Identifier</label> 
-	            <input type="text" th:field="*{producerSetId}" th:value=${producerSetId} pattern="(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.mnc([0-9]){3}\.mcc([0-9]){3})|(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3})" title="for PLMN: set<NFSetId>.<NF>set.5gc.mnc<3digits>.mcc<3digits> for SNPN: ...5gc.nid<11-hexdigits>.mnc..."/>
+	            <input type="text" th:field="*{producerSetId}" th:value="*{producerSetId}" pattern="(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.mnc([0-9]){3}\.mcc([0-9]){3})|(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3})" title="for PLMN: set<NFSetId>.<NF>set.5gc.mnc<3digits>.mcc<3digits> for SNPN: ...5gc.nid<11-hexdigits>.mnc..."/>
 	        </div>
 			<div>
 	            <label>The identifier of a subscription </label> 
-	            <input type="text" th:field="*{subscriptionId}" th:value=${subscriptionId}/>
+	            <input type="text" th:field="*{subscriptionId}" th:value="*{subscriptionId}"/>
 	        </div>
 		    <br>
 				 List of analytics types for which NF related analytics contexts can be retrieved

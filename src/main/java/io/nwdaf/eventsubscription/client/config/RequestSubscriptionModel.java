@@ -392,7 +392,7 @@ public class RequestSubscriptionModel implements Serializable{
 		this.eventList.add(event);
 	}
 	public String getNotificationURI() {
-		return notificationURI;
+		return this.notificationURI;
 	}
 	public void setNotificationURI(String notificationURI) {
 		this.notificationURI = notificationURI;

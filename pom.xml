@@ -12,7 +12,7 @@
 	<artifactId>NWDAF_SUB_CLIENT</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>NWDAF_SUB_CLIENT</name>
-	<description>Demo project for Nwdaf_EventSubscription</description>
+	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -90,6 +90,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>NWDAF_SUB_CLIENT</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
