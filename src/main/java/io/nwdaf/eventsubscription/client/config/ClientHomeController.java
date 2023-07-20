@@ -1,6 +1,7 @@
 package io.nwdaf.eventsubscription.client.config;
 
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,8 +47,7 @@ public class ClientHomeController {
     private Map<Long,NnwdafEventsSubscription> currentSubs = new HashMap<Long,NnwdafEventsSubscription>();
     private Map<Long,RequestSubscriptionModel> currentSubRequests = new HashMap<Long,RequestSubscriptionModel>();
     private Map<Long,NnwdafEventsSubscriptionNotification> currentSubNotifications = new HashMap<Long,NnwdafEventsSubscriptionNotification>();
-    
-   
+    private OffsetDateTime lastNotif = null;
     @GetMapping(value="/client")
     public String client() {
     	return "client";
@@ -134,6 +134,14 @@ public class ClientHomeController {
     	object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
         model.addAttribute("nnwdafEventsSubscription",object);
         model.put("result",result);
+        long delay;
+        if(lastNotif!=null) {
+        	delay = ChronoUnit.MILLIS.between(lastNotif, OffsetDateTime.now());
+        }
+        else {
+        	delay=-1l;
+        }
+        model.put("delay", delay);
         model.put("notification",notification);
         model.addAttribute("serverTime", OffsetDateTime.now());
         return "formSuccess";
@@ -215,6 +223,7 @@ public class ClientHomeController {
     @PostMapping(value="/client/notify")
     public ResponseEntity<NnwdafEventsSubscriptionNotification> post(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody NnwdafEventsSubscriptionNotification notification){
     	currentSubNotifications.put(Long.parseLong(notification.getSubscriptionId()), notification);
+    	lastNotif = OffsetDateTime.now();
     	ResponseEntity<NnwdafEventsSubscriptionNotification> response = ResponseEntity.status(HttpStatus.OK).body(notification);
         return response;
 

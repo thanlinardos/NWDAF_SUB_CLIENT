@@ -8,6 +8,7 @@
    <div th:fragment="notify">
 	   <div th:if="${notification != null}">
 		<h3>Notification</h3>
+		<div>last notification was sent <span th:text="${delay}"></span>ms ago</div>
 		<div>nfCpuUsage=<span th:text="${notification.getEventNotifications().get(0).getNfLoadLevelInfos().get(0).getNfCpuUsage()}"></span></div>
 		<div>nfMemoryUsage=<span th:text="${notification.getEventNotifications().get(0).getNfLoadLevelInfos().get(0).getNfMemoryUsage()}"></span></div>
 		<div>nfStorageUsage=<span th:text="${notification.getEventNotifications().get(0).getNfLoadLevelInfos().get(0).getNfStorageUsage()}"></span></div>
