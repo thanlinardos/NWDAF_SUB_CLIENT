@@ -190,7 +190,9 @@ public class CreateSubscriptionRequestBuilder {
 				anametaind.strategy(new OutputStrategy().strategy(OutputStrategyEnum.fromValue(object.getAnaMetaInd().get(2))));
 			}
 			if(object.getAnaMetaInd().get(3)!=null) {
-				anametaind.addAggrNwdafIdsItem(UUID.fromString(object.getAnaMetaInd().get(3)));
+				for(int i=3;i<object.getAnaMetaInd().size();i++){
+					anametaind.addAggrNwdafIdsItem(UUID.fromString(object.getAnaMetaInd().get(i)));
+				}
 			}
 			extraRepReq.anaMetaInd(anametaind);
 		}
@@ -455,7 +457,7 @@ public class CreateSubscriptionRequestBuilder {
 			
 			for(int i=0;i<object.getNetworkArea().get(1).size();i++) {
 				Ncgi ncgi = new Ncgi();
-				if(object.getNetworkArea().get(1).get(i).get(1)!=null&&object.getNetworkArea().get(1).get(i).get(1)!=null) {
+				if(object.getNetworkArea().get(1).get(i).get(0)!=null&&object.getNetworkArea().get(1).get(i).get(1)!=null) {
 					ncgi.plmnId(new PlmnId().mcc(object.getNetworkArea().get(1).get(i).get(0)).mnc(object.getNetworkArea().get(1).get(i).get(1)));
 				}
 				ncgi.nrCellId(object.getNetworkArea().get(1).get(i).get(2)).nid(object.getNetworkArea().get(1).get(i).get(3));
@@ -464,7 +466,7 @@ public class CreateSubscriptionRequestBuilder {
 			
 			for(int i=0;i<object.getNetworkArea().get(2).size();i++) {
 				GlobalRanNodeId gRanNodeId = new GlobalRanNodeId();
-				if(object.getNetworkArea().get(2).get(i).get(1)!=null&&object.getNetworkArea().get(2).get(i).get(1)!=null) {
+				if(object.getNetworkArea().get(2).get(i).get(0)!=null&&object.getNetworkArea().get(2).get(i).get(1)!=null) {
 					gRanNodeId.plmnId(new PlmnId().mcc(object.getNetworkArea().get(2).get(i).get(0)).mnc(object.getNetworkArea().get(2).get(i).get(1)));
 				}
 				gRanNodeId.n3IwfId(object.getNetworkArea().get(2).get(i).get(2)).ngeNbId(object.getNetworkArea().get(2).get(i).get(3))
@@ -480,7 +482,7 @@ public class CreateSubscriptionRequestBuilder {
 			
 			for(int i=0;i<object.getNetworkArea().get(3).size();i++) {
 				Tai tai = new Tai();
-				if(object.getNetworkArea().get(3).get(i).get(1)!=null&&object.getNetworkArea().get(3).get(i).get(1)!=null) {
+				if(object.getNetworkArea().get(3).get(i).get(0)!=null&&object.getNetworkArea().get(3).get(i).get(1)!=null) {
 					tai.plmnId(new PlmnId().mcc(object.getNetworkArea().get(3).get(i).get(0)).mnc(object.getNetworkArea().get(3).get(i).get(1)));
 				}
 				tai.tac(object.getNetworkArea().get(3).get(i).get(2)).nid(object.getNetworkArea().get(3).get(i).get(3));

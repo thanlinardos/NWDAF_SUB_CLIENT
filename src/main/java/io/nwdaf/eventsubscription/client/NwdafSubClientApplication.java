@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscription;
 import io.nwdaf.eventsubscription.client.requestbuilders.CreateSubscriptionRequestBuilder;
@@ -29,7 +28,7 @@ public class NwdafSubClientApplication {
 	
 	private static final Logger log = LoggerFactory.getLogger(NwdafSubClientApplication.class);
 	
-	private ObjectMapper objectMapper;
+	// private ObjectMapper objectMapper;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(NwdafSubClientApplication.class, args);

@@ -209,7 +209,7 @@
 		</ul>
         <input type="submit" value="UpdateSub" />
     </form>
-	<div th:insert="/notify :: notify">  </div>
+	<div th:insert="~{/notify :: notify}">  </div>
     <div th:if="${result != null}">
         <h1>Result</h1>
             <div style="white-space: pre-wrap;" th:text="${result}"></div>

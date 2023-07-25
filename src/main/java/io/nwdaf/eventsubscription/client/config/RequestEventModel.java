@@ -1,15 +1,26 @@
 package io.nwdaf.eventsubscription.client.config;
 
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import io.nwdaf.eventsubscription.client.model.Accuracy.AccuracyEnum;
+import io.nwdaf.eventsubscription.client.model.ExpectedAnalyticsType.ExpectedAnalyticsTypeEnum;
+import io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class RequestEventModel {
 	private String event;
 	private String notificationMethod;
 	private List<String>optionals = new ArrayList<String>(Arrays.asList(null,null,null,null,null,null,null));
 	private List<String> anaMeta = new ArrayList<String>();
-	private List<String> anaMetaInd = new ArrayList<String>();
+	private List<String> anaMetaInd = new ArrayList<String>(Arrays.asList(null,null,null));
+	private List<String> aggrNwdafIds = new ArrayList<String>();
 	private List<String> dataStatProps = new ArrayList<String>();
 	private List<String> accPerSubset = new ArrayList<String>();
 	private List<String>args = new ArrayList<String>(Arrays.asList(null,null,null,null,null,null,null,null));
@@ -45,563 +56,779 @@ public class RequestEventModel {
 	private List<List<List<List<List<List<String>>>>>> exptUeBehav = new ArrayList<List<List<List<List<List<String>>>>>>();
 	private List<String> upfInfo = new ArrayList<String>();
 	//show booleans
-	private Boolean showExtraRepReq=false;
-	private Boolean showTgtUe=false;
-	private Boolean showLoadLevelThreshold=false;
-	private Boolean showSnssais=false;
-	private Boolean showAnySlice=false;
-	private Boolean showNsiIdInfos=false;
-	private Boolean showNsiLevelThrds=false;
-	private Boolean showListOfAnaSubsets=false;
-	private Boolean showNetworkArea=false;
-	private Boolean showSupis=false;
-	private Boolean showNfLoadLvlThds=false;
-	private Boolean showNfInstanceIds=false;
-	private Boolean showNfSetIds=false;
-	private Boolean showMatchingDir=false;
-	private Boolean showIntGroupIds=false;
-	private Boolean showBwRequs=false;
-	private Boolean showRatFreqs=false;
-	private Boolean showUpfInfo=false;
-	private Boolean showAppServerAddrs=false;
-	private Boolean showLadnDnns=false;
-	private Boolean showVisitedAreas=false;
-	private Boolean showQosFlowRetThds=false;
-	private Boolean showRanUeThrouThds=false;
-	private Boolean showExptAnaType=false;
-	private Boolean showExptUeBehav=false;
-	private Boolean showGpsis=false;
-	private Boolean showCongThresholds=false;
-	private Boolean showMaxTopAppUlNbr=false;
-	private Boolean showMaxTopAppDlNbr=false;
-	private Boolean showDisperReqs=false;
-	private Boolean showRedTransReqs=false;
-	private Boolean showWlanReqs=false;
-	private Boolean showDnais=false;
-	private Boolean showDnPerfReqs=false;
+	private Boolean showExtraRepReq=false,showNfTypes=false,showTgtUe=false,showLoadLevelThreshold=false,showSnssais=false,showAnySlice=false,showNsiIdInfos=false,showNsiLevelThrds=false,showListOfAnaSubsets=false,showNetworkArea=false,showSupis=false,showNfLoadLvlThds=false,showNfInstanceIds=false,showNfSetIds=false,showMatchingDir=false,showIntGroupIds=false,showBwRequs=false,showRatFreqs=false,showUpfInfo=false,showAppServerAddrs=false,showDnns=false,showLadnDnns=false,showVisitedAreas=false,showQosFlowRetThds=false,showRanUeThrouThds=false,showExptAnaType=false,showExptUeBehav=false,showGpsis=false,showCongThresholds=false,showMaxTopAppUlNbr=false,showMaxTopAppDlNbr=false,showDisperReqs=false,showRedTransReqs=false,showWlanReqs=false,showDnais=false,showDnPerfReqs=false,showAppIds=false;
 	//optionals
-	
+	private Integer maxObjectNbr;
+	private Integer maxSupiNbr;
+	private String startTs;
+	private String endTs;
+	private AccuracyEnum accuracy;
+	private String timeAnaNeeded;
+	private Integer offsetPeriod;
+
 	//args
+	private Boolean anyUE;
+	private Boolean anySlice;
+	private Integer loadLevelThreshold;
+	private MatchingDirectionEnum matchingDir;
+	private Integer maxTopAppUlNbr;
+	private Integer maxTopAppDlNbr;
 	private Integer repetitionPeriod;
+	private ExpectedAnalyticsTypeEnum exptAnaType;
 	
 	public void setAllLists() {
+		if(maxObjectNbr!=null) {
+			optionals.set(0, String.valueOf(maxObjectNbr));
+		}
+		if(maxSupiNbr!=null) {
+			optionals.set(1, String.valueOf(maxSupiNbr));
+		}
+		if(startTs!=null) {
+			optionals.set(2, startTs + ZonedDateTime.now().getOffset().getId());
+		}
+		if(endTs!=null) {
+			optionals.set(3, endTs + ZonedDateTime.now().getOffset().getId());
+		}
+		if(accuracy!=null) {
+			optionals.set(4, accuracy.toString());
+		}
+		if(timeAnaNeeded!=null) {
+			optionals.set(5, timeAnaNeeded + ZonedDateTime.now().getOffset().getId());
+		}
+		if(offsetPeriod!=null) {
+			optionals.set(6, String.valueOf(offsetPeriod));
+		}
+
+		if(anyUE!=null) {
+			args.set(0,Boolean.toString(anyUE).toUpperCase());
+		}
+		if(anySlice!=null) {
+			args.set(1,Boolean.toString(anySlice).toUpperCase());
+		}
+		if(loadLevelThreshold!=null) {
+			args.set(2, String.valueOf(loadLevelThreshold));
+		}
+		if(matchingDir!=null) {
+			args.set(3, matchingDir.toString());
+		}
+		if(maxTopAppUlNbr!=null) {
+			args.set(4, String.valueOf(maxTopAppUlNbr));
+		}
+		if(maxTopAppDlNbr!=null) {
+			args.set(5, String.valueOf(maxTopAppDlNbr));
+		}
 		if(repetitionPeriod!=null) {
 			args.set(6, String.valueOf(repetitionPeriod));
 		}
+		if(exptAnaType!=null) {
+			args.set(7, exptAnaType.toString());
+		}
+		for(int i=0;i<aggrNwdafIds.size();i++){
+			addAnaMetaInd(aggrNwdafIds.get(i));
+		}
+		for(int i=0;i<this.nsiIdInfos.size();i++) {
+			if(this.nsiIdInfos.get(i).size()<2) {
+				this.nsiIdInfos.get(i).add(new ArrayList<String>());
+			}
+		}
+		while(this.networkArea.size()<4) {
+				this.networkArea.add(new ArrayList<List<String>>());
+		}
+
+		for(int i=0;i<this.wlanReqs.size();i++) {
+			if(this.wlanReqs.get(i).size()<3) {
+				this.wlanReqs.get(i).add(new ArrayList<String>());
+			}
+		}
 	}
 	
-	public String getEvent() {
-		return event;
+	public void addAnaMeta(String item) {
+		this.anaMeta.add(item);
 	}
-	public void setEvent(String event) {
-		this.event = event;
+	public void removeAnaMeta(Integer i) {
+		this.anaMeta.remove((int)i);
 	}
-	public String getNotificationMethod() {
-		return notificationMethod;
+	public String getAnaMeta(Integer i) {
+		return this.anaMeta.get(i);
 	}
-	public void setNotificationMethod(String notifMethod) {
-		this.notificationMethod = notifMethod;
+	public void setAnaMeta(String item,Integer i) {
+		this.anaMeta.set(i, item);
 	}
-	public List<String> getOptionals() {
-		return optionals;
+
+	public void addAnaMetaInd(String item) {
+		this.anaMetaInd.add(item);
 	}
-	public void setOptionals(List<String> optionals) {
-		this.optionals = optionals;
+	public void removeAnaMetaInd(Integer i) {
+		this.anaMetaInd.remove((int)i);
 	}
-	public List<String> getAnaMeta() {
-		return anaMeta;
+	public String getAnaMetaInd(Integer i) {
+		return this.anaMetaInd.get(i);
 	}
-	public void setAnaMeta(List<String> anaMeta) {
-		this.anaMeta = anaMeta;
+	public void setAnaMetaInd(String item,Integer i) {
+		this.anaMetaInd.set(i, item);
 	}
-	public List<String> getAnaMetaInd() {
-		return anaMetaInd;
+
+	public void addAggrNwdafIds(String item) {
+		this.aggrNwdafIds.add(item);
 	}
-	public void setAnaMetaInd(List<String> anaMetaInd) {
-		this.anaMetaInd = anaMetaInd;
+	public void removeAggrNwdafIds(Integer i) {
+		this.aggrNwdafIds.remove((int)i);
 	}
-	public List<String> getDataStatProps() {
-		return dataStatProps;
+	public String getAggrNwdafIds(Integer i) {
+		return this.aggrNwdafIds.get(i);
 	}
-	public void setDataStatProps(List<String> dataStatProps) {
-		this.dataStatProps = dataStatProps;
+	public void setAggrNwdafIds(String item,Integer i) {
+		this.aggrNwdafIds.set(i, item);
 	}
-	public List<String> getAccPerSubset() {
-		return accPerSubset;
+
+	public void addDataStatProps(String item) {
+		this.dataStatProps.add(item);
 	}
-	public void setAccPerSubset(List<String> accPerSubset) {
-		this.accPerSubset = accPerSubset;
+	public void removeDataStatProps(Integer i) {
+		this.dataStatProps.remove((int)i);
 	}
-	public List<String> getArgs() {
-		return args;
+	public String getDataStatProps(Integer i) {
+		return this.dataStatProps.get(i);
 	}
-	public void setArgs(List<String> args) {
-		this.args = args;
+	public void setDataStatProps(String item,Integer i) {
+		this.dataStatProps.set(i, item);
 	}
-	public List<List<String>> getNfLoadLvlThds() {
-		return nfLoadLvlThds;
+
+	public void addAccPerSubset(String item) {
+		this.accPerSubset.add(item);
 	}
-	public void setNfLoadLvlThds(List<List<String>> nfLoadLvlThds) {
-		this.nfLoadLvlThds = nfLoadLvlThds;
+	public void removeAccPerSubset(Integer i) {
+		this.accPerSubset.remove((int)i);
 	}
-	public List<String> getSupis() {
-		return supis;
+	public String getAccPerSubset(Integer i) {
+		return this.accPerSubset.get(i);
 	}
-	public void setSupis(List<String> supis) {
-		this.supis = supis;
+	public void setAccPerSubset(String item,Integer i) {
+		this.accPerSubset.set(i, item);
 	}
-	public List<String> getIntGroupIds() {
-		return intGroupIds;
+
+	public void addNfLoadLvlThds(List<String> item) {
+		if(item==null || item.size()==0) {
+			item = new ArrayList<String>(Arrays.asList(null,null,null,null,null,null,null,null,null,null,null));
+		}
+		this.nfLoadLvlThds.add(item);
 	}
-	public void setIntGroupIds(List<String> intGroupIds) {
-		this.intGroupIds = intGroupIds;
+	public void removeNfLoadLvlThds(Integer i) {
+		this.nfLoadLvlThds.remove((int)i);
 	}
-	public List<String> getNfInstanceIds() {
-		return nfInstanceIds;
+	public void setNfLoadLvlThds(List<String> item,Integer i) {
+		if(item!=null) {
+			this.nfLoadLvlThds.set(i, item);
+		}
+		
 	}
-	public void setNfInstanceIds(List<String> nfInstanceIds) {
-		this.nfInstanceIds = nfInstanceIds;
+	public List<String> getNfLoadLvlThds(Integer i) {
+		return nfLoadLvlThds.get(i);
 	}
-	public List<String> getNfSetIds() {
-		return nfSetIds;
+	public void setNfLoadLvlThds(String item,Integer i,Integer j) {
+		if(this.nfLoadLvlThds.get(i)!=null) {
+			this.nfLoadLvlThds.get(i).set(j, item);
+		}
 	}
-	public void setNfSetIds(List<String> nfSetIds) {
-		this.nfSetIds = nfSetIds;
+	public String getNfLoadLvlThds(Integer i,Integer j) {
+		return nfLoadLvlThds.get(i).get(j);
 	}
-	public List<String> getAppIds() {
-		return appIds;
+
+	public void addSupis(String item) {
+		this.supis.add(item);
 	}
-	public void setAppIds(List<String> appIds) {
-		this.appIds = appIds;
+	public void removeSupis(Integer i) {
+		this.supis.remove((int)i);
 	}
-	public List<String> getDnns() {
-		return dnns;
+	public String getSupis(Integer i) {
+		return this.supis.get(i);
 	}
-	public void setDnns(List<String> dnns) {
-		this.dnns = dnns;
+	public void setSupis(String item,Integer i) {
+		this.supis.set(i, item);
 	}
-	public List<String> getDnais() {
-		return dnais;
+
+	public void addIntGroupIds(String item) {
+		this.intGroupIds.add(item);
 	}
-	public void setDnais(List<String> dnais) {
-		this.dnais = dnais;
+	public void removeIntGroupIds(Integer i) {
+		this.intGroupIds.remove((int)i);
 	}
-	public List<String> getLadnDnns() {
-		return ladnDnns;
+	public String getIntGroupIds(Integer i) {
+		return this.intGroupIds.get(i);
 	}
-	public void setLadnDnns(List<String> ladnDnns) {
-		this.ladnDnns = ladnDnns;
+	public void setIntGroupIds(String item,Integer i) {
+		this.intGroupIds.set(i, item);
 	}
-	public List<String> getNfTypes() {
-		return nfTypes;
+
+	public void addNfInstanceIds(String item) {
+		this.nfInstanceIds.add(item);
 	}
-	public void setNfTypes(List<String> nfTypes) {
-		this.nfTypes = nfTypes;
+	public void removeNfInstanceIds(Integer i) {
+		this.nfInstanceIds.remove((int)i);
 	}
+	public String getNfInstanceIds(Integer i) {
+		return this.nfInstanceIds.get(i);
+	}
+	public void setNfInstanceIds(String item,Integer i) {
+		this.nfInstanceIds.set(i, item);
+	}
+
+	public void addNfSetIds(String item) {
+		this.nfSetIds.add(item);
+	}
+	public void removeNfSetIds(Integer i) {
+		this.nfSetIds.remove((int)i);
+	}
+	public String getNfSetIds(Integer i) {
+		return this.nfSetIds.get(i);
+	}
+	public void setNfSetIds(String item,Integer i) {
+		this.nfSetIds.set(i, item);
+	}
+
+	public void addAppIds(String item) {
+		this.appIds.add(item);
+	}
+	public void removeAppIds(Integer i) {
+		this.appIds.remove((int)i);
+	}
+	public String getAppIds(Integer i) {
+		return this.appIds.get(i);
+	}
+	public void setAppIds(String item,Integer i) {
+		this.appIds.set(i, item);
+	}
+
+	public void addDnns(String item) {
+		this.dnns.add(item);
+	}
+	public void removeDnns(Integer i) {
+		this.dnns.remove((int)i);
+	}
+	public String getDnns(Integer i) {
+		return this.dnns.get(i);
+	}
+	public void setDnns(String item,Integer i) {
+		this.dnns.set(i, item);
+	}
+
+	public void addDnais(String item) {
+		this.dnais.add(item);
+	}
+	public void removeDnais(Integer i) {
+		this.dnais.remove((int)i);
+	}
+	public String getDnais(Integer i) {
+		return this.dnais.get(i);
+	}
+	public void setDnais(String item,Integer i) {
+		this.dnais.set(i, item);
+	}
+
+	public void addLadnDnns(String item) {
+		this.ladnDnns.add(item);
+	}
+	public void removeLadnDnns(Integer i) {
+		this.ladnDnns.remove((int)i);
+	}
+	public String getLadnDnns(Integer i) {
+		return this.ladnDnns.get(i);
+	}
+	public void setLadnDnns(String item,Integer i) {
+		this.ladnDnns.set(i, item);
+	}
+
+	public void addNfTypes(String item) {
+		this.nfTypes.add(item);
+	}
+	public void removeNfTypes(Integer i) {
+		this.nfTypes.remove((int)i);
+	}
+	public String getNfTypes(Integer i) {
+		return this.nfTypes.get(i);
+	}
+	public void setNfTypes(String item,Integer i) {
+		this.nfTypes.set(i, item);
+	}
+
 	public List<List<List<List<String>>>> getVisitedAreas() {
 		return visitedAreas;
 	}
 	public void setVisitedAreas(List<List<List<List<String>>>> visitedAreas) {
 		this.visitedAreas = visitedAreas;
 	}
-	public List<List<List<String>>> getNsiIdInfos() {
-		return nsiIdInfos;
+
+	public void addNsiIdInfos(List<List<String>> item) {
+		if(item==null) {
+			item = new ArrayList<List<String>>(Arrays.asList(new ArrayList<String>(Arrays.asList(null,null)),new ArrayList<String>()));
+			for(int i=0;i<this.nsiIdInfos.size();i++) {
+				for(int j=0;j<this.nsiIdInfos.get(i).size();j++){
+					if(this.nsiIdInfos.get(i).get(0).get(j)!=null){
+						if(this.nsiIdInfos.get(i).get(0).get(j)=="") {
+							this.nsiIdInfos.get(i).get(0).set(j,null);
+						}
+					}
+				}
+				if(this.nsiIdInfos.get(i).size()<2) {
+					this.nsiIdInfos.get(i).add(new ArrayList<String>());
+				}
+				for(int j=0;j<this.nsiIdInfos.get(i).get(1).size();j++) {
+					if(this.nsiIdInfos.get(i).get(1).get(j)!=null){
+						if(this.nsiIdInfos.get(i).get(1).get(j)=="") {
+							this.nsiIdInfos.get(i).get(1).set(j,null);
+						}
+					}
+				}
+				if(this.nsiIdInfos.get(i).get(1).size()==0) {
+					this.nsiIdInfos.get(i).get(1).add(null);
+				}
+			}
+		}
+		this.nsiIdInfos.add(item);
 	}
-	public void setNsiIdInfos(List<List<List<String>>> nsiIdInfos) {
-		this.nsiIdInfos = nsiIdInfos;
+	public void removeNsiIdInfos(Integer i) {
+		this.nsiIdInfos.remove((int)i);
 	}
-	public List<Integer> getNsiLevelThrds() {
-		return nsiLevelThrds;
+	public void setNsiIdInfos(List<List<String>> item,Integer i) {
+		this.nsiIdInfos.set(i, item);
 	}
-	public void setNsiLevelThrds(List<Integer> nsiLevelThrds) {
-		this.nsiLevelThrds = nsiLevelThrds;
+	public List<String> getNsiIdInfosList(Integer i){
+		return this.nsiIdInfos.get(i).get(1);
 	}
-	public List<List<String>> getQosFlowRetThds() {
-		return qosFlowRetThds;
+	public String getNsiIdInfos(Integer i,Integer j) {
+		return this.nsiIdInfos.get(i).get(0).get(j);
 	}
-	public void setQosFlowRetThds(List<List<String>> qosFlowRetThds) {
-		this.qosFlowRetThds = qosFlowRetThds;
+	public String getNsiIdInfosItem(Integer i,Integer j) {
+		return this.nsiIdInfos.get(i).get(1).get(j);
 	}
-	public List<String> getRanUeThrouThds() {
-		return ranUeThrouThds;
+	public void setNsiIdInfos(String item,Integer i,Integer j) {
+		this.nsiIdInfos.get(i).get(0).set(j,item);
 	}
-	public void setRanUeThrouThds(List<String> ranUeThrouThds) {
-		this.ranUeThrouThds = ranUeThrouThds;
+	public void setNsiIdInfosItem(String item,Integer i,Integer j) {
+		this.nsiIdInfos.get(i).get(1).set(j,item);
 	}
-	public List<List<String>> getSnssaia() {
-		return snssaia;
+	public void addNsiIdInfosItem(Integer rowId) {
+		for(int i=0;i<this.nsiIdInfos.size();i++) {
+			if(this.nsiIdInfos.get(i).size()<2) {
+				this.nsiIdInfos.get(i).add(new ArrayList<String>());
+			}
+		}
+		this.nsiIdInfos.get(rowId).get(1).add(null);
 	}
-	public void setSnssaia(List<List<String>> snssaia) {
-		this.snssaia = snssaia;
+	public void removeNsiIdInfos(Integer i,Integer j) {
+		this.nsiIdInfos.get(i).remove((int)j);
 	}
-	public List<List<String>> getCongThresholds() {
-		return congThresholds;
+	
+	public void addNsiLevelThrds(Integer item) {
+		this.nsiLevelThrds.add(item);
 	}
-	public void setCongThresholds(List<List<String>> congThresholds) {
-		this.congThresholds = congThresholds;
+	public void removeNsiLevelThrds(Integer i) {
+		this.nsiLevelThrds.remove((int)i);
 	}
-	public List<List<String>> getNwPerfRequs() {
-		return nwPerfRequs;
+	public Integer getNsiLevelThrds(Integer i) {
+		return this.nsiLevelThrds.get(i);
 	}
-	public void setNwPerfRequs(List<List<String>> nwPerfRequs) {
-		this.nwPerfRequs = nwPerfRequs;
+	public void setNsiLevelThrds(Integer item,Integer i) {
+		this.nsiLevelThrds.set(i, item);
 	}
-	public List<List<String>> getBwRequs() {
-		return bwRequs;
+
+	public void addQosFlowRetThds(List<String> item) {
+		if(item==null || item.size()==0) {
+			item = new ArrayList<String>(Arrays.asList(null,null,null));
+		}
+		this.qosFlowRetThds.add(item);
 	}
-	public void setBwRequs(List<List<String>> bwRequs) {
-		this.bwRequs = bwRequs;
+	public void removeQosFlowRetThds(Integer i) {
+		this.qosFlowRetThds.remove((int)i);
 	}
-	public List<List<String>> getExcepRequs() {
-		return excepRequs;
+	public void setQosFlowRetThds(List<String> item,Integer i) {
+		if(item!=null) {
+			this.qosFlowRetThds.set(i, item);
+		}
+		
 	}
-	public void setExcepRequs(List<List<String>> excepRequs) {
-		this.excepRequs = excepRequs;
+	public List<String> getQosFlowRetThds(Integer i) {
+		return qosFlowRetThds.get(i);
 	}
+	public void setQosFlowRetThds(String item,Integer i,Integer j) {
+		if(this.qosFlowRetThds.get(i)!=null) {
+			this.qosFlowRetThds.get(i).set(j, item);
+		}
+	}
+	public String getQosFlowRetThds(Integer i,Integer j) {
+		return qosFlowRetThds.get(i).get(j);
+	}
+
+	public void addRanUeThrouThds(String item) {
+		this.ranUeThrouThds.add(item);
+	}
+	public void removeRanUeThrouThds(Integer i) {
+		this.ranUeThrouThds.remove((int)i);
+	}
+	public String getRanUeThrouThds(Integer i) {
+		return this.ranUeThrouThds.get(i);
+	}
+	public void setRanUeThrouThds(String item,Integer i) {
+		this.ranUeThrouThds.set(i, item);
+	}
+
+	public void addSnssaia(List<String> item) {
+		if(item==null || item.size()==0) {
+			item = new ArrayList<String>(Arrays.asList(null,null));
+		}
+		this.snssaia.add(item);
+	}
+	public void removeSnssaia(Integer i) {
+		this.snssaia.remove((int)i);
+	}
+	public void setSnssaia(List<String> item,Integer i) {
+		if(item!=null) {
+			this.snssaia.set(i, item);
+		}
+	}
+	public List<String> getSnssaia(Integer i) {
+		return snssaia.get(i);
+	}
+	public void setSnssaia(String item,Integer i,Integer j) {
+		if(this.snssaia.get(i)!=null) {
+			this.snssaia.get(i).set(j, item);
+		}
+	}
+	public String getSnssaia(Integer i,Integer j) {
+		return snssaia.get(i).get(j);
+	}
+
+	public void addCongThresholds(List<String> item) {
+		if(item==null || item.size()==0) {
+			item = new ArrayList<String>(Arrays.asList(null,null,null,null,null,null,null,null,null,null,null));
+		}
+		this.congThresholds.add(item);
+	}
+	public void removeCongThresholds(Integer i) {
+		this.congThresholds.remove((int)i);
+	}
+	public void setCongThresholds(List<String> item,Integer i) {
+		if(item!=null) {
+			this.congThresholds.set(i, item);
+		}
+	}
+	public List<String> getCongThresholds(Integer i) {
+		return congThresholds.get(i);
+	}
+	public void setCongThresholds(String item,Integer i,Integer j) {
+		if(this.congThresholds.get(i)!=null) {
+			this.congThresholds.get(i).set(j, item);
+		}
+	}
+	public String getCongThresholds(Integer i,Integer j) {
+		return congThresholds.get(i).get(j);
+	}
+
+	public void addNwPerfRequs(List<String> item) {
+		if(item==null || item.size()==0) {
+			item = new ArrayList<String>(Arrays.asList(null,null,null));
+		}
+		this.nwPerfRequs.add(item);
+	}
+	public void removeNwPerfRequs(Integer i) {
+		this.nwPerfRequs.remove((int)i);
+	}
+	public void setNwPerfRequs(List<String> item,Integer i) {
+		if(item!=null) {
+			this.nwPerfRequs.set(i, item);
+		}
+	}
+	public List<String> getNwPerfRequs(Integer i) {
+		return nwPerfRequs.get(i);
+	}
+	public void setNwPerfRequs(String item,Integer i,Integer j) {
+		if(this.nwPerfRequs.get(i)!=null) {
+			this.nwPerfRequs.get(i).set(j, item);
+		}
+	}
+	public String getNwPerfRequs(Integer i,Integer j) {
+		return nwPerfRequs.get(i).get(j);
+	}
+
+	public void addBwRequs(List<String> item) {
+		if(item==null || item.size()==0) {
+			item = new ArrayList<String>(Arrays.asList(null,null,null,null,null));
+		}
+		this.bwRequs.add(item);
+	}
+	public void removeBwRequs(Integer i) {
+		this.bwRequs.remove((int)i);
+	}
+	public void setBwRequs(List<String> item,Integer i) {
+		if(item!=null) {
+			this.bwRequs.set(i, item);
+		}
+	}
+	public List<String> getBwRequs(Integer i) {
+		return bwRequs.get(i);
+	}
+	public void setBwRequs(String item,Integer i,Integer j) {
+		if(this.bwRequs.get(i)!=null) {
+			this.bwRequs.get(i).set(j, item);
+		}
+	}
+	public String getBwRequs(Integer i,Integer j) {
+		return bwRequs.get(i).get(j);
+	}
+
+	public void addExcepRequs(List<String> item) {
+		if(item==null || item.size()==0) {
+			item = new ArrayList<String>(Arrays.asList(null,null,null));
+		}
+		this.excepRequs.add(item);
+	}
+	public void removeExcepRequs(Integer i) {
+		this.excepRequs.remove((int)i);
+	}
+	public void setExcepRequs(List<String> item,Integer i) {
+		if(item!=null) {
+			this.excepRequs.set(i, item);
+		}
+	}
+	public List<String> getExcepRequs(Integer i) {
+		return excepRequs.get(i);
+	}
+	public void setExcepRequs(String item,Integer i,Integer j) {
+		if(this.excepRequs.get(i)!=null) {
+			this.excepRequs.get(i).set(j, item);
+		}
+	}
+	public String getExcepRequs(Integer i,Integer j) {
+		return excepRequs.get(i).get(j);
+	}
+
 	public List<List<List<String>>> getRatFreqs() {
 		return ratFreqs;
 	}
 	public void setRatFreqs(List<List<List<String>>> ratFreqs) {
 		this.ratFreqs = ratFreqs;
 	}
-	public List<String> getListOfAnaSubsets() {
-		return listOfAnaSubsets;
+
+	public void addListOfAnaSubsets(String item) {
+		this.listOfAnaSubsets.add(item);
 	}
-	public void setListOfAnaSubsets(List<String> listOfAnaSubsets) {
-		this.listOfAnaSubsets = listOfAnaSubsets;
+	public void removeListOfAnaSubsets(Integer i) {
+		this.listOfAnaSubsets.remove((int)i);
 	}
+	public String getListOfAnaSubsets(Integer i) {
+		return this.listOfAnaSubsets.get(i);
+	}
+	public void setListOfAnaSubsets(String item,Integer i) {
+		this.listOfAnaSubsets.set(i, item);
+	}
+
 	public List<List<List<List<String>>>> getDisperReqs() {
 		return disperReqs;
 	}
 	public void setDisperReqs(List<List<List<List<String>>>> disperReqs) {
 		this.disperReqs = disperReqs;
 	}
-	public List<List<String>> getRedTransReqs() {
-		return redTransReqs;
+
+	public void addRedTransReqs(List<String> item) {
+		if(item==null || item.size()==0) {
+			item = new ArrayList<String>(Arrays.asList(null,null));
+		}
+		this.redTransReqs.add(item);
 	}
-	public void setRedTransReqs(List<List<String>> redTransReqs) {
-		this.redTransReqs = redTransReqs;
+	public void removeRedTransReqs(Integer i) {
+		this.redTransReqs.remove((int)i);
 	}
+	public void setRedTransReqs(List<String> item,Integer i) {
+		if(item!=null) {
+			this.redTransReqs.set(i, item);
+		}
+	}
+	public List<String> getRedTransReqs(Integer i) {
+		return redTransReqs.get(i);
+	}
+	public void setRedTransReqs(String item,Integer i,Integer j) {
+		if(this.redTransReqs.get(i)!=null) {
+			this.redTransReqs.get(i).set(j, item);
+		}
+	}
+	public String getRedTransReqs(Integer i,Integer j) {
+		return redTransReqs.get(i).get(j);
+	}
+
 	public List<List<List<String>>> getWlanReqs() {
 		return wlanReqs;
 	}
 	public void setWlanReqs(List<List<List<String>>> wlanReqs) {
 		this.wlanReqs = wlanReqs;
 	}
-	public List<List<String>> getAppServerAddrs() {
-		return appServerAddrs;
+	public void addWlanReqs(List<List<String>> item) {
+		if(item==null) {
+			item = new ArrayList<List<String>>(Arrays.asList(new ArrayList<String>(Arrays.asList(null,null)),new ArrayList<String>(),new ArrayList<String>()));
+			for(int i=0;i<this.wlanReqs.size();i++) {
+				for(int j=0;j<this.wlanReqs.get(i).size();j++){
+					if(this.wlanReqs.get(i).get(0).get(j)!=null){
+						if(this.wlanReqs.get(i).get(0).get(j)=="") {
+							this.wlanReqs.get(i).get(0).set(j,null);
+						}
+					}
+				}
+				while(this.wlanReqs.get(i).size()<3) {
+					this.wlanReqs.get(i).add(new ArrayList<String>());
+				}
+				for(int j=0;j<this.wlanReqs.get(i).get(1).size();j++) {
+					if(this.wlanReqs.get(i).get(1).get(j)!=null){
+						if(this.wlanReqs.get(i).get(1).get(j)=="") {
+							this.wlanReqs.get(i).get(1).set(j,null);
+						}
+					}
+				}
+				if(this.wlanReqs.get(i).get(1).size()==0) {
+					this.wlanReqs.get(i).get(1).add(null);
+				}
+			}
+		}
+		this.wlanReqs.add(item);
 	}
-	public void setAppServerAddrs(List<List<String>> appServerAddrs) {
-		this.appServerAddrs = appServerAddrs;
+	public void removeWlanReqs(Integer i) {
+		this.wlanReqs.remove((int)i);
 	}
+	public void setWlanReqs(List<List<String>> item,Integer i) {
+		this.wlanReqs.set(i, item);
+	}
+	public List<String> getWlanReqs(Integer i){
+		return this.wlanReqs.get(i).get(1);
+	}
+	public String getWlanReqs(Integer i,Integer j) {
+		return this.wlanReqs.get(i).get(0).get(j);
+	}
+	public String getWlanReqsItem(Integer i,Integer j) {
+		return this.wlanReqs.get(i).get(1).get(j);
+	}
+	public void setWlanReqs(String item,Integer i,Integer j) {
+		this.wlanReqs.get(i).get(0).set(j,item);
+	}
+	public void setWlanReqsItem(String item,Integer i,Integer j) {
+		this.wlanReqs.get(i).get(1).set(j,item);
+	}
+	public void addWlanReqsItem(Integer rowId) {
+		for(int i=0;i<this.wlanReqs.size();i++) {
+			if(this.wlanReqs.get(i).size()<3) {
+				this.wlanReqs.get(i).add(new ArrayList<String>());
+			}
+		}
+		this.wlanReqs.get(rowId).get(1).add(null);
+	}
+	public void removeWlanReqs(Integer i,Integer j) {
+		this.wlanReqs.get(i).remove((int)j);
+	}
+
+	public void addAppServerAddrs(List<String> item) {
+		if(item==null || item.size()==0) {
+			item = new ArrayList<String>(Arrays.asList(null,null,null,null));
+		}
+		this.appServerAddrs.add(item);
+	}
+	public void removeAppServerAddrs(Integer i) {
+		this.appServerAddrs.remove((int)i);
+	}
+	public void setAppServerAddrs(List<String> item,Integer i) {
+		if(item!=null) {
+			this.appServerAddrs.set(i, item);
+		}
+	}
+	public List<String> getAppServerAddrs(Integer i) {
+		return appServerAddrs.get(i);
+	}
+	public void setAppServerAddrs(String item,Integer i,Integer j) {
+		if(this.appServerAddrs.get(i)!=null) {
+			this.appServerAddrs.get(i).set(j, item);
+		}
+	}
+	public String getAppServerAddrs(Integer i,Integer j) {
+		return appServerAddrs.get(i).get(j);
+	}
+
 	public List<List<List<List<String>>>> getDnPerfReqs() {
 		return dnPerfReqs;
 	}
 	public void setDnPerfReqs(List<List<List<List<String>>>> dnPerfReqs) {
 		this.dnPerfReqs = dnPerfReqs;
 	}
-	public List<List<List<String>>> getNetworkArea() {
-		return networkArea;
+
+	public void addNetworkArea(List<List<String>> item) {
+		if(item==null) {
+			item = new ArrayList<List<String>>();
+		}
+		this.networkArea.add(item);
 	}
-	public void setNetworkArea(List<List<List<String>>> networkArea) {
-		this.networkArea = networkArea;
+	public void removeNetworkArea(Integer i) {
+		this.networkArea.remove((int)i);
 	}
-	public List<String> getQosRequ() {
-		return qosRequ;
+	public void setNetworkArea(List<List<String>> item,Integer i) {
+		this.networkArea.set(i, item);
 	}
-	public void setQosRequ(List<String> qosRequ) {
-		this.qosRequ = qosRequ;
+	public List<List<String>> getNetworkAreaList(Integer i){
+		while(this.networkArea.size()<4){
+			this.networkArea.add(new ArrayList<List<String>>());
+		}
+		return this.networkArea.get(i);
 	}
+	public List<String> getNetworkArea(Integer i,Integer j) {
+		return this.networkArea.get(i).get(j);
+	}
+	public String getNetworkArea(Integer i,Integer j,Integer k) {
+		return this.networkArea.get(i).get(j).get(k);
+	}
+	public void setNetworkArea(String item,Integer i,Integer j,Integer k) {
+		this.networkArea.get(i).get(j).set(k,item);
+	}
+	public void addNetworkAreaItem(Integer i) {
+		while(this.networkArea.size()<4){
+			this.networkArea.add(new ArrayList<List<String>>());
+		}
+		if(i==0||i==1||i==3){
+			this.networkArea.get(i).add(new ArrayList<>(Arrays.asList(null,null,null,null)));
+		}
+		if(i==2){
+			this.networkArea.get(i).add(new ArrayList<>(Arrays.asList(null,null,null,null,null,null,null,null,null,null)));
+		}
+	}
+	public void removeNetworkArea(Integer i,Integer j) {
+		this.networkArea.get(i).remove((int)j);
+	}
+
+	public void addQosRequ(String item) {
+		this.qosRequ.add(item);
+	}
+	public void removeQosRequ(Integer i) {
+		this.qosRequ.remove((int)i);
+	}
+	public String getQosRequ(Integer i) {
+		return this.qosRequ.get(i);
+	}
+	public void setQosRequ(String item,Integer i) {
+		this.qosRequ.set(i, item);
+	}
+
 	public List<List<List<List<List<List<String>>>>>> getExptUeBehav() {
 		return exptUeBehav;
 	}
 	public void setExptUeBehav(List<List<List<List<List<List<String>>>>>> exptUeBehav) {
 		this.exptUeBehav = exptUeBehav;
 	}
-	public List<String> getUpfInfo() {
-		return upfInfo;
-	}
-	public void setUpfInfo(List<String> upfInfo) {
-		this.upfInfo = upfInfo;
-	}
-
-	public Integer getRepetitionPeriod() {
-		return repetitionPeriod;
-	}
-
-	public void setRepetitionPeriod(Integer repetitionPeriod) {
-		this.repetitionPeriod = repetitionPeriod;
-	}
-
-	public Boolean getShowExtraRepReq() {
-		return showExtraRepReq;
-	}
-
-	public void setShowExtraRepReq(Boolean showExtraRepReq) {
-		this.showExtraRepReq = showExtraRepReq;
-	}
-
-	public Boolean getShowTgtUe() {
-		return showTgtUe;
-	}
-
-	public void setShowTgtUe(Boolean showTgtUe) {
-		this.showTgtUe = showTgtUe;
-	}
-
-	public Boolean getShowLoadLevelThreshold() {
-		return showLoadLevelThreshold;
-	}
-
-	public void setShowLoadLevelThreshold(Boolean showLoadLevelThreshold) {
-		this.showLoadLevelThreshold = showLoadLevelThreshold;
-	}
-
-	public Boolean getShowSnssais() {
-		return showSnssais;
-	}
-
-	public void setShowSnssais(Boolean showSnssais) {
-		this.showSnssais = showSnssais;
-	}
-
-	public Boolean getShowAnySlice() {
-		return showAnySlice;
-	}
-
-	public void setShowAnySlice(Boolean showAnySlice) {
-		this.showAnySlice = showAnySlice;
-	}
-
-	public Boolean getShowNsiIdInfos() {
-		return showNsiIdInfos;
-	}
-
-	public void setShowNsiIdInfos(Boolean showNsiIdInfos) {
-		this.showNsiIdInfos = showNsiIdInfos;
-	}
-
-	public Boolean getShowNsiLevelThrds() {
-		return showNsiLevelThrds;
-	}
-
-	public void setShowNsiLevelThrds(Boolean showNsiLevelThrds) {
-		this.showNsiLevelThrds = showNsiLevelThrds;
-	}
-
-	public Boolean getShowListOfAnaSubsets() {
-		return showListOfAnaSubsets;
-	}
-
-	public void setShowListOfAnaSubsets(Boolean showListOfAnaSubsets) {
-		this.showListOfAnaSubsets = showListOfAnaSubsets;
-	}
-
-	public Boolean getShowSupis() {
-		return showSupis;
-	}
-
-	public void setShowSupis(Boolean showSupis) {
-		this.showSupis = showSupis;
-	}
-
-	public Boolean getShowNetworkArea() {
-		return showNetworkArea;
-	}
-
-	public void setShowNetworkArea(Boolean showNetworkArea) {
-		this.showNetworkArea = showNetworkArea;
-	}
-
-	public Boolean getShowNfLoadLvlThds() {
-		return showNfLoadLvlThds;
-	}
-
-	public void setShowNfLoadLvlThds(Boolean showNfLoadLvlThds) {
-		this.showNfLoadLvlThds = showNfLoadLvlThds;
-	}
-
-	public Boolean getShowNfInstanceIds() {
-		return showNfInstanceIds;
-	}
-
-	public void setShowNfInstanceIds(Boolean showNfInstanceIds) {
-		this.showNfInstanceIds = showNfInstanceIds;
-	}
-
-	public Boolean getShowNfSetIds() {
-		return showNfSetIds;
-	}
-
-	public void setShowNfSetIds(Boolean showNfSetIds) {
-		this.showNfSetIds = showNfSetIds;
-	}
-
-	public Boolean getShowMatchingDir() {
-		return showMatchingDir;
-	}
-
-	public void setShowMatchingDir(Boolean showMatchingDir) {
-		this.showMatchingDir = showMatchingDir;
-	}
-
-	public Boolean getShowIntGroupIds() {
-		return showIntGroupIds;
-	}
-
-	public void setShowIntGroupIds(Boolean showIntGroupIds) {
-		this.showIntGroupIds = showIntGroupIds;
-	}
-
-	public Boolean getShowBwRequs() {
-		return showBwRequs;
-	}
 
-	public void setShowBwRequs(Boolean showBwRequs) {
-		this.showBwRequs = showBwRequs;
+	public void addUpfInfo(String item) {
+		this.upfInfo.add(item);
 	}
-
-	public Boolean getShowRatFreqs() {
-		return showRatFreqs;
-	}
-
-	public void setShowRatFreqs(Boolean showRatFreqs) {
-		this.showRatFreqs = showRatFreqs;
-	}
-
-	public Boolean getShowAppServerAddrs() {
-		return showAppServerAddrs;
-	}
-
-	public void setShowAppServerAddrs(Boolean showAppServerAddrs) {
-		this.showAppServerAddrs = showAppServerAddrs;
-	}
-
-	public Boolean getShowUpfInfo() {
-		return showUpfInfo;
-	}
-
-	public void setShowUpfInfo(Boolean showUpfInfo) {
-		this.showUpfInfo = showUpfInfo;
-	}
-
-	public Boolean getShowLadnDnns() {
-		return showLadnDnns;
-	}
-
-	public void setShowLadnDnns(Boolean showLadnDnns) {
-		this.showLadnDnns = showLadnDnns;
-	}
-
-	public Boolean getShowVisitedAreas() {
-		return showVisitedAreas;
-	}
-
-	public void setShowVisitedAreas(Boolean showVisitedAreas) {
-		this.showVisitedAreas = showVisitedAreas;
-	}
-
-	public Boolean getShowQosFlowRetThds() {
-		return showQosFlowRetThds;
-	}
-
-	public void setShowQosFlowRetThds(Boolean showQosFlowRetThds) {
-		this.showQosFlowRetThds = showQosFlowRetThds;
-	}
-
-	public Boolean getShowRanUeThrouThds() {
-		return showRanUeThrouThds;
-	}
-
-	public void setShowRanUeThrouThds(Boolean showRanUeThrouThds) {
-		this.showRanUeThrouThds = showRanUeThrouThds;
-	}
-
-	public Boolean getShowExptAnaType() {
-		return showExptAnaType;
-	}
-
-	public void setShowExptAnaType(Boolean showExptAnaType) {
-		this.showExptAnaType = showExptAnaType;
-	}
-
-	public Boolean getShowExptUeBehav() {
-		return showExptUeBehav;
-	}
-
-	public void setShowExptUeBehav(Boolean showExptUeBehav) {
-		this.showExptUeBehav = showExptUeBehav;
-	}
-
-	public Boolean getShowGpsis() {
-		return showGpsis;
-	}
-
-	public void setShowGpsis(Boolean showGpsis) {
-		this.showGpsis = showGpsis;
-	}
-
-	public Boolean getShowCongThresholds() {
-		return showCongThresholds;
-	}
-
-	public void setShowCongThresholds(Boolean showCongThresholds) {
-		this.showCongThresholds = showCongThresholds;
-	}
-
-	public Boolean getShowMaxTopAppUlNbr() {
-		return showMaxTopAppUlNbr;
-	}
-
-	public void setShowMaxTopAppUlNbr(Boolean showMaxTopAppUlNbr) {
-		this.showMaxTopAppUlNbr = showMaxTopAppUlNbr;
-	}
-
-	public Boolean getShowMaxTopAppDlNbr() {
-		return showMaxTopAppDlNbr;
-	}
-
-	public void setShowMaxTopAppDlNbr(Boolean showMaxTopAppDlNbr) {
-		this.showMaxTopAppDlNbr = showMaxTopAppDlNbr;
+	public void removeUpfInfo(Integer i) {
+		this.upfInfo.remove((int)i);
 	}
-
-	public Boolean getShowDisperReqs() {
-		return showDisperReqs;
-	}
-
-	public void setShowDisperReqs(Boolean showDisperReqs) {
-		this.showDisperReqs = showDisperReqs;
-	}
-
-	public Boolean getShowRedTransReqs() {
-		return showRedTransReqs;
-	}
-
-	public void setShowRedTransReqs(Boolean showRedTransReqs) {
-		this.showRedTransReqs = showRedTransReqs;
-	}
-
-	public Boolean getShowWlanReqs() {
-		return showWlanReqs;
+	public String getUpfInfo(Integer i) {
+		return this.upfInfo.get(i);
 	}
-
-	public void setShowWlanReqs(Boolean showWlanReqs) {
-		this.showWlanReqs = showWlanReqs;
-	}
-
-	public Boolean getShowDnais() {
-		return showDnais;
-	}
-
-	public void setShowDnais(Boolean showDnais) {
-		this.showDnais = showDnais;
-	}
-
-	public Boolean getShowDnPerfReqs() {
-		return showDnPerfReqs;
-	}
-
-	public void setShowDnPerfReqs(Boolean showDnPerfReqs) {
-		this.showDnPerfReqs = showDnPerfReqs;
+	public void setUpfInfo(String item,Integer i) {
+		this.upfInfo.set(i, item);
 	}
+	
+	
 }

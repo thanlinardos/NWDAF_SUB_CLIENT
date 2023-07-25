@@ -183,8 +183,89 @@
 				<div>
 					<label>Show ExtraRepReq Fields</label>
 		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showExtraRepReq}" th:value=${e.getShowExtraRepReq()}/>
+					<label>Show TargetUEs Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showTgtUe}" th:value=${e.getShowTgtUe()}/>
+					<label>Show LoadLevelThreshold Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showLoadLevelThreshold}" th:value=${e.getShowLoadLevelThreshold()}/>
+					<label>Show Snssais Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showSnssais}" th:value=${e.getShowSnssais()}/>
+					<label>Show AnySlice Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showAnySlice}" th:value=${e.getShowAnySlice()}/>
+					<label>Show NsiIdInfos Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showNsiIdInfos}" th:value=${e.getShowNsiIdInfos()}/>
+					<label>Show NsiLevelThrds Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showNsiLevelThrds}" th:value=${e.getShowNsiLevelThrds()}/>
 				</div>
-				
+				<div>
+					<label>Show ListOfAnaSubsets Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showListOfAnaSubsets}" th:value=${e.getShowListOfAnaSubsets()}/>
+					<label>Show NetworkArea Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showNetworkArea}" th:value=${e.getShowNetworkArea()}/>
+					<label>Show Supis Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showSupis}" th:value=${e.getShowSupis()}/>
+					<label>Show NfLoadLvlThds Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showNfLoadLvlThds}" th:value=${e.getShowNfLoadLvlThds()}/>
+					<label>Show NfInstanceIds Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showNfInstanceIds}" th:value=${e.getShowNfInstanceIds()}/>
+					<label>Show NfSetIds Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showNfSetIds}" th:value=${e.getShowNfSetIds()}/>
+					<label>Show MatchingDir Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showMatchingDir}" th:value=${e.getShowMatchingDir()}/>
+				</div>
+				<div>
+					<label>Show IntGroupIds Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showIntGroupIds}" th:value=${e.getShowIntGroupIds()}/>
+					<label>Show BwRequs Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showBwRequs}" th:value=${e.getShowBwRequs()}/>
+					<label>Show RatFreqs Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showRatFreqs}" th:value=${e.getShowRatFreqs()}/>
+					<label>Show UpfInfo Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showUpfInfo}" th:value=${e.getShowUpfInfo()}/>
+					<label>Show AppServerAddrs Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showAppServerAddrs}" th:value=${e.getShowAppServerAddrs()}/>
+					<label>Show Dnns Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showDnns}" th:value=${e.getShowDnns()}/>
+					<label>Show LadnDnns Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showLadnDnns}" th:value=${e.getShowLadnDnns()}/>
+					<label>Show VisitedAreas Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showVisitedAreas}" th:value=${e.getShowVisitedAreas()}/>
+				</div>
+				<div>
+					<label>Show QosFlowRetThds Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showQosFlowRetThds}" th:value=${e.getShowQosFlowRetThds()}/>
+					<label>Show RanUeThrouThds Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showRanUeThrouThds}" th:value=${e.getShowRanUeThrouThds()}/>
+					<label>Show ExptAnaType Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showExptAnaType}" th:value=${e.getShowExptAnaType()}/>
+					<label>Show ExptUeBehav Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showExptUeBehav}" th:value=${e.getShowExptUeBehav()}/>
+					<label>Show Gpsis Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showGpsis}" th:value=${e.getShowGpsis()}/>
+					<label>Show CongThresholds Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showCongThresholds}" th:value=${e.getShowCongThresholds()}/>
+					<label>Show MaxTopAppUlNbr Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showMaxTopAppUlNbr}" th:value=${e.getShowMaxTopAppUlNbr()}/>
+				</div>
+				<div>
+					<label>Show MaxTopAppDlNbr Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showMaxTopAppDlNbr}" th:value=${e.getShowMaxTopAppDlNbr()}/>
+					<label>Show DisperReqs Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showDisperReqs}" th:value=${e.getShowDisperReqs()}/>
+					<label>Show RedTransReqs Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showRedTransReqs}" th:value=${e.getShowRedTransReqs()}/>
+					<label>Show WlanReqs Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showWlanReqs}" th:value=${e.getShowWlanReqs()}/>
+					<label>Show Dnais Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showDnais}" th:value=${e.getShowDnais()}/>
+					<label>Show DnPerfReqs Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showDnPerfReqs}" th:value=${e.getShowDnPerfReqs()}/>
+					<label>Show AppIds Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showAppIds}" th:value=${e.getShowAppIds()}/>
+					<label>Show NfTypes Fields</label>
+		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showNfTypes}" th:value=${e.getShowNfTypes()}/>
+				</div>
+				<button type="submit" name="update" th:text="Update">Update shown fields</button>
+				<hr>
 				<span th:text="'Event no ' + __${e_stat.index}__"></span>
 				<label>Event Type</label>
 				<select th:field="*{eventList[__${e_stat.index}__].event}">
@@ -204,13 +285,389 @@
 				<div th:if="${e.getShowExtraRepReq()==true}">
 				Extra Reporting Requirements
 				<hr>
+				<div>
+					<label>Max number of objects</label> 
+					<input type="number" th:field="*{eventList[__${e_stat.index}__].maxObjectNbr}" th:value="${e.getMaxObjectNbr()}"/>
+				</div>
+				<div>
+					<label>Max number of supis</label> 
+					<input type="number" th:field="*{eventList[__${e_stat.index}__].maxSupiNbr}" th:value="${e.getMaxSupiNbr()}"/>
+				</div>
+				<div>
+					<label>Start of time window to which the subscription applies </label> 
+					<input type="datetime-local" th:field="*{eventList[__${e_stat.index}__].startTs}" th:value="${e.getStartTs()}"/>
+				</div>
+				<div>
+					<label>End of time window to which the subscription applies </label> 
+					<input type="datetime-local" th:field="*{eventList[__${e_stat.index}__].endTs}" th:value="${e.getEndTs()}"/>
+				</div>
+				<label>Accuracy of the analytics</label>
+				<select th:field="*{eventList[__${e_stat.index}__].accuracy}">
+					<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.Accuracy.AccuracyEnum).values()}" 
+					th:value="${type}" 
+					th:text="${type.toString()}"></option>
+		  		</select> 
+				<div>
+					<label>Identification of time when analytics information is needed </label> 
+					<input type="datetime-local" th:field="*{eventList[__${e_stat.index}__].timeAnaNeeded}" th:value="${e.getTimeAnaNeeded()}"/>
+				</div> 
+				<div>
+					<label>Offset period to the periodic reporting</label> 
+					<input type="number" th:field="*{eventList[__${e_stat.index}__].offsetPeriod}" th:value="${e.getOffsetPeriod()}"/>
+				</div>
+				<br>
+				AnaMeta - Indication of which analytics metadata is requested to be delivered with the notification
+				<hr>
+				<ul>
+					<button type="submit" name="addAnaMeta" th:text="Add" th:value="${e_stat.index}">Add anaMeta</button>
+					<li th:each="a,a_stat: ${e.anaMeta}">
+			        <select th:field="*{eventList[__${e_stat.index}__].anaMeta[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getAnaMeta[__${a_stat.index}__]}">
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.AnalyticsMetadata.AnalyticsMetadataEnum).values()}" 
+			          	th:value="${type}" 
+			          	th:text="${type.toString()}"></option>
+			         </select>
+			         <button th:if="${a_stat != null}" type="submit" name="removeAnaMeta" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove</button>
+		          	</li>
+		        </ul>
+				<br>
+				AnaMetaInd - Requested values for analytics metadata information to be used for the generation of the analytics
+				<hr>
+				<div>
+					<label>Start of time window to which the analytics metadata information applies </label> 
+					<input type="datetime-local" th:field="*{eventList[__${e_stat.index}__].anaMetaInd[0]}" th:value="*{eventList[__${e_stat.index}__].getAnaMetaInd[0]}"/>
+				</div>
+				<div>
+					<label>End of time window to which the analytics metadata information applies </label> 
+					<input type="datetime-local" th:field="*{eventList[__${e_stat.index}__].anaMetaInd[1]}" th:value="*{eventList[__${e_stat.index}__].getAnaMetaInd[1]}"/>
+				</div>
+				<label>Τhe output strategy used for the reporting of the analytics</label>
+				<select th:field="*{eventList[__${e_stat.index}__].anaMetaInd[2]}" th:value="*{eventList[__${e_stat.index}__].getAnaMetaInd(2)}">
+					<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.OutputStrategy.OutputStrategyEnum).values()}" 
+					th:value="${type}" 
+					th:text="${type.toString()}"></option>
+		  		</select> 
+				<br>
+				  Identifiers of NWDAF instances used when aggregating multiple analytics subscriptions
+				  <hr>
+				  <ul>
+					<button type="submit" name="addAggrNwdafIds" th:text="Add" th:value="${e_stat.index}">Add AggrNwdafIds</button>
+					<li th:each="a,a_stat: ${e.aggrNwdafIds}">
+			        <input type="text" th:field="*{eventList[__${e_stat.index}__].aggrNwdafIds[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getAggrNwdafIds[__${a_stat.index}__]}" pattern="^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$">
+			         <button th:if="${a_stat != null}" type="submit" name="removeAggrNwdafIds" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove</button>
+		          	</li>
+		        </ul>
+				<br>
+				DataStatProps - List of dataset statistical properties of the data to be used to generate the analytics
+				<hr>
+				<ul>
+					<button type="submit" name="addDataStatProps" th:text="Add" th:value="${e_stat.index}">Add dataStatProps</button>
+					<li th:each="a,a_stat: ${e.dataStatProps}">
+			        <select th:field="*{eventList[__${e_stat.index}__].dataStatProps[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getDataStatProps[__${a_stat.index}__]}">
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.DatasetStatisticalProperty.DatasetStatisticalPropertyEnum).values()}" 
+			          	th:value="${type}" 
+			          	th:text="${type.toString()}"></option>
+			        </select>
+			        <button th:if="${a_stat != null}" type="submit" name="removeDataStatProps" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove</button>
+		          	</li>
+		        </ul>
+				<br>
+				AccPerSubset - Each element indicates the preferred accuracy level per analytics subset.
+				<hr>
+				<ul>
+					<button type="submit" name="addAccPerSubset" th:text="Add" th:value="${e_stat.index}">Add AccPerSubset</button>
+					<li th:each="a,a_stat: ${e.accPerSubset}">
+			        <select th:field="*{eventList[__${e_stat.index}__].accPerSubset[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getAccPerSubset[__${a_stat.index}__]}">
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.Accuracy.AccuracyEnum).values()}" 
+			          	th:value="${type}" 
+			          	th:text="${type.toString()}"></option>
+			        </select>
+			        <button th:if="${a_stat != null}" type="submit" name="removeAccPerSubset" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove</button>
+		          	</li>
+		        </ul>
+				</div>	
+				<br>
+				<div th:if="${e.getShowTgtUe()==true}">
+				Target UEs for the analytics
+				<hr>
+					<div>
+						<label>Any UE</label>
+						<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].anyUE}"/>
+					</div>		 
+				</div>
+				<br>
+				<div th:if="${e.getShowSupis()==true}">
+				  SUPIs of the target UEs for the analytics
+				  <hr>
+				  <ul>
+					<button type="submit" name="addSupis" th:text="Add" th:value="${e_stat.index}">Add Supis</button>
+					<li th:each="a,a_stat: ${e.supis}">
+			        <input type="text" th:field="*{eventList[__${e_stat.index}__].supis[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getSupis[__${a_stat.index}__]}" pattern="^(imsi-[0-9]{5,15}|nai-.+|gci-.+|gli-.+|.+)$">
+			         <button th:if="${a_stat != null}" type="submit" name="removeSupis" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove Supis</button>
+		          	</li>
+		        </ul>
+				<br>	
+				</div>
+				<br>
+				<div th:if="${e.getShowIntGroupIds()==true}">
+				  IntGroupIds - Each element represents an internal group identifier and identifies a group of UEs
+				  <hr>
+				  <ul>
+					<button type="submit" name="addIntGroupIds" th:text="Add" th:value="${e_stat.index}">Add IntGroupIds</button>
+					<li th:each="a,a_stat: ${e.intGroupIds}">
+			        <input type="text" th:field="*{eventList[__${e_stat.index}__].intGroupIds[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getIntGroupIds[__${a_stat.index}__]}" pattern="^[A-Fa-f0-9]{8}-[0-9]{3}-[0-9]{2,3}-([A-Fa-f0-9][A-Fa-f0-9]){1,10}$">
+			         <button th:if="${a_stat != null}" type="submit" name="removeIntGroupIds" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove IntGroupIds</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				</div>
+				<br>
+				<div th:if="${e.getShowNfInstanceIds()==true}">
+					NfInstanceIds - Each element represents the UUID of an nf instance to provide analytics for
+				  <hr>
+				  <ul>
+					<button type="submit" name="addNfInstanceIds" th:text="Add" th:value="${e_stat.index}">Add NfInstanceIds</button>
+					<li th:each="a,a_stat: ${e.nfInstanceIds}">
+			        <input type="text" th:field="*{eventList[__${e_stat.index}__].nfInstanceIds[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getNfInstanceIds[__${a_stat.index}__]}" pattern="^[0-9a-fA-F]{8}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{4}\\b-[0-9a-fA-F]{12}$">
+			         <button th:if="${a_stat != null}" type="submit" name="removeNfInstanceIds" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove NfInstanceIds</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				</div>
+				<br>
+				<div th:if="${e.getShowNfSetIds()==true}">
+					NfSetIds - Each element represents a set identifier and identifies a group of NFs
+				  <hr>
+				  <ul>
+					<button type="submit" name="addNfSetIds" th:text="Add" th:value="${e_stat.index}">Add NfSetIds</button>
+					<li th:each="a,a_stat: ${e.nfSetIds}">
+			        <input type="text" th:field="*{eventList[__${e_stat.index}__].nfSetIds[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getNfSetIds[__${a_stat.index}__]}" pattern="(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.mnc([0-9]){3}\.mcc([0-9]){3})|(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3})" title="for PLMN: set<NFSetId>.<NF>set.5gc.mnc<3digits>.mcc<3digits> for SNPN: ...5gc.nid<11-hexdigits>.mnc...">
+			         <button th:if="${a_stat != null}" type="submit" name="removeNfSetIds" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove NfSetIds</button>
+		          	</li>
+		          </ul>
+				  <br>
+				</div>
+				<br>
+				<div th:if="${e.getShowAppIds()==true}">
+					AppIds - Each element the identifier of an application
+				  <hr>
+				  <ul>
+					<button type="submit" name="addAppIds" th:text="Add" th:value="${e_stat.index}">Add AppIds</button>
+					<li th:each="a,a_stat: ${e.appIds}">
+			        <input type="text" th:field="*{eventList[__${e_stat.index}__].appIds[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getAppIds[__${a_stat.index}__]}">
+			         <button th:if="${a_stat != null}" type="submit" name="removeAppIds" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove AppIds</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				</div>
+				<br>
+				<div th:if="${e.getShowDnns()==true}">
+					Dnns - Each element shall contain either a DNN Network Id, or a full DNN with both the Network Id and Operator Id
+				  <hr>
+				  <ul>
+					<button type="submit" name="addDnns" th:text="Add" th:value="${e_stat.index}">Add Dnns</button>
+					<li th:each="a,a_stat: ${e.dnns}">
+			        <input type="text" th:field="*{eventList[__${e_stat.index}__].dnns[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getDnns[__${a_stat.index}__]}" pattern="\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3}\.gprs" title="nid<NID>.mnc<MNC>.mcc<MCC>.gprs">
+			         <button th:if="${a_stat != null}" type="submit" name="removeDnns" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove Dnns</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				</div>
+				<br>
+				<div th:if="${e.getShowDnais()==true}">
+					Dnais - Data network access identifiers
+				  <hr>
+				  <ul>
+					<button type="submit" name="addDnais" th:text="Add" th:value="${e_stat.index}">Add Dnais</button>
+					<li th:each="a,a_stat: ${e.dnais}">
+			        <input type="text" th:field="*{eventList[__${e_stat.index}__].dnais[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getDnais[__${a_stat.index}__]}">
+			         <button th:if="${a_stat != null}" type="submit" name="removeDnais" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove Dnais</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				</div>
+				<br>
+				<div th:if="${e.getShowLadnDnns()==true}">
+					LadnDnns - Each element represents the id of LADN DNN to indicate the LADN service area as the AOI
+				  <hr>
+				  <ul>
+					<button type="submit" name="addLadnDnns" th:text="Add" th:value="${e_stat.index}">Add LadnDnns</button>
+					<li th:each="a,a_stat: ${e.ladnDnns}">
+			        <input type="text" th:field="*{eventList[__${e_stat.index}__].ladnDnns[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getLadnDnns[__${a_stat.index}__]}">
+			         <button th:if="${a_stat != null}" type="submit" name="removeLadnDnns" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove LadnDnns</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				</div>
+				<br>
+				<div th:if="${e.getShowNfTypes()==true}">
+					NfTypes - Each element represents the type of each nf instance
+				  <hr>
+				  <ul>
+					<button type="submit" name="addNfTypes" th:text="Add" th:value="${e_stat.index}">Add NfTypes</button>
+					<li th:each="a,a_stat: ${e.nfTypes}">
+					<select th:field="*{eventList[__${e_stat.index}__].nfTypes[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getNfTypes[__${a_stat.index}__]}">
+						<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.NFType.NFTypeEnum).values()}" 
+						th:value="${type}" 
+						th:text="${type.toString()}"></option>
+					</select>
+			        <button th:if="${a_stat != null}" type="submit" name="removeNfTypes" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove NfTypes</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				</div>
+				<div th:if="${e.getShowNfLoadLvlThds()==true}">
+					NfLoadLvlThds - Each element represents the id of each nf instance
+				  <hr>
+				  <ul>
+					<button type="submit" name="addNfLoadLvlThds" th:text="Add" th:value="${e_stat.index}">Add NfLoadLvlThds</button>
+					<li th:each="a,a_stat: ${e.nfLoadLvlThds}">
+						<!-- <label>CongLevel - Value of Congestion that triggers notification</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,0)}">
+						<br> -->
+						<label>NfLoadLevel - Value of NF Load that triggers notification</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][1]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,1)}">
+						<br>
+						<label>NfCpuUsage - Value of NF CPU Usage that triggers notification </label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][2]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,2)}">
+						<br>
+						<label>NfMemoryUsage - Average usage of memory </label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][3]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,3)}">
+						<br>
+						<label>NfStorageUsage - Average usage of storage</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][4]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,4)}">
+						<br>
+						<!-- <label>AvgTrafficRate - Threshold level of average traffic rate</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][5]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,5)}">
+						<br>
+						<label>MaxTrafficRate - Threshold level of maximum traffic rate</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][8]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,8)}">
+						<br>
+						<label>AvgPacketDelay - Threshold level of average Packet Delay</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][6]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,6)}">
+						<br>
+						<label>MaxPacketDelay - Threshold level of maximum Packet Delay</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][7]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,7)}">
+						<br>
+						<label>AvgPacketLossRate - Threshold level of average Loss Rate</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][9]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,9)}">
+						<br>
+						<label>SvcExpLevel - Service Experience MOS value</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][10]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,10)}">
+						<br> -->
+						<button th:if="${a_stat != null}" type="submit" name="removeNfLoadLvlThds" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove NfLoadLvlThds</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				</div>
+				<br>
+				<div th:if="${e.getShowNetworkArea()==true}">
+					NetworkArea -  Represents the Area of Interest for this event subscription 
+				  <hr>
+				  <ul>
+					Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
+					<button type="submit" name="addEcgis" th:text="Add" th:value="${e_stat.index}">Add Ecgis</button>
+					<li th:each="a,a_stat: ${e.getNetworkAreaList(0)}">
+					<label>mcc</label>
+					<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,0)}" pattern="([0-9]){3}">
+			        <label>mnc</label>
+					<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][1]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,1)}" pattern="([0-9]){3}">
+					<label>eutraCellId</label>
+					<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][2]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,2)}" pattern="^[A-Fa-f0-9]{7}$">
+					<label>nid</label>
+					<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][3]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,3)}" pattern="([A-Za-z0-9]){11}">					
+					<button th:if="${a_stat != null}" type="submit" name="removeEcgis" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove Ecgis</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <ul>
+					Ncgis - Represents the list of NR cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NR cell Ids.
+					<button type="submit" name="addNcgis" th:text="Add" th:value="${e_stat.index}">Add Ncgis</button>
+					<li th:each="a,a_stat: ${e.getNetworkAreaList(1)}">
+					<label>mcc</label>
+					<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,0)}" pattern="([0-9]){3}">
+			        <label>mnc</label>
+					<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][1]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,1)}" pattern="([0-9]){3}">
+					<label>nrCellId</label>
+					<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][2]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,2)}" pattern="^[A-Fa-f0-9]{9}$">
+					<label>nid</label>
+					<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][3]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,3)}" pattern="([A-Za-z0-9]){11}">
+					<button th:if="${a_stat != null}" type="submit" name="removeNcgis" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove Ncgis</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <ul>
+					GRanNodeIds - Represents the list of NG RAN node identifiers that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NG RAN node identifiers.  
+					<button type="submit" name="addGRanNodeIds" th:text="Add" th:value="${e_stat.index}">Add GRanNodeIds</button>
+					<li th:each="a,a_stat: ${e.getNetworkAreaList(2)}">
+						<label>mcc</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,0)}" pattern="([0-9]){3}">
+						<label>mnc</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][1]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,1)}" pattern="([0-9]){3}">	
+						<label>n3IwfId</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][2]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,2)}" pattern="^[A-Fa-f0-9]+$">	
+						<label>ngeNbId</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][3]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,3)}" pattern="^('MacroNGeNB-[A-Fa-f0-9]{5}|LMacroNGeNB-[A-Fa-f0-9]{6}|SMacroNGeNB-[A-Fa-f0-9]{5})$">	
+						<label>wagfId</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][4]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,4)}" pattern="^[A-Fa-f0-9]+$">	
+						<label>tngfId</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][5]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,5)}" pattern="^[A-Fa-f0-9]+$">	
+						<label>nid</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][6]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,6)}" pattern="([A-Za-z0-9]){11}">
+						<label>eNbId</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][7]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,7)}" pattern="^(MacroeNB-[A-Fa-f0-9]{5}|LMacroeNB-[A-Fa-f0-9]{6}|SMacroeNB-[A-Fa-f0-9]{5}|HomeeNB-[A-Fa-f0-9]{7})$">	
+						<label>gNbId-bitLength</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][8]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,8)}" pattern="2[2-9]|3[0-2]">	
+						<label>gNBValue</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][9]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,9)}" pattern="^[A-Fa-f0-9]{6,8}$">	
+						<button th:if="${a_stat != null}" type="submit" name="removeGRanNodeIds" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove GRanNodeIds</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <ul>
+					Tais -  List of Tracking Area Ids
+					<button type="submit" name="addTais" th:text="Add" th:value="${e_stat.index}">Add Tais</button>
+					<li th:each="a,a_stat: ${e.getNetworkAreaList(3)}">
+						<label>mcc</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,0)}" pattern="([0-9]){3}">
+						<label>mnc</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][1]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,1)}" pattern="([0-9]){3}">	
+						<label>tac</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][2]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,2)}" pattern="(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)">
+						<label>nid</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][3]}" th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,3)}" pattern="([A-Za-z0-9]){11}">
+						<button th:if="${a_stat != null}" type="submit" name="removeTais" 
+		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove Tais</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <br>	
+				</div>
 				
-				</div>			 
+			 <br>
+			 <button th:if="${e_stat != null}" type="submit" name="removeEventRow" 
+		            th:value="${e_stat.index}" th:text="RemoveEvent">Remove Event</button>		
 			 </li>
 		</ul>
         <input type="submit" value="Send" />
     </form>
-	<div th:insert="/notify :: notify">  </div>
+	<div th:insert="~{/notify :: notify}">  </div>
     <div th:if="${result != null}">
         <h1>Result</h1>
             <div style="white-space: pre-wrap;" th:text="${result}"></div>

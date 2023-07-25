@@ -14,7 +14,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.nwdaf.eventsubscription.client.Regex;
 import io.nwdaf.eventsubscription.client.model.NotificationFlag.NotificationFlagEnum;
 import io.nwdaf.eventsubscription.client.model.NotificationMethod.NotificationMethodEnum;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 public class RequestSubscriptionModel implements Serializable{
 	@JsonProperty("id")
 	@Id
@@ -57,12 +60,7 @@ public class RequestSubscriptionModel implements Serializable{
 	
 	public void setAllLists() {
 		if(immRep!=null) {
-			if(immRep) {
-				this.optionals.set(0,"TRUE");
-			}
-			else {
-				this.optionals.set(0,"FALSE");
-			}
+			this.optionals.set(0,Boolean.toString(immRep).toUpperCase());
 		}
 		if(notifMethod!=null) {
 			this.optionals.set(1, notifMethod.toString());
@@ -118,28 +116,11 @@ public class RequestSubscriptionModel implements Serializable{
 			}
 		}
 	}
-	public Long getId() {
-		return this.id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public List<String> getOptionals() {
-		return optionals;
-	}
-	public void setOptionals(List<String> optionals) {
-		this.optionals = optionals;
-	}
+
 	public void setOptionalsItem(String item,Integer index) {
 		this.optionals.set(index, item);
 	}
 	
-	public List<String> getPartitionCriteria() {
-		return partitionCriteria;
-	}
-	public void setPartitionCriteria(List<String> partitionCriteria) {
-		this.partitionCriteria = partitionCriteria;
-	}
 	public String getPartitionCriteria(Integer i) {
 		return partitionCriteria.get(i);
 	}
@@ -153,12 +134,6 @@ public class RequestSubscriptionModel implements Serializable{
 		this.partitionCriteria.set(i, item);
 	}
 	
-	public List<String> getNfAnaEvents() {
-		return nfAnaEvents;
-	}
-	public void setNfAnaEvents(List<String> nfAnaEvents) {
-		this.nfAnaEvents = nfAnaEvents;
-	}
 	public void addNfAnaEvents(String item) {
 		this.nfAnaEvents.add(item);
 	}
@@ -169,12 +144,6 @@ public class RequestSubscriptionModel implements Serializable{
 		this.nfAnaEvents.set(i, item);
 	}
 	
-	public List<List<List<String>>> getUeAnaEvents() {
-		return ueAnaEvents;
-	}
-	public void setUeAnaEvents(List<List<List<String>>> ueAnaEvents) {
-		this.ueAnaEvents = ueAnaEvents;
-	}
 	public void addUeAnaEvents(List<List<String>> item) {
 		if(item==null) {
 			item = new ArrayList<List<String>>(Arrays.asList(new ArrayList<String>(),new ArrayList<String>()));
@@ -230,14 +199,9 @@ public class RequestSubscriptionModel implements Serializable{
 		this.ueAnaEvents.get(rowId).get(1).add(null);
 	}
 	public void removeUeAnaEvents(Integer i,Integer j) {
-		this.ueAnaEvents.get(i).remove((int)j);
+		this.ueAnaEvents.get(i).get(1).remove((int)j);
 	}
-	public List<List<String>> getTaiList() {
-		return taiList;
-	}
-	public void setTaiList(List<List<String>> taiList) {
-		this.taiList = taiList;
-	}
+
 	public void addTaiList(List<String> item) {
 		if(item==null || item.size()==0) {
 			item = new ArrayList<String>();
@@ -270,120 +234,7 @@ public class RequestSubscriptionModel implements Serializable{
 	public String getTaiList(Integer i,Integer j) {
 		return taiList.get(i).get(j);
 	}
-	public Boolean getImmRep() {
-		return immRep;
-	}
-	public void setImmRep(Boolean immRep) {
-		this.immRep = immRep;
-	}
-	public NotificationMethodEnum getNotifMethod() {
-		return notifMethod;
-	}
-	public void setNotifMethod(NotificationMethodEnum notifMethod) {
-		this.notifMethod = notifMethod;
-	}
-	public Integer getMaxReportNbr() {
-		return maxReportNbr;
-	}
-	public void setMaxReportNbr(Integer maxReportNbr) {
-		this.maxReportNbr = maxReportNbr;
-	}
-	public String getMonDur() {
-		return monDur;
-	}
-	public void setMonDur(String monDur) {
-		this.monDur = monDur;
-	}
-	public Integer getRepPeriod() {
-		return repPeriod;
-	}
-	public void setRepPeriod(Integer repPeriod) {
-		this.repPeriod = repPeriod;
-	}
-	public Integer getSampRatio() {
-		return sampRatio;
-	}
-	public void setSampRatio(Integer sampRatio) {
-		this.sampRatio = sampRatio;
-	}
-	public Integer getGrpRepTime() {
-		return grpRepTime;
-	}
-	public void setGrpRepTime(Integer grpRepTime) {
-		this.grpRepTime = grpRepTime;
-	}
-	public NotificationFlagEnum getNotifFlag() {
-		return notifFlag;
-	}
-	public void setNotifFlag(NotificationFlagEnum notifFlag) {
-		this.notifFlag = notifFlag;
-	}
-	public Boolean getShowEvtReq() {
-		return showEvtReq;
-	}
-	public void setShowEvtReq(Boolean showEvtReq) {
-		this.showEvtReq = showEvtReq;
-	}
-	public String getProducerId() {
-		return producerId;
-	}
-	public void setProducerId(String producerId) {
-		this.producerId = producerId;
-	}
-	public String getProducerSetId() {
-		return producerSetId;
-	}
-	public void setProducerSetId(String producerSetId) {
-		this.producerSetId = producerSetId;
-	}
-	public String getSubscriptionId() {
-		return subscriptionId;
-	}
-	public void setSubscriptionId(String subscriptionId) {
-		this.subscriptionId = subscriptionId;
-	}
-	public Boolean getShowPrevSub() {
-		return showPrevSub;
-	}
-	public void setShowPrevSub(Boolean showPrevSub) {
-		this.showPrevSub = showPrevSub;
-	}
-	public Boolean getShowConsNfInfo() {
-		return showConsNfInfo;
-	}
-	public void setShowConsNfInfo(Boolean showConsNfInfo) {
-		this.showConsNfInfo = showConsNfInfo;
-	}
-	public List<String> getTaiAttributes() {
-		return taiAttributes;
-	}
-	public List<String> getTaiPatterns() {
-		return taiPatterns;
-	}
-	public String getNotifCorrId() {
-		return notifCorrId;
-	}
-	public void setNotifCorrId(String notifCorrId) {
-		this.notifCorrId = notifCorrId;
-	}
-	public String getNfId() {
-		return nfId;
-	}
-	public void setNfId(String nfId) {
-		this.nfId = nfId;
-	}
-	public String getNfSetId() {
-		return nfSetId;
-	}
-	public void setNfSetId(String nfSetId) {
-		this.nfSetId = nfSetId;
-	}
-	public List<RequestEventModel> getEventList() {
-		return eventList;
-	}
-	public void setEventList(List<RequestEventModel> eventList) {
-		this.eventList = eventList;
-	}
+	
 	
 	public void addEventList(RequestEventModel event) {
 		if(event==null) {
@@ -391,11 +242,8 @@ public class RequestSubscriptionModel implements Serializable{
 		}
 		this.eventList.add(event);
 	}
-	public String getNotificationURI() {
-		return this.notificationURI;
-	}
-	public void setNotificationURI(String notificationURI) {
-		this.notificationURI = notificationURI;
+	public void removeEventList(Integer rowId) {
+		this.eventList.remove((int)rowId);
 	}
 	
 }
