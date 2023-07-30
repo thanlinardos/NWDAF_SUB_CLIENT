@@ -1,12 +1,10 @@
 package io.nwdaf.eventsubscription.client.config;
 
-import java.time.OffsetDateTime;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
-
 import io.nwdaf.eventsubscription.client.model.Accuracy.AccuracyEnum;
 import io.nwdaf.eventsubscription.client.model.ExpectedAnalyticsType.ExpectedAnalyticsTypeEnum;
 import io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum;
@@ -19,13 +17,14 @@ public class RequestEventModel {
 	private String notificationMethod;
 	private List<String>optionals = new ArrayList<String>(Arrays.asList(null,null,null,null,null,null,null));
 	private List<String> anaMeta = new ArrayList<String>();
-	private List<String> anaMetaInd = new ArrayList<String>(Arrays.asList(null,null,null));
+	private List<String> anaMetaInd = new ArrayList<String>(Arrays.asList(null,null,null,null));
 	private List<String> aggrNwdafIds = new ArrayList<String>();
 	private List<String> dataStatProps = new ArrayList<String>();
 	private List<String> accPerSubset = new ArrayList<String>();
 	private List<String>args = new ArrayList<String>(Arrays.asList(null,null,null,null,null,null,null,null));
 	private List<List<String>>nfLoadLvlThds = new ArrayList<List<String>>();
 	private List<String> supis = new ArrayList<String>();
+	private List<String> gpsis = new ArrayList<String>();
 	private List<String> intGroupIds = new ArrayList<String>();
 	private List<String> nfInstanceIds = new ArrayList<String>();
 	private List<String> nfSetIds = new ArrayList<String>();
@@ -52,11 +51,11 @@ public class RequestEventModel {
 	private List<List<String>> appServerAddrs = new ArrayList<List<String>>();
 	private List<List<List<List<String>>>> dnPerfReqs = new ArrayList<List<List<List<String>>>>();
 	private List<List<List<String>>> networkArea = new ArrayList<List<List<String>>>();
-	private List<String> qosRequ = new ArrayList<String>();
+	private List<String> qosRequ = new ArrayList<String>(Arrays.asList(null,null,null,null,null,null));
 	private List<List<List<List<List<List<String>>>>>> exptUeBehav = new ArrayList<List<List<List<List<List<String>>>>>>();
-	private List<String> upfInfo = new ArrayList<String>();
+	private List<String> upfInfo = new ArrayList<String>(Arrays.asList(null,null,null,null,null));
 	//show booleans
-	private Boolean showExtraRepReq=false,showNfTypes=false,showTgtUe=false,showLoadLevelThreshold=false,showSnssais=false,showAnySlice=false,showNsiIdInfos=false,showNsiLevelThrds=false,showListOfAnaSubsets=false,showNetworkArea=false,showSupis=false,showNfLoadLvlThds=false,showNfInstanceIds=false,showNfSetIds=false,showMatchingDir=false,showIntGroupIds=false,showBwRequs=false,showRatFreqs=false,showUpfInfo=false,showAppServerAddrs=false,showDnns=false,showLadnDnns=false,showVisitedAreas=false,showQosFlowRetThds=false,showRanUeThrouThds=false,showExptAnaType=false,showExptUeBehav=false,showGpsis=false,showCongThresholds=false,showMaxTopAppUlNbr=false,showMaxTopAppDlNbr=false,showDisperReqs=false,showRedTransReqs=false,showWlanReqs=false,showDnais=false,showDnPerfReqs=false,showAppIds=false;
+	private Boolean showExtraRepReq=false,showQosRequ=false,showExcepRequs=false,showNwPerfRequs=false,showSnssaia=false,showNfTypes=false,showTgtUe=false,showLoadLevelThreshold=false,showAnySlice=false,showNsiIdInfos=false,showNsiLevelThrds=false,showListOfAnaSubsets=false,showNetworkArea=false,showSupis=false,showNfLoadLvlThds=false,showNfInstanceIds=false,showNfSetIds=false,showMatchingDir=false,showIntGroupIds=false,showBwRequs=false,showRatFreqs=false,showUpfInfo=false,showAppServerAddrs=false,showDnns=false,showLadnDnns=false,showVisitedAreas=false,showQosFlowRetThds=false,showRanUeThrouThds=false,showExptAnaType=false,showExptUeBehav=false,showGpsis=false,showCongThresholds=false,showMaxTopAppUlNbr=false,showMaxTopAppDlNbr=false,showDisperReqs=false,showRedTransReqs=false,showWlanReqs=false,showDnais=false,showDnPerfReqs=false,showAppIds=false;
 	//optionals
 	private Integer maxObjectNbr;
 	private Integer maxSupiNbr;
@@ -77,22 +76,49 @@ public class RequestEventModel {
 	private ExpectedAnalyticsTypeEnum exptAnaType;
 	
 	public void setAllLists() {
+		initExptUeBehav();
+		for(int i=0;i<this.nfLoadLvlThds.size();i++){
+			while(this.nfLoadLvlThds.get(i).size()<11){
+				this.nfLoadLvlThds.get(i).add(null);
+			}
+		}
+		for(int i=0;i<this.congThresholds.size();i++){
+			while(this.congThresholds.get(i).size()<11){
+				this.congThresholds.get(i).add(null);
+			}
+		}
+		for(int i=0;i<this.dnPerfReqs.size();i++){
+			while(this.dnPerfReqs.get(i).size()<2){
+				this.dnPerfReqs.get(i).add(new ArrayList<>());
+			}
+			if(this.dnPerfReqs.get(i).get(0).size()<1){
+				this.dnPerfReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.dnPerfReqs.get(i).get(0).get(0).size()<2){
+				this.dnPerfReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.dnPerfReqs.get(i).get(1).size();j++){
+				while(this.dnPerfReqs.get(i).get(1).get(j).size()<11){
+					this.dnPerfReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+		}
 		if(maxObjectNbr!=null) {
 			optionals.set(0, String.valueOf(maxObjectNbr));
 		}
 		if(maxSupiNbr!=null) {
 			optionals.set(1, String.valueOf(maxSupiNbr));
 		}
-		if(startTs!=null) {
+		if(startTs!=null && startTs!="") {
 			optionals.set(2, startTs + ZonedDateTime.now().getOffset().getId());
 		}
-		if(endTs!=null) {
+		if(endTs!=null && endTs!="") {
 			optionals.set(3, endTs + ZonedDateTime.now().getOffset().getId());
 		}
 		if(accuracy!=null) {
 			optionals.set(4, accuracy.toString());
 		}
-		if(timeAnaNeeded!=null) {
+		if(timeAnaNeeded!=null && timeAnaNeeded!="") {
 			optionals.set(5, timeAnaNeeded + ZonedDateTime.now().getOffset().getId());
 		}
 		if(offsetPeriod!=null) {
@@ -138,6 +164,28 @@ public class RequestEventModel {
 		for(int i=0;i<this.wlanReqs.size();i++) {
 			if(this.wlanReqs.get(i).size()<3) {
 				this.wlanReqs.get(i).add(new ArrayList<String>());
+			}
+		}
+		for(int i=0;i<this.snssaia.size();i++){
+			while(this.snssaia.get(i).size()<2){
+				this.snssaia.get(i).add(null);
+			}
+		}
+		for(int i=0;i<this.wlanReqs.size();i++) {
+			while(this.wlanReqs.get(i).size()<3) {
+				this.wlanReqs.get(i).add(new ArrayList<>());
+			}
+			while(this.wlanReqs.get(i).get(0).size()<2) {
+				this.wlanReqs.get(i).get(0).add(null);
+			}
+			for(int j=0;j<this.wlanReqs.get(i).size();j++){
+				for(int k=0;k<this.wlanReqs.get(i).get(j).size();k++){
+					if(this.wlanReqs.get(i).get(j).get(k)!=null){
+						if(this.wlanReqs.get(i).get(j).get(k)=="") {
+							this.wlanReqs.get(i).get(j).set(k,null);
+			    		}
+					}
+				}
 			}
 		}
 	}
@@ -247,6 +295,19 @@ public class RequestEventModel {
 		this.supis.set(i, item);
 	}
 
+	public void addGpsis(String item) {
+		this.gpsis.add(item);
+	}
+	public void removeGpsis(Integer i) {
+		this.gpsis.remove((int)i);
+	}
+	public String getGpsis(Integer i) {
+		return this.gpsis.get(i);
+	}
+	public void setGpsis(String item,Integer i) {
+		this.gpsis.set(i, item);
+	}
+
 	public void addIntGroupIds(String item) {
 		this.intGroupIds.add(item);
 	}
@@ -351,11 +412,141 @@ public class RequestEventModel {
 		this.nfTypes.set(i, item);
 	}
 
-	public List<List<List<List<String>>>> getVisitedAreas() {
-		return visitedAreas;
+	public List<List<String>> getVisitedAreasList(Integer i1,Integer j1){
+		for(int i=0;i<this.visitedAreas.size();i++){
+			while(this.visitedAreas.get(i).size()<4){
+				this.visitedAreas.get(i).add(new ArrayList<List<String>>());
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(0).size();j++){
+				while(this.visitedAreas.get(i).get(0).get(j).size()<4){
+					this.visitedAreas.get(i).get(0).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(1).size();j++){
+				while(this.visitedAreas.get(i).get(1).get(j).size()<4){
+					this.visitedAreas.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(2).size();j++){
+				while(this.visitedAreas.get(i).get(2).get(j).size()<10){
+					this.visitedAreas.get(i).get(2).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(3).size();j++){
+				while(this.visitedAreas.get(i).get(3).get(j).size()<4){
+					this.visitedAreas.get(i).get(3).get(j).add(null);
+				}
+			}
+		}
+		return this.visitedAreas.get(i1).get(j1);
 	}
-	public void setVisitedAreas(List<List<List<List<String>>>> visitedAreas) {
-		this.visitedAreas = visitedAreas;
+	public String getVisitedAreas(Integer i1,Integer j1,Integer k1,Integer w1){
+		for(int i=0;i<this.visitedAreas.size();i++){
+			while(this.visitedAreas.get(i).size()<4){
+				this.visitedAreas.get(i).add(new ArrayList<List<String>>());
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(0).size();j++){
+				while(this.visitedAreas.get(i).get(0).get(j).size()<4){
+					this.visitedAreas.get(i).get(0).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(1).size();j++){
+				while(this.visitedAreas.get(i).get(1).get(j).size()<4){
+					this.visitedAreas.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(2).size();j++){
+				while(this.visitedAreas.get(i).get(2).get(j).size()<10){
+					this.visitedAreas.get(i).get(2).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(3).size();j++){
+				while(this.visitedAreas.get(i).get(3).get(j).size()<4){
+					this.visitedAreas.get(i).get(3).get(j).add(null);
+				}
+			}
+		}
+		return this.visitedAreas.get(i1).get(j1).get(k1).get(w1);
+	}
+	public void addVisitedAreas(List<List<List<String>>> l){
+		if(l==null){
+			l = new ArrayList<>();
+			l.add(new ArrayList<>());
+			l.add(new ArrayList<>());
+			l.add(new ArrayList<>());
+			l.add(new ArrayList<>());
+		}
+		this.visitedAreas.add(l);
+	}
+	public void removeVisitedAreas(Integer i){
+		this.visitedAreas.remove((int) i);
+	}
+	public void addVisitedAreasItem(List<String> item,Integer i1,Integer j1){
+		while(this.visitedAreas.size()<i1+1){
+			this.visitedAreas.add(new ArrayList<>());
+		}
+		for(int i=0;i<this.visitedAreas.size();i++){
+			while(this.visitedAreas.get(i).size()<4){
+				this.visitedAreas.get(i).add(new ArrayList<List<String>>());
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(0).size();j++){
+				while(this.visitedAreas.get(i).get(0).get(j).size()<4){
+					this.visitedAreas.get(i).get(0).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(1).size();j++){
+				while(this.visitedAreas.get(i).get(1).get(j).size()<4){
+					this.visitedAreas.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(2).size();j++){
+				while(this.visitedAreas.get(i).get(2).get(j).size()<10){
+					this.visitedAreas.get(i).get(2).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(3).size();j++){
+				while(this.visitedAreas.get(i).get(3).get(j).size()<4){
+					this.visitedAreas.get(i).get(3).get(j).add(null);
+				}
+			}
+		}
+		if(item == null){
+			if(j1==2){
+				item = new ArrayList<>(Arrays.asList(null,null,null,null,null,null,null,null,null,null));
+			}
+			else{
+				item = new ArrayList<>(Arrays.asList(null,null,null,null));
+			}
+		}
+		this.visitedAreas.get(i1).get(j1).add(item);
+	}
+	public void removeVisitedAreasItem(Integer i1,Integer j1, Integer k1){
+		for(int i=0;i<this.visitedAreas.size();i++){
+			while(this.visitedAreas.get(i).size()<4){
+				this.visitedAreas.get(i).add(new ArrayList<List<String>>());
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(0).size();j++){
+				while(this.visitedAreas.get(i).get(0).get(j).size()<4){
+					this.visitedAreas.get(i).get(0).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(1).size();j++){
+				while(this.visitedAreas.get(i).get(1).get(j).size()<4){
+					this.visitedAreas.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(2).size();j++){
+				while(this.visitedAreas.get(i).get(2).get(j).size()<10){
+					this.visitedAreas.get(i).get(2).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(3).size();j++){
+				while(this.visitedAreas.get(i).get(3).get(j).size()<4){
+					this.visitedAreas.get(i).get(3).get(j).add(null);
+				}
+			}
+		}
+		this.visitedAreas.get(i1).get(j1).remove((int) k1);
 	}
 
 	public void addNsiIdInfos(List<List<String>> item) {
@@ -416,7 +607,7 @@ public class RequestEventModel {
 		this.nsiIdInfos.get(rowId).get(1).add(null);
 	}
 	public void removeNsiIdInfos(Integer i,Integer j) {
-		this.nsiIdInfos.get(i).remove((int)j);
+		this.nsiIdInfos.get(i).get(1).remove((int)j);
 	}
 	
 	public void addNsiLevelThrds(Integer item) {
@@ -491,10 +682,21 @@ public class RequestEventModel {
 	}
 	public void setSnssaia(String item,Integer i,Integer j) {
 		if(this.snssaia.get(i)!=null) {
-			this.snssaia.get(i).set(j, item);
+			if(snssaia.get(i).get(j)=="," || snssaia.get(i).get(j)==""){
+			snssaia.get(i).set(j, null);
+			}
+			else{
+				this.snssaia.get(i).set(j, item);
+			}
 		}
 	}
 	public String getSnssaia(Integer i,Integer j) {
+		while(snssaia.get(i).size()<2){
+			snssaia.get(i).add(null);
+		}
+		if(snssaia.get(i).get(j)=="," || snssaia.get(i).get(j)==""){
+			snssaia.get(i).set(j, null);
+		}
 		return snssaia.get(i).get(j);
 	}
 
@@ -602,13 +804,43 @@ public class RequestEventModel {
 		return excepRequs.get(i).get(j);
 	}
 
-	public List<List<List<String>>> getRatFreqs() {
-		return ratFreqs;
+	public void addRatFreqs(List<List<String>> item){
+		if(item == null){
+			item = new ArrayList<List<String>>();
+			List<String> item_1 = new ArrayList<>(Arrays.asList(null,null,null,null,null));
+			List<String> item_2 = new ArrayList<>(Arrays.asList(null,null,null,null,null,null,null,null,null,null,null));
+			item.add(item_1);
+			item.add(item_2);
+		}
+		this.ratFreqs.add(item);
 	}
-	public void setRatFreqs(List<List<List<String>>> ratFreqs) {
-		this.ratFreqs = ratFreqs;
+	public void removeRatFreqs(Integer i){
+		this.ratFreqs.remove((int)i);
 	}
-
+	public String getRatFreqs(Integer i,Integer j){
+		if(this.ratFreqs.get(i).size()==0){
+			this.ratFreqs.get(i).add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
+		}
+		if(this.ratFreqs.get(i).size()==1){
+			this.ratFreqs.get(i).add(new ArrayList<>(Arrays.asList(null,null,null,null,null,null,null,null,null,null,null)));
+		}
+		while(this.ratFreqs.get(i).get(0).size()<5){
+			this.ratFreqs.get(i).get(0).add(null);
+		}
+		return this.ratFreqs.get(i).get(0).get(j);
+	}
+	public String getRatFreqsItem(Integer i,Integer j){
+		if(this.ratFreqs.get(i).size()==0){
+			this.ratFreqs.get(i).add(new ArrayList<>(Arrays.asList(null,null,null,null,null)));
+		}
+		if(this.ratFreqs.get(i).size()==1){
+			this.ratFreqs.get(i).add(new ArrayList<>(Arrays.asList(null,null,null,null,null,null,null,null,null,null,null)));
+		}
+		while(this.ratFreqs.get(i).get(1).size()<10){
+			this.ratFreqs.get(i).get(1).add(null);
+		}
+		return this.ratFreqs.get(i).get(1).get(j);
+	}
 	public void addListOfAnaSubsets(String item) {
 		this.listOfAnaSubsets.add(item);
 	}
@@ -622,11 +854,152 @@ public class RequestEventModel {
 		this.listOfAnaSubsets.set(i, item);
 	}
 
-	public List<List<List<List<String>>>> getDisperReqs() {
-		return disperReqs;
+
+	public List<List<String>> getDisperReqsList(Integer i1,Integer j1){
+		for(int i=0;i<this.disperReqs.size();i++){
+			while(this.disperReqs.get(i).size()<3){
+				this.disperReqs.get(i).add(new ArrayList<List<String>>());
+			}
+			if(this.disperReqs.get(i).get(0).size()<1){
+				this.disperReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.disperReqs.get(i).get(0).get(0).size()<3){
+				this.disperReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(1).size();j++){
+				while(this.disperReqs.get(i).get(1).get(j).size()<3){
+					this.disperReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(2).size();j++){
+				while(this.disperReqs.get(i).get(2).get(j).size()<2){
+					this.disperReqs.get(i).get(2).get(j).add(null);
+				}
+			}
+		}
+		return this.disperReqs.get(i1).get(j1);
 	}
-	public void setDisperReqs(List<List<List<List<String>>>> disperReqs) {
-		this.disperReqs = disperReqs;
+	public String getDisperReqs(Integer i1,Integer j1,Integer k1,Integer w1){
+		for(int i=0;i<this.disperReqs.size();i++){
+			while(this.disperReqs.get(i).size()<3){
+				this.disperReqs.get(i).add(new ArrayList<>());
+			}
+			if(this.disperReqs.get(i).get(0).size()<1){
+				this.disperReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.disperReqs.get(i).get(0).get(0).size()<3){
+				this.disperReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(1).size();j++){
+				while(this.disperReqs.get(i).get(1).get(j).size()<3){
+					this.disperReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(2).size();j++){
+				while(this.disperReqs.get(i).get(2).get(j).size()<2){
+					this.disperReqs.get(i).get(2).get(j).add(null);
+				}
+			}
+		}
+		return this.disperReqs.get(i1).get(j1).get(k1).get(w1);
+	}
+	public String getDisperReqs(Integer i1,Integer j1){
+		for(int i=0;i<this.disperReqs.size();i++){
+			while(this.disperReqs.get(i).size()<3){
+				this.disperReqs.get(i).add(new ArrayList<>());
+			}
+			if(this.disperReqs.get(i).get(0).size()<1){
+				this.disperReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.disperReqs.get(i).get(0).get(0).size()<3){
+				this.disperReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(1).size();j++){
+				while(this.disperReqs.get(i).get(1).get(j).size()<3){
+					this.disperReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(2).size();j++){
+				while(this.disperReqs.get(i).get(2).get(j).size()<2){
+					this.disperReqs.get(i).get(2).get(j).add(null);
+				}
+			}
+		}
+		return this.disperReqs.get(i1).get(0).get(0).get(j1);
+	}
+	public void addDisperReqs(List<List<List<String>>> l){
+		if(l==null){
+			l = new ArrayList<>();
+			List<List<String>> litem = new ArrayList<>();
+			List<String> llitem = new ArrayList<>(Arrays.asList(null,null,null));
+			litem.add(llitem);
+			l.add(litem);
+			l.add(new ArrayList<>());
+			l.add(new ArrayList<>());
+		}
+		this.disperReqs.add(l);
+	}
+	public void removeDisperReqs(Integer i){
+		this.disperReqs.remove((int) i);
+	}
+	public void addDisperReqsItem(List<String> item,Integer i1,Integer j1){
+		while(this.disperReqs.size()<i1+1){
+			this.disperReqs.add(new ArrayList<>());
+		}
+		for(int i=0;i<this.disperReqs.size();i++){
+			while(this.disperReqs.get(i).size()<3){
+				this.disperReqs.get(i).add(new ArrayList<>());
+			}
+			if(this.disperReqs.get(i).get(0).size()<1){
+				this.disperReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.disperReqs.get(i).get(0).get(0).size()<3){
+				this.disperReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(1).size();j++){
+				while(this.disperReqs.get(i).get(1).get(j).size()<3){
+					this.disperReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(2).size();j++){
+				while(this.disperReqs.get(i).get(2).get(j).size()<2){
+					this.disperReqs.get(i).get(2).get(j).add(null);
+				}
+			}
+		}
+		if(item == null){
+			if(j1==1){
+				item = new ArrayList<>(Arrays.asList(null,null,null));
+			}
+			else{
+				item = new ArrayList<>(Arrays.asList(null,null));
+			}
+		}
+		this.disperReqs.get(i1).get(j1).add(item);
+	}
+	public void removeDisperReqsItem(Integer i1,Integer j1, Integer k1){
+		for(int i=0;i<this.disperReqs.size();i++){
+			while(this.disperReqs.get(i).size()<3){
+				this.disperReqs.get(i).add(new ArrayList<List<String>>());
+			}
+			if(this.disperReqs.get(i).get(0).size()<1){
+				this.disperReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.disperReqs.get(i).get(0).get(0).size()<3){
+				this.disperReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(1).size();j++){
+				while(this.disperReqs.get(i).get(1).get(j).size()<3){
+					this.disperReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.disperReqs.get(i).get(2).size();j++){
+				while(this.disperReqs.get(i).get(2).get(j).size()<2){
+					this.disperReqs.get(i).get(2).get(j).add(null);
+				}
+			}
+		}
+		this.disperReqs.get(i1).get(j1).remove((int) k1);
 	}
 
 	public void addRedTransReqs(List<String> item) {
@@ -655,35 +1028,24 @@ public class RequestEventModel {
 		return redTransReqs.get(i).get(j);
 	}
 
-	public List<List<List<String>>> getWlanReqs() {
-		return wlanReqs;
-	}
-	public void setWlanReqs(List<List<List<String>>> wlanReqs) {
-		this.wlanReqs = wlanReqs;
-	}
 	public void addWlanReqs(List<List<String>> item) {
 		if(item==null) {
 			item = new ArrayList<List<String>>(Arrays.asList(new ArrayList<String>(Arrays.asList(null,null)),new ArrayList<String>(),new ArrayList<String>()));
 			for(int i=0;i<this.wlanReqs.size();i++) {
-				for(int j=0;j<this.wlanReqs.get(i).size();j++){
-					if(this.wlanReqs.get(i).get(0).get(j)!=null){
-						if(this.wlanReqs.get(i).get(0).get(j)=="") {
-							this.wlanReqs.get(i).get(0).set(j,null);
-						}
-					}
-				}
 				while(this.wlanReqs.get(i).size()<3) {
-					this.wlanReqs.get(i).add(new ArrayList<String>());
+					this.wlanReqs.get(i).add(new ArrayList<>());
 				}
-				for(int j=0;j<this.wlanReqs.get(i).get(1).size();j++) {
-					if(this.wlanReqs.get(i).get(1).get(j)!=null){
-						if(this.wlanReqs.get(i).get(1).get(j)=="") {
-							this.wlanReqs.get(i).get(1).set(j,null);
+				while(this.wlanReqs.get(i).get(0).size()<2) {
+					this.wlanReqs.get(i).get(0).add(null);
+				}
+				for(int j=0;j<this.wlanReqs.get(i).size();j++){
+					for(int k=0;k<this.wlanReqs.get(i).get(j).size();k++){
+						if(this.wlanReqs.get(i).get(j).get(k)!=null){
+							if(this.wlanReqs.get(i).get(j).get(k)=="") {
+								this.wlanReqs.get(i).get(j).set(k,null);
+							}
 						}
 					}
-				}
-				if(this.wlanReqs.get(i).get(1).size()==0) {
-					this.wlanReqs.get(i).get(1).add(null);
 				}
 			}
 		}
@@ -695,14 +1057,26 @@ public class RequestEventModel {
 	public void setWlanReqs(List<List<String>> item,Integer i) {
 		this.wlanReqs.set(i, item);
 	}
-	public List<String> getWlanReqs(Integer i){
+	public List<String> getWlanReqsList(Integer i){
+		while(this.wlanReqs.get(i).size()<3) {
+				this.wlanReqs.get(i).add(new ArrayList<>());
+		}
 		return this.wlanReqs.get(i).get(1);
+	}
+	public List<String> getWlanReqsList2(Integer i){
+		while(this.wlanReqs.get(i).size()<3) {
+				this.wlanReqs.get(i).add(new ArrayList<>());
+		}
+		return this.wlanReqs.get(i).get(2);
 	}
 	public String getWlanReqs(Integer i,Integer j) {
 		return this.wlanReqs.get(i).get(0).get(j);
 	}
 	public String getWlanReqsItem(Integer i,Integer j) {
 		return this.wlanReqs.get(i).get(1).get(j);
+	}
+	public String getWlanReqsItem2(Integer i,Integer j) {
+		return this.wlanReqs.get(i).get(2).get(j);
 	}
 	public void setWlanReqs(String item,Integer i,Integer j) {
 		this.wlanReqs.get(i).get(0).set(j,item);
@@ -712,14 +1086,83 @@ public class RequestEventModel {
 	}
 	public void addWlanReqsItem(Integer rowId) {
 		for(int i=0;i<this.wlanReqs.size();i++) {
-			if(this.wlanReqs.get(i).size()<3) {
-				this.wlanReqs.get(i).add(new ArrayList<String>());
+			while(this.wlanReqs.get(i).size()<3) {
+				this.wlanReqs.get(i).add(new ArrayList<>());
+			}
+			while(this.wlanReqs.get(i).get(0).size()<2) {
+				this.wlanReqs.get(i).get(0).add(null);
+			}
+			for(int j=0;j<this.wlanReqs.get(i).size();j++){
+				for(int k=0;k<this.wlanReqs.get(i).get(j).size();k++){
+					if(this.wlanReqs.get(i).get(j).get(k)!=null){
+						if(this.wlanReqs.get(i).get(j).get(k)=="") {
+							this.wlanReqs.get(i).get(j).set(k,null);
+			    		}
+					}
+				}
 			}
 		}
 		this.wlanReqs.get(rowId).get(1).add(null);
 	}
-	public void removeWlanReqs(Integer i,Integer j) {
-		this.wlanReqs.get(i).remove((int)j);
+	public void removeWlanReqs(Integer i1,Integer j1) {
+		for(int i=0;i<this.wlanReqs.size();i++) {
+			while(this.wlanReqs.get(i).size()<3) {
+				this.wlanReqs.get(i).add(new ArrayList<>());
+			}
+			while(this.wlanReqs.get(i).get(0).size()<2) {
+				this.wlanReqs.get(i).get(0).add(null);
+			}
+			for(int j=0;j<this.wlanReqs.get(i).size();j++){
+				for(int k=0;k<this.wlanReqs.get(i).get(j).size();k++){
+					if(this.wlanReqs.get(i).get(j).get(k)!=null){
+						if(this.wlanReqs.get(i).get(j).get(k)=="") {
+							this.wlanReqs.get(i).get(j).set(k,null);
+			    		}
+					}
+				}
+			}
+		}
+		this.wlanReqs.get(i1).remove((int)j1);
+	}
+	public void addWlanReqsItem2(Integer rowId) {
+		for(int i=0;i<this.wlanReqs.size();i++) {
+			while(this.wlanReqs.get(i).size()<3) {
+				this.wlanReqs.get(i).add(new ArrayList<>());
+			}
+			while(this.wlanReqs.get(i).get(0).size()<2) {
+				this.wlanReqs.get(i).get(0).add(null);
+			}
+			for(int j=0;j<this.wlanReqs.get(i).size();j++){
+				for(int k=0;k<this.wlanReqs.get(i).get(j).size();k++){
+					if(this.wlanReqs.get(i).get(j).get(k)!=null){
+						if(this.wlanReqs.get(i).get(j).get(k)=="") {
+							this.wlanReqs.get(i).get(j).set(k,null);
+			    		}
+					}
+				}
+			}
+		}
+		this.wlanReqs.get(rowId).get(2).add(null);
+	}
+	public void removeWlanReqs2(Integer i1,Integer j1) {
+		for(int i=0;i<this.wlanReqs.size();i++) {
+			while(this.wlanReqs.get(i).size()<3) {
+				this.wlanReqs.get(i).add(new ArrayList<>());
+			}
+			while(this.wlanReqs.get(i).get(0).size()<2) {
+				this.wlanReqs.get(i).get(0).add(null);
+			}
+			for(int j=0;j<this.wlanReqs.get(i).size();j++){
+				for(int k=0;k<this.wlanReqs.get(i).get(j).size();k++){
+					if(this.wlanReqs.get(i).get(j).get(k)!=null){
+						if(this.wlanReqs.get(i).get(j).get(k)=="") {
+							this.wlanReqs.get(i).get(j).set(k,null);
+			    		}
+					}
+				}
+			}
+		}
+		this.wlanReqs.get(i1).get(2).remove((int)j1);
 	}
 
 	public void addAppServerAddrs(List<String> item) {
@@ -748,11 +1191,125 @@ public class RequestEventModel {
 		return appServerAddrs.get(i).get(j);
 	}
 
-	public List<List<List<List<String>>>> getDnPerfReqs() {
-		return dnPerfReqs;
+	public List<List<String>> getDnPerfReqsList(Integer i1,Integer j1){
+		for(int i=0;i<this.dnPerfReqs.size();i++){
+			while(this.dnPerfReqs.get(i).size()<2){
+				this.dnPerfReqs.get(i).add(new ArrayList<>());
+			}
+			if(this.dnPerfReqs.get(i).get(0).size()<1){
+				this.dnPerfReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.dnPerfReqs.get(i).get(0).get(0).size()<2){
+				this.dnPerfReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.dnPerfReqs.get(i).get(1).size();j++){
+				while(this.dnPerfReqs.get(i).get(1).get(j).size()<11){
+					this.dnPerfReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+		}
+		return this.dnPerfReqs.get(i1).get(j1);
 	}
-	public void setDnPerfReqs(List<List<List<List<String>>>> dnPerfReqs) {
-		this.dnPerfReqs = dnPerfReqs;
+	public String getDnPerfReqs(Integer i1,Integer j1,Integer k1,Integer w1){
+		for(int i=0;i<this.dnPerfReqs.size();i++){
+			while(this.dnPerfReqs.get(i).size()<2){
+				this.dnPerfReqs.get(i).add(new ArrayList<>());
+			}
+			if(this.dnPerfReqs.get(i).get(0).size()<1){
+				this.dnPerfReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.dnPerfReqs.get(i).get(0).get(0).size()<2){
+				this.dnPerfReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.dnPerfReqs.get(i).get(1).size();j++){
+				while(this.dnPerfReqs.get(i).get(1).get(j).size()<11){
+					this.dnPerfReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+		}
+		return this.dnPerfReqs.get(i1).get(j1).get(k1).get(w1);
+	}
+	public String getDnPerfReqs(Integer i1,Integer j1){
+		for(int i=0;i<this.dnPerfReqs.size();i++){
+			while(this.dnPerfReqs.get(i).size()<2){
+				this.dnPerfReqs.get(i).add(new ArrayList<>());
+			}
+			if(this.dnPerfReqs.get(i).get(0).size()<1){
+				this.dnPerfReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.dnPerfReqs.get(i).get(0).get(0).size()<2){
+				this.dnPerfReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.dnPerfReqs.get(i).get(1).size();j++){
+				while(this.dnPerfReqs.get(i).get(1).get(j).size()<11){
+					this.dnPerfReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+		}
+		return this.dnPerfReqs.get(i1).get(0).get(0).get(j1);
+	}
+	public void addDnPerfReqs(List<List<List<String>>> l){
+		if(l==null){
+			l = new ArrayList<>();
+			List<List<String>> litem = new ArrayList<>();
+			List<String> llitem = new ArrayList<>(Arrays.asList(null,null));
+			litem.add(llitem);
+			l.add(litem);
+			l.add(new ArrayList<>());
+		}
+		this.dnPerfReqs.add(l);
+	}
+	public void removeDnPerfReqs(Integer i){
+		this.dnPerfReqs.remove((int) i);
+	}
+	public void addDnPerfReqsItem(List<String> item,Integer i1,Integer j1){
+		while(this.dnPerfReqs.size()<i1+1){
+			this.dnPerfReqs.add(new ArrayList<>());
+		}
+		for(int i=0;i<this.dnPerfReqs.size();i++){
+			while(this.dnPerfReqs.get(i).size()<2){
+				this.dnPerfReqs.get(i).add(new ArrayList<>());
+			}
+			if(this.dnPerfReqs.get(i).get(0).size()<1){
+				this.dnPerfReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.dnPerfReqs.get(i).get(0).get(0).size()<2){
+				this.dnPerfReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.dnPerfReqs.get(i).get(1).size();j++){
+				while(this.dnPerfReqs.get(i).get(1).get(j).size()<11){
+					this.dnPerfReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+		}
+		if(item == null){
+			if(j1==1){
+				item = new ArrayList<>(Arrays.asList(null,null,null,null,null,null,null,null,null,null,null));
+			}
+			else{
+				item = new ArrayList<>(Arrays.asList(null,null));
+			}
+		}
+		this.dnPerfReqs.get(i1).get(j1).add(item);
+	}
+	public void removeDnPerfReqsItem(Integer i1,Integer j1, Integer k1){
+		for(int i=0;i<this.dnPerfReqs.size();i++){
+			while(this.dnPerfReqs.get(i).size()<2){
+				this.dnPerfReqs.get(i).add(new ArrayList<>());
+			}
+			if(this.dnPerfReqs.get(i).get(0).size()<1){
+				this.dnPerfReqs.get(i).get(0).add(new ArrayList<>());
+			}
+			while(this.dnPerfReqs.get(i).get(0).get(0).size()<2){
+				this.dnPerfReqs.get(i).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.dnPerfReqs.get(i).get(1).size();j++){
+				while(this.dnPerfReqs.get(i).get(1).get(j).size()<11){
+					this.dnPerfReqs.get(i).get(1).get(j).add(null);
+				}
+			}
+		}
+		this.dnPerfReqs.get(i1).get(j1).remove((int) k1);
 	}
 
 	public void addNetworkArea(List<List<String>> item) {
@@ -797,12 +1354,6 @@ public class RequestEventModel {
 		this.networkArea.get(i).remove((int)j);
 	}
 
-	public void addQosRequ(String item) {
-		this.qosRequ.add(item);
-	}
-	public void removeQosRequ(Integer i) {
-		this.qosRequ.remove((int)i);
-	}
 	public String getQosRequ(Integer i) {
 		return this.qosRequ.get(i);
 	}
@@ -810,19 +1361,206 @@ public class RequestEventModel {
 		this.qosRequ.set(i, item);
 	}
 
-	public List<List<List<List<List<List<String>>>>>> getExptUeBehav() {
-		return exptUeBehav;
+	public void addExptUeBehav(String item,Integer i1){
+		initExptUeBehav();
+		this.exptUeBehav.get(i1).get(0).get(0).get(0).get(0).add(item);
 	}
-	public void setExptUeBehav(List<List<List<List<List<List<String>>>>>> exptUeBehav) {
-		this.exptUeBehav = exptUeBehav;
+	public void addExptUeBehav(List<List<String>> item,Integer i1,Integer j1){
+		initExptUeBehav();
+		this.exptUeBehav.get(3).get(i1).get(j1).add(item);
+	}
+	public void addExptUeBehav(String item,Integer i1,Integer j1,Integer k1){
+		initExptUeBehav();
+		this.exptUeBehav.get(3).get(i1).get(j1).get(k1).get(1).add(item);
+		this.exptUeBehav.get(3).get(i1).get(j1).get(k1).get(2).add(item);
+	}
+	public void addExptUeBehavItem(List<List<List<List<String>>>> item,Integer i1){
+		initExptUeBehav();
+		this.exptUeBehav.get(i1).add(item);
+	}
+	public void addExptUeBehavItem(List<String> item,Integer i1,Integer j1){
+		initExptUeBehav();
+		this.exptUeBehav.get(3).get(i1).get(0).get(j1).add(item);
+	}
+	public void addExptUeBehavItem(List<String> item,Integer i1,Integer j1,Integer k1){
+		initExptUeBehav();
+		this.exptUeBehav.get(3).get(i1).get(j1).get(k1).add(item);
+	}
+	public void removeExptUeBehav(Integer i1,Integer j1){
+		initExptUeBehav();
+		this.exptUeBehav.get(i1).get(0).get(0).get(0).get(0).remove((int)j1);
+	}
+	public void removeExptUeBehav(Integer i1,Integer j1,Integer k1){
+		initExptUeBehav();
+		this.exptUeBehav.get(3).get(i1).get(j1).remove((int)k1);
+	}
+	public void removeExptUeBehav(Integer i1,Integer j1,Integer k1,Integer l1){
+		initExptUeBehav();
+		this.exptUeBehav.get(3).get(i1).get(j1).get(k1).get(1).remove((int) l1);
+		this.exptUeBehav.get(3).get(i1).get(j1).get(k1).get(2).remove((int) l1);
+	}
+	public void removeExptUeBehavItem(Integer i1,Integer j1){
+		initExptUeBehav();
+		this.exptUeBehav.get(i1).remove((int) j1);
+	}
+	public void removeExptUeBehavItem(Integer i1,Integer j1,Integer k1){
+		initExptUeBehav();
+		this.exptUeBehav.get(3).get(i1).get(0).get(j1).remove((int) k1);
+	}
+	public void removeExptUeBehavItem(Integer i1,Integer j1,Integer k1,Integer l1){
+		initExptUeBehav();
+		this.exptUeBehav.get(3).get(i1).get(j1).get(k1).remove((int) l1);
+	}
+	public String getExptUeBehav(Integer i1,Integer j1,Integer k1){
+		initExptUeBehav();
+		return this.exptUeBehav.get(i1).get(0).get(0).get(0).get(j1).get(k1);
+	}
+	public List<String> getExptUeBehavList(Integer i1){
+		initExptUeBehav();
+		return this.exptUeBehav.get(i1).get(0).get(0).get(0).get(0);
+	}
+	public List<List<List<List<List<String>>>>> getExptUeBehavListUmts(Integer i1){
+		initExptUeBehav();
+		return this.exptUeBehav.get(i1);
+	}
+	public List<List<String>> getExptUeBehavList(Integer i1,Integer j1,Integer k1){
+		initExptUeBehav();
+		return this.exptUeBehav.get(3).get(i1).get(j1).get(k1);
+	}
+	public List<String> getExptUeBehavList(Integer i1,Integer j1,Integer k1,Integer l1){
+		initExptUeBehav();
+		return this.exptUeBehav.get(i1).get(j1).get(k1).get(l1).get(1);
+	}
+	public List<List<List<String>>> getExptUeBehavList(Integer i1,Integer j1){
+		initExptUeBehav();
+		return this.exptUeBehav.get(3).get(i1).get(j1);
+	}
+	public String getExptUeBehavItem(Integer i1,Integer j1,Integer k1,Integer l1,Integer m1,Integer n1){
+		initExptUeBehav();
+		return this.exptUeBehav.get(i1).get(j1).get(k1).get(l1).get(m1).get(n1);
+	}
+	public void initExptUeBehav(){
+		while(this.exptUeBehav.size()<4){
+			this.exptUeBehav.add(new ArrayList<>());
+		}
+		if(this.exptUeBehav.get(0).size()<1){
+			this.exptUeBehav.get(0).add(new ArrayList<>());
+		}
+		if(this.exptUeBehav.get(0).get(0).size()<1){
+			this.exptUeBehav.get(0).get(0).add(new ArrayList<>());
+		}
+		if(this.exptUeBehav.get(0).get(0).get(0).size()<1){
+			this.exptUeBehav.get(0).get(0).get(0).add(new ArrayList<>());
+		}
+		if(this.exptUeBehav.get(0).get(0).get(0).get(0).size()<1){
+			this.exptUeBehav.get(0).get(0).get(0).get(0).add(new ArrayList<>(Arrays.asList(null,null,null,null,null,null)));
+		}
+		if(this.exptUeBehav.get(1).size()<1){
+			this.exptUeBehav.get(1).add(new ArrayList<>());
+		}
+		if(this.exptUeBehav.get(1).get(0).size()<1){
+			this.exptUeBehav.get(1).get(0).add(new ArrayList<>());
+		}
+		if(this.exptUeBehav.get(1).get(0).get(0).size()<1){
+			this.exptUeBehav.get(1).get(0).get(0).add(new ArrayList<>());
+		}
+		while(this.exptUeBehav.get(1).get(0).get(0).get(0).size()<2){
+			this.exptUeBehav.get(1).get(0).get(0).get(0).add(new ArrayList<>());
+		}
+		while(this.exptUeBehav.get(1).get(0).get(0).get(0).get(1).size()<2){
+			this.exptUeBehav.get(1).get(0).get(0).get(0).get(1).add(null);
+		}
+		if(this.exptUeBehav.get(2).size()<1){
+			this.exptUeBehav.get(2).add(new ArrayList<>());
+		}
+		if(this.exptUeBehav.get(2).get(0).size()<1){
+			this.exptUeBehav.get(2).get(0).add(new ArrayList<>());
+		}
+		if(this.exptUeBehav.get(2).get(0).get(0).size()<1){
+			this.exptUeBehav.get(2).get(0).get(0).add(new ArrayList<>());
+		}
+		if(this.exptUeBehav.get(2).get(0).get(0).get(0).size()<1){
+			this.exptUeBehav.get(2).get(0).get(0).get(0).add(new ArrayList<>(Arrays.asList(null,null,null)));
+		}
+		for(int i=0;i<this.exptUeBehav.get(3).size();i++){
+			if(this.exptUeBehav.get(3).get(i)==null){
+				this.exptUeBehav.get(3).set(i,new ArrayList<>());
+			}
+			while(this.exptUeBehav.get(3).get(i).size()<4){
+				this.exptUeBehav.get(3).get(i).add(new ArrayList<>());
+			}
+			while(this.exptUeBehav.get(3).get(i).get(0).size()<4){
+				this.exptUeBehav.get(3).get(i).get(0).add(new ArrayList<>());
+			}
+			for(int j=0;j<this.exptUeBehav.get(3).get(i).get(0).get(0).size();j++){
+				if(this.exptUeBehav.get(3).get(i).get(0).get(0).get(j)==null){
+					this.exptUeBehav.get(3).get(i).get(0).get(0).set(j,new ArrayList<>());
+				}
+				while(this.exptUeBehav.get(3).get(i).get(0).get(0).get(j).size()<4){
+					this.exptUeBehav.get(3).get(i).get(0).get(0).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.exptUeBehav.get(3).get(i).get(0).get(1).size();j++){
+				if(this.exptUeBehav.get(3).get(i).get(0).get(1).get(j)==null){
+					this.exptUeBehav.get(3).get(i).get(0).get(1).set(j,new ArrayList<>());
+				}
+				while(this.exptUeBehav.get(3).get(i).get(0).get(1).get(j).size()<4){
+					if(this.exptUeBehav.get(3).get(i).get(0).get(1).get(j)==null){
+						this.exptUeBehav.get(3).get(i).get(0).get(1).set(j,new ArrayList<>());
+					}
+					this.exptUeBehav.get(3).get(i).get(0).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.exptUeBehav.get(3).get(i).get(0).get(2).size();j++){
+				if(this.exptUeBehav.get(3).get(i).get(0).get(2).get(j)==null){
+					this.exptUeBehav.get(3).get(i).get(0).get(2).set(j,new ArrayList<>());
+				}
+				while(this.exptUeBehav.get(3).get(i).get(0).get(2).get(j).size()<10){
+					this.exptUeBehav.get(3).get(i).get(0).get(2).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.exptUeBehav.get(3).get(i).get(0).get(3).size();j++){
+				if(this.exptUeBehav.get(3).get(i).get(0).get(3).get(j)==null){
+					this.exptUeBehav.get(3).get(i).get(0).get(3).set(j,new ArrayList<>());
+				}
+				while(this.exptUeBehav.get(3).get(i).get(0).get(3).get(j).size()<4){
+					this.exptUeBehav.get(3).get(i).get(0).get(3).get(j).add(null);
+				}
+			}
+			if(this.exptUeBehav.get(3).get(i).get(1).size()<1){
+				this.exptUeBehav.get(3).get(i).get(1).add(new ArrayList<>());
+			}
+			if(this.exptUeBehav.get(3).get(i).get(1).get(0).size()<1){
+				this.exptUeBehav.get(3).get(i).get(1).get(0).add(new ArrayList<>());
+			}
+			while(this.exptUeBehav.get(3).get(i).get(1).get(0).get(0).size()<2){
+				this.exptUeBehav.get(3).get(i).get(1).get(0).get(0).add(null);
+			}
+			for(int j=0;j<this.exptUeBehav.get(3).get(i).get(2).size();j++){
+				if(this.exptUeBehav.get(3).get(i).get(2).get(j)==null){
+					this.exptUeBehav.get(3).get(i).get(2).set(j,new ArrayList<>());
+				}
+				while(this.exptUeBehav.get(3).get(i).get(2).get(j).size()<3){
+					this.exptUeBehav.get(3).get(i).get(2).get(j).add(new ArrayList<>());
+				}
+				while(this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).size()<9){
+					this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).add(null);
+				}
+			}
+			if(this.exptUeBehav.get(3).get(i).get(3).size()<1){
+				this.exptUeBehav.get(3).get(i).get(3).add(new ArrayList<>());
+			}
+			for(int j=0;j<this.exptUeBehav.get(3).get(i).get(3).get(0).size();j++){
+				if(this.exptUeBehav.get(3).get(i).get(3).get(0).get(j)==null){
+					this.exptUeBehav.get(3).get(i).get(3).get(0).set(j,new ArrayList<>());
+				}
+				while(this.exptUeBehav.get(3).get(i).get(3).get(0).get(j).size()<34){
+					this.exptUeBehav.get(3).get(i).get(3).get(0).get(j).add(null);
+				}
+			}
+		}
 	}
 
-	public void addUpfInfo(String item) {
-		this.upfInfo.add(item);
-	}
-	public void removeUpfInfo(Integer i) {
-		this.upfInfo.remove((int)i);
-	}
 	public String getUpfInfo(Integer i) {
 		return this.upfInfo.get(i);
 	}

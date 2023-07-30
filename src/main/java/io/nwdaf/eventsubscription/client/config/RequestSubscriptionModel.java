@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.nwdaf.eventsubscription.client.Regex;
+import io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum;
 import io.nwdaf.eventsubscription.client.model.NotificationFlag.NotificationFlagEnum;
 import io.nwdaf.eventsubscription.client.model.NotificationMethod.NotificationMethodEnum;
 import lombok.Getter;
@@ -42,6 +43,7 @@ public class RequestSubscriptionModel implements Serializable{
 	
 	private Boolean immRep;
 	private NotificationMethodEnum notifMethod;
+	private MatchingDirectionEnum matchingDir;
 	private Integer maxReportNbr;
 	private String monDur;
 	private Integer repPeriod;

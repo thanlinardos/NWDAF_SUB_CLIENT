@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)http://localhost:10000/client/form -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Create_Subscription_Form</title>
+</head>
+<body>
+    <h1>Create Subscription Form</h1>
+	<div>Current time is <span>2023-07-29T19:23:48.057043400+03:00</span></div>
+    <form action="http://localhost:10000/client/form" method="post">
+		
+        <div>
+            <label>Notification URI</label> 
+            <input type="text" value="http://localhost:10000/client" disabled="" id="notificationURI" name="notificationURI">
+        </div>
+        <!-- th:attrappend="selected=${type.toString() == 'THRESHOLD'}?@{selected}" -->
+        <h3>Optional Subscription Info</h3>
+		<div>
+            <label>Id</label> 
+            <input type="text" value="" disabled="" id="id" name="id">
+        </div>
+        <div>
+        <label>Show EvtReq Fields</label>
+        <input type="checkbox" value="true" id="showEvtReq1" name="showEvtReq" checked="checked"><input type="hidden" name="_showEvtReq" value="on">
+        <label>Show PrevSub Fields</label>
+        <input type="checkbox" value="true" id="showPrevSub1" name="showPrevSub" checked="checked"><input type="hidden" name="_showPrevSub" value="on">
+        <label>Show ConsNfInfo Fields</label>
+        <input type="checkbox" value="true" id="showConsNfInfo1" name="showConsNfInfo" checked="checked"><input type="hidden" name="_showConsNfInfo" value="on">
+        <button type="submit" name="update">Update</button>
+        </div>
+        <br>
+        <div>
+	        <label>Notification Correlation ID</label> 
+	        <input type="text" value="ff-22-ff-aa" pattern="[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}" id="notifCorrId" name="notifCorrId">
+	    </div>
+	    <br>
+        <div>
+			Event Reporting Information that applies for each event
+			<hr>
+			<div>
+	  			<label>Immediate Reporting</label>
+	  			<input type="checkbox" id="immRep1" name="immRep" value="true" checked="checked"><input type="hidden" name="_immRep" value="on">
+			</div>
+			<select id="notifMethod" name="notifMethod">
+	  			<option value="THRESHOLD" selected="selected">THRESHOLD</option>
+	  			<option value="PERIODIC">PERIODIC</option>
+			</select>
+			<div>
+	            <label>Max number of Reports</label> 
+	            <input type="number" value="12" id="maxReportNbr" name="maxReportNbr">
+	        </div>
+	        <div>
+	            <label>Monitoring Duration</label> 
+	            <input type="datetime-local" value="" id="monDur" name="monDur">
+	        </div>
+	        <div>
+	            <label>Repetition Period for periodic reporting</label> 
+	            <input type="number" value="" id="repPeriod" name="repPeriod">
+	        </div>
+	        <div>
+	            <label>Percentage of Sampling among impacted UEs</label> 
+	            <input type="number" value="23" id="sampRatio" name="sampRatio">
+	        </div>
+	        <div>
+	            <label> Group Reporting Guard Time for aggregating the reports for a group of UEs</label> 
+	            <input type="number" value="12" id="grpRepTime" name="grpRepTime">
+	        </div>
+	        <label>Notification Flag</label>
+	        <select id="notifFlag" name="notifFlag">
+	  			<option value="ACTIVATE">ACTIVATE</option>
+	  			<option value="DEACTIVATE" selected="selected">DEACTIVATE</option>
+	  			<option value="RETRIEVAL">RETRIEVAL</option>
+			</select>
+			
+			<br>
+			Partitioning Criteria  for partitioning the impacted UEs before performing sampling
+			<hr>
+	        <ul>
+				<button type="submit" name="addRow">Add</button>
+				<li>
+		        <select id="partitionCriteria0" name="partitionCriteria[0]">
+		  			<option value="TAC">TAC</option>
+		  			<option value="SUBPLMN" selected="selected">SUBPLMN</option>
+		  			<option value="GEOAREA">GEOAREA</option>
+		  			<option value="SNSSAI">SNSSAI</option>
+		  			<option value="DNN">DNN</option>
+		         </select>
+		         <button type="submit" name="removeRow" value="0">Remove</button>
+	          	</li>
+				<li>
+		        <select id="partitionCriteria1" name="partitionCriteria[1]">
+		  			<option value="TAC" selected="selected">TAC</option>
+		  			<option value="SUBPLMN">SUBPLMN</option>
+		  			<option value="GEOAREA">GEOAREA</option>
+		  			<option value="SNSSAI">SNSSAI</option>
+		  			<option value="DNN">DNN</option>
+		         </select>
+		         <button type="submit" name="removeRow" value="1">Remove</button>
+	          	</li>
+	        </ul>
+        </div>
+        <div>
+			Previous Analytics Subscription Info
+			<hr>
+			<div>
+	            <label>Producer NF Instance ID </label> 
+	            <input type="text" value="f47ac10b-58cc-4372-a567-0e02b2c3d479" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$" id="producerId" name="producerId">
+	        </div>
+			<div>
+	            <label>Producer NF Set Identifier</label> 
+	            <input type="text" value="setxyz.amfset.5gc.mnc012.mcc345" pattern="(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.mnc([0-9]){3}\.mcc([0-9]){3})|(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3})" title="for PLMN: set&lt;NFSetId&gt;.&lt;NF&gt;set.5gc.mnc&lt;3digits&gt;.mcc&lt;3digits&gt; for SNPN: ...5gc.nid&lt;11-hexdigits&gt;.mnc..." id="producerSetId" name="producerSetId">
+	        </div>
+			<div>
+	            <label>The identifier of a subscription </label> 
+	            <input type="text" value="100" id="subscriptionId" name="subscriptionId">
+	        </div>
+		    <br>
+				 List of analytics types for which NF related analytics contexts can be retrieved
+				<hr>
+		        <ul>
+					<button type="submit" name="addRownfAnaEvents">Add</button>
+					<li>
+			        <select id="nfAnaEvents0" name="nfAnaEvents[0]">
+			  			<option value="SLICE_LOAD_LEVEL" selected="selected">SLICE_LOAD_LEVEL</option>
+			  			<option value="NETWORK_PERFORMANCE">NETWORK_PERFORMANCE</option>
+			  			<option value="NF_LOAD">NF_LOAD</option>
+			  			<option value="QOS_SUSTAINABILITY">QOS_SUSTAINABILITY</option>
+			  			<option value="SERVICE_EXPERIENCE">SERVICE_EXPERIENCE</option>
+			  			<option value="UE_MOBILITY">UE_MOBILITY</option>
+			  			<option value="UE_COMM">UE_COMM</option>
+			  			<option value="ABNORMAL_BEHAVIOUR">ABNORMAL_BEHAVIOUR</option>
+			  			<option value="USER_DATA_CONGESTION">USER_DATA_CONGESTION</option>
+			  			<option value="NSI_LOAD_LEVEL">NSI_LOAD_LEVEL</option>
+			  			<option value="DISPERSION">DISPERSION</option>
+			  			<option value="RED_TRANS_EXP">RED_TRANS_EXP</option>
+			  			<option value="WLAN_PERFORMANCE">WLAN_PERFORMANCE</option>
+			  			<option value="DN_PERFORMANCE">DN_PERFORMANCE</option>
+			  			<option value="SM_CONGESTION">SM_CONGESTION</option>
+			         </select>
+			         <button type="submit" name="removeRownfAnaEvents" value="0">Remove</button>
+		          	</li>
+					<li>
+			        <select id="nfAnaEvents1" name="nfAnaEvents[1]">
+			  			<option value="SLICE_LOAD_LEVEL">SLICE_LOAD_LEVEL</option>
+			  			<option value="NETWORK_PERFORMANCE" selected="selected">NETWORK_PERFORMANCE</option>
+			  			<option value="NF_LOAD">NF_LOAD</option>
+			  			<option value="QOS_SUSTAINABILITY">QOS_SUSTAINABILITY</option>
+			  			<option value="SERVICE_EXPERIENCE">SERVICE_EXPERIENCE</option>
+			  			<option value="UE_MOBILITY">UE_MOBILITY</option>
+			  			<option value="UE_COMM">UE_COMM</option>
+			  			<option value="ABNORMAL_BEHAVIOUR">ABNORMAL_BEHAVIOUR</option>
+			  			<option value="USER_DATA_CONGESTION">USER_DATA_CONGESTION</option>
+			  			<option value="NSI_LOAD_LEVEL">NSI_LOAD_LEVEL</option>
+			  			<option value="DISPERSION">DISPERSION</option>
+			  			<option value="RED_TRANS_EXP">RED_TRANS_EXP</option>
+			  			<option value="WLAN_PERFORMANCE">WLAN_PERFORMANCE</option>
+			  			<option value="DN_PERFORMANCE">DN_PERFORMANCE</option>
+			  			<option value="SM_CONGESTION">SM_CONGESTION</option>
+			         </select>
+			         <button type="submit" name="removeRownfAnaEvents" value="1">Remove</button>
+		          	</li>
+		        </ul>
+		     <br>
+				 List of UE Analytics Events
+				<hr>
+		        <ul>
+					<button type="submit" name="addRowueAnaEvents">Add</button>
+					<li>
+			        <label>SUPI:</label>
+				        <input value="imsi-12345" pattern="^(imsi-[0-9]{5,15}|nai-.+|gci-.+|gli-.+|.+)$" id="ueAnaEvents000" name="ueAnaEvents[0][0][0]">
+			        <ul>
+						<button type="submit" name="addRowueAnaEventsItem" value="0">AddEvent</button>
+						<li>
+						<select value="SLICE_LOAD_LEVEL" id="ueAnaEvents010" name="ueAnaEvents[0][1][0]">
+				  			<option value="SLICE_LOAD_LEVEL" selected="selected">SLICE_LOAD_LEVEL</option>
+				  			<option value="NETWORK_PERFORMANCE">NETWORK_PERFORMANCE</option>
+				  			<option value="NF_LOAD">NF_LOAD</option>
+				  			<option value="QOS_SUSTAINABILITY">QOS_SUSTAINABILITY</option>
+				  			<option value="SERVICE_EXPERIENCE">SERVICE_EXPERIENCE</option>
+				  			<option value="UE_MOBILITY">UE_MOBILITY</option>
+				  			<option value="UE_COMM">UE_COMM</option>
+				  			<option value="ABNORMAL_BEHAVIOUR">ABNORMAL_BEHAVIOUR</option>
+				  			<option value="USER_DATA_CONGESTION">USER_DATA_CONGESTION</option>
+				  			<option value="NSI_LOAD_LEVEL">NSI_LOAD_LEVEL</option>
+				  			<option value="DISPERSION">DISPERSION</option>
+				  			<option value="RED_TRANS_EXP">RED_TRANS_EXP</option>
+				  			<option value="WLAN_PERFORMANCE">WLAN_PERFORMANCE</option>
+				  			<option value="DN_PERFORMANCE">DN_PERFORMANCE</option>
+				  			<option value="SM_CONGESTION">SM_CONGESTION</option>
+				        </select>
+				        <button type="submit" name="removeRowueAnaEventsItem" value="0,0">RemoveEvent</button>
+						</li>
+						<li>
+						<select value="SLICE_LOAD_LEVEL" id="ueAnaEvents011" name="ueAnaEvents[0][1][1]">
+				  			<option value="SLICE_LOAD_LEVEL" selected="selected">SLICE_LOAD_LEVEL</option>
+				  			<option value="NETWORK_PERFORMANCE">NETWORK_PERFORMANCE</option>
+				  			<option value="NF_LOAD">NF_LOAD</option>
+				  			<option value="QOS_SUSTAINABILITY">QOS_SUSTAINABILITY</option>
+				  			<option value="SERVICE_EXPERIENCE">SERVICE_EXPERIENCE</option>
+				  			<option value="UE_MOBILITY">UE_MOBILITY</option>
+				  			<option value="UE_COMM">UE_COMM</option>
+				  			<option value="ABNORMAL_BEHAVIOUR">ABNORMAL_BEHAVIOUR</option>
+				  			<option value="USER_DATA_CONGESTION">USER_DATA_CONGESTION</option>
+				  			<option value="NSI_LOAD_LEVEL">NSI_LOAD_LEVEL</option>
+				  			<option value="DISPERSION">DISPERSION</option>
+				  			<option value="RED_TRANS_EXP">RED_TRANS_EXP</option>
+				  			<option value="WLAN_PERFORMANCE">WLAN_PERFORMANCE</option>
+				  			<option value="DN_PERFORMANCE">DN_PERFORMANCE</option>
+				  			<option value="SM_CONGESTION">SM_CONGESTION</option>
+				        </select>
+				        <button type="submit" name="removeRowueAnaEventsItem" value="0,1">RemoveEvent</button>
+						</li>
+		        	</ul>
+			         <button type="submit" name="removeRowueAnaEvents" value="0">Remove</button>
+		          	</li>
+		        </ul>
+		</div>
+		<div>
+			Analytics Consumer Information
+			<hr>
+			<div>
+	            <label>Consumer NF Instance ID </label> 
+	            <input type="text" value="f47ac10b-58cc-4372-a567-0e02b2c3d479" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$" id="nfId" name="nfId">
+	        </div>
+	        <div>
+	            <label>Consumer NF Set Identifier</label> 
+	            <input type="text" value="setxyz.amfset.5gc.mnc012.mcc345" pattern="(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.mnc([0-9]){3}\.mcc([0-9]){3})|(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3})" title="for PLMN: set&lt;NFSetId&gt;.&lt;NF&gt;set.5gc.mnc&lt;3digits&gt;.mcc&lt;3digits&gt; for SNPN: ...5gc.nid&lt;11-hexdigits&gt;.mnc..." id="nfSetId" name="nfSetId">
+	        </div>
+			<br>
+				 List of Tracking Area Identities (TAIs) 
+				<hr>
+		        <ul>
+					<button type="submit" name="addRowtaiList">Add</button>
+					<li>
+			        
+			        <ul>
+						<li>
+						<label>mcc</label>
+				        <input value="123" pattern="^\d{3}$" id="taiList00" name="taiList[0][0]">
+			          	</li>
+						<li>
+						<label>mnc</label>
+				        <input value="23" pattern="^\d{2,3}$" id="taiList01" name="taiList[0][1]">
+			          	</li>
+						<li>
+						<label>tac</label>
+				        <input value="ffff" pattern="(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)" id="taiList02" name="taiList[0][2]">
+			          	</li>
+						<li>
+						<label>nid</label>
+				        <input value="5DDB146818e" pattern="^[A-Fa-f0-9]{11}$" id="taiList03" name="taiList[0][3]">
+			          	</li>
+		        	</ul>
+			         <button type="submit" name="removeRowtaiList" value="0">Remove</button>
+		          	</li>
+					<li>
+			        
+			        <ul>
+						<li>
+						<label>mcc</label>
+				        <input value="" pattern="^\d{3}$" id="taiList10" name="taiList[1][0]">
+			          	</li>
+						<li>
+						<label>mnc</label>
+				        <input value="" pattern="^\d{2,3}$" id="taiList11" name="taiList[1][1]">
+			          	</li>
+						<li>
+						<label>tac</label>
+				        <input value="" pattern="(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)" id="taiList12" name="taiList[1][2]">
+			          	</li>
+						<li>
+						<label>nid</label>
+				        <input value="" pattern="^[A-Fa-f0-9]{11}$" id="taiList13" name="taiList[1][3]">
+			          	</li>
+		        	</ul>
+			         <button type="submit" name="removeRowtaiList" value="1">Remove</button>
+		          	</li>
+		        </ul>
+		</div>
+        <br> 
+        <br> 
+        <h3>Events to Subscribe to</h3>
+        
+        <ul>
+		<button type="submit" name="addEventRow">AddEvent</button>
+			<li>
+				<div>
+					<label>Show ExtraRepReq Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showExtraRepReq1" name="eventList[0].showExtraRepReq" checked="checked"><input type="hidden" name="_eventList[0].showExtraRepReq" value="on">
+					<label>Show TargetUEs Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showTgtUe1" name="eventList[0].showTgtUe" checked="checked"><input type="hidden" name="_eventList[0].showTgtUe" value="on">
+					<label>Show LoadLevelThreshold Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showLoadLevelThreshold1" name="eventList[0].showLoadLevelThreshold" checked="checked"><input type="hidden" name="_eventList[0].showLoadLevelThreshold" value="on">
+					<label>Show Snssaia Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showSnssaia1" name="eventList[0].showSnssaia" checked="checked"><input type="hidden" name="_eventList[0].showSnssaia" value="on">
+					<label>Show AnySlice Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showAnySlice1" name="eventList[0].showAnySlice" checked="checked"><input type="hidden" name="_eventList[0].showAnySlice" value="on">
+					<label>Show NsiIdInfos Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showNsiIdInfos1" name="eventList[0].showNsiIdInfos" checked="checked"><input type="hidden" name="_eventList[0].showNsiIdInfos" value="on">
+					<label>Show NsiLevelThrds Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showNsiLevelThrds1" name="eventList[0].showNsiLevelThrds" checked="checked"><input type="hidden" name="_eventList[0].showNsiLevelThrds" value="on">
+				</div>
+				<div>
+					<label>Show ListOfAnaSubsets Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showListOfAnaSubsets1" name="eventList[0].showListOfAnaSubsets" checked="checked"><input type="hidden" name="_eventList[0].showListOfAnaSubsets" value="on">
+					<label>Show NetworkArea Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showNetworkArea1" name="eventList[0].showNetworkArea" checked="checked"><input type="hidden" name="_eventList[0].showNetworkArea" value="on">
+					<label>Show Supis Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showSupis1" name="eventList[0].showSupis" checked="checked"><input type="hidden" name="_eventList[0].showSupis" value="on">
+					<label>Show NfLoadLvlThds Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showNfLoadLvlThds1" name="eventList[0].showNfLoadLvlThds" checked="checked"><input type="hidden" name="_eventList[0].showNfLoadLvlThds" value="on">
+					<label>Show NfInstanceIds Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showNfInstanceIds1" name="eventList[0].showNfInstanceIds" checked="checked"><input type="hidden" name="_eventList[0].showNfInstanceIds" value="on">
+					<label>Show NfSetIds Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showNfSetIds1" name="eventList[0].showNfSetIds" checked="checked"><input type="hidden" name="_eventList[0].showNfSetIds" value="on">
+					<label>Show MatchingDir Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showMatchingDir1" name="eventList[0].showMatchingDir" checked="checked"><input type="hidden" name="_eventList[0].showMatchingDir" value="on">
+				</div>
+				<div>
+					<label>Show IntGroupIds Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showIntGroupIds1" name="eventList[0].showIntGroupIds" checked="checked"><input type="hidden" name="_eventList[0].showIntGroupIds" value="on">
+					<label>Show BwRequs Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showBwRequs1" name="eventList[0].showBwRequs" checked="checked"><input type="hidden" name="_eventList[0].showBwRequs" value="on">
+					<label>Show RatFreqs Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showRatFreqs1" name="eventList[0].showRatFreqs" checked="checked"><input type="hidden" name="_eventList[0].showRatFreqs" value="on">
+					<label>Show UpfInfo Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showUpfInfo1" name="eventList[0].showUpfInfo" checked="checked"><input type="hidden" name="_eventList[0].showUpfInfo" value="on">
+					<label>Show AppServerAddrs Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showAppServerAddrs1" name="eventList[0].showAppServerAddrs" checked="checked"><input type="hidden" name="_eventList[0].showAppServerAddrs" value="on">
+					<label>Show Dnns Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showDnns1" name="eventList[0].showDnns" checked="checked"><input type="hidden" name="_eventList[0].showDnns" value="on">
+					<label>Show LadnDnns Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showLadnDnns1" name="eventList[0].showLadnDnns" checked="checked"><input type="hidden" name="_eventList[0].showLadnDnns" value="on">
+					<label>Show VisitedAreas Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showVisitedAreas1" name="eventList[0].showVisitedAreas" checked="checked"><input type="hidden" name="_eventList[0].showVisitedAreas" value="on">
+				</div>
+				<div>
+					<label>Show QosFlowRetThds Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showQosFlowRetThds1" name="eventList[0].showQosFlowRetThds" checked="checked"><input type="hidden" name="_eventList[0].showQosFlowRetThds" value="on">
+					<label>Show RanUeThrouThds Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showRanUeThrouThds1" name="eventList[0].showRanUeThrouThds" checked="checked"><input type="hidden" name="_eventList[0].showRanUeThrouThds" value="on">
+					<label>Show ExptAnaType Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showExptAnaType1" name="eventList[0].showExptAnaType" checked="checked"><input type="hidden" name="_eventList[0].showExptAnaType" value="on">
+					<label>Show ExptUeBehav Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showExptUeBehav1" name="eventList[0].showExptUeBehav" checked="checked"><input type="hidden" name="_eventList[0].showExptUeBehav" value="on">
+					<label>Show Gpsis Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showGpsis1" name="eventList[0].showGpsis" checked="checked"><input type="hidden" name="_eventList[0].showGpsis" value="on">
+					<label>Show CongThresholds Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showCongThresholds1" name="eventList[0].showCongThresholds" checked="checked"><input type="hidden" name="_eventList[0].showCongThresholds" value="on">
+					<label>Show MaxTopAppUlNbr Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showMaxTopAppUlNbr1" name="eventList[0].showMaxTopAppUlNbr" checked="checked"><input type="hidden" name="_eventList[0].showMaxTopAppUlNbr" value="on">
+				</div>
+				<div>
+					<label>Show MaxTopAppDlNbr Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showMaxTopAppDlNbr1" name="eventList[0].showMaxTopAppDlNbr" checked="checked"><input type="hidden" name="_eventList[0].showMaxTopAppDlNbr" value="on">
+					<label>Show DisperReqs Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showDisperReqs1" name="eventList[0].showDisperReqs" checked="checked"><input type="hidden" name="_eventList[0].showDisperReqs" value="on">
+					<label>Show RedTransReqs Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showRedTransReqs1" name="eventList[0].showRedTransReqs" checked="checked"><input type="hidden" name="_eventList[0].showRedTransReqs" value="on">
+					<label>Show WlanReqs Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showWlanReqs1" name="eventList[0].showWlanReqs" checked="checked"><input type="hidden" name="_eventList[0].showWlanReqs" value="on">
+					<label>Show Dnais Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showDnais1" name="eventList[0].showDnais" checked="checked"><input type="hidden" name="_eventList[0].showDnais" value="on">
+					<label>Show DnPerfReqs Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showDnPerfReqs1" name="eventList[0].showDnPerfReqs" checked="checked"><input type="hidden" name="_eventList[0].showDnPerfReqs" value="on">
+					<label>Show AppIds Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showAppIds1" name="eventList[0].showAppIds" checked="checked"><input type="hidden" name="_eventList[0].showAppIds" value="on">
+					<label>Show NfTypes Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showNfTypes1" name="eventList[0].showNfTypes" checked="checked"><input type="hidden" name="_eventList[0].showNfTypes" value="on">
+					<label>Show NwPerfRequs Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showNwPerfRequs1" name="eventList[0].showNwPerfRequs" checked="checked"><input type="hidden" name="_eventList[0].showNwPerfRequs" value="on">
+					<label>Show ExcepRequ Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showExcepRequs1" name="eventList[0].showExcepRequs" checked="checked"><input type="hidden" name="_eventList[0].showExcepRequs" value="on">
+					<label>Show QosRequ Fields</label>
+		        	<input type="checkbox" value="true" id="eventList0.showQosRequ1" name="eventList[0].showQosRequ" checked="checked"><input type="hidden" name="_eventList[0].showQosRequ" value="on">
+				</div>
+				<button type="submit" name="update">Update</button>
+				<hr>
+				<span>Event no 0</span>
+				<label>Event Type</label>
+				<select id="eventList0.event" name="eventList[0].event">
+			  			<option value="SLICE_LOAD_LEVEL" selected="selected">SLICE_LOAD_LEVEL</option>
+			  			<option value="NETWORK_PERFORMANCE">NETWORK_PERFORMANCE</option>
+			  			<option value="NF_LOAD">NF_LOAD</option>
+			  			<option value="QOS_SUSTAINABILITY">QOS_SUSTAINABILITY</option>
+			  			<option value="SERVICE_EXPERIENCE">SERVICE_EXPERIENCE</option>
+			  			<option value="UE_MOBILITY">UE_MOBILITY</option>
+			  			<option value="UE_COMM">UE_COMM</option>
+			  			<option value="ABNORMAL_BEHAVIOUR">ABNORMAL_BEHAVIOUR</option>
+			  			<option value="USER_DATA_CONGESTION">USER_DATA_CONGESTION</option>
+			  			<option value="NSI_LOAD_LEVEL">NSI_LOAD_LEVEL</option>
+			  			<option value="DISPERSION">DISPERSION</option>
+			  			<option value="RED_TRANS_EXP">RED_TRANS_EXP</option>
+			  			<option value="WLAN_PERFORMANCE">WLAN_PERFORMANCE</option>
+			  			<option value="DN_PERFORMANCE">DN_PERFORMANCE</option>
+			  			<option value="SM_CONGESTION">SM_CONGESTION</option>
+			    </select>
+			    <label>Notification Method</label>
+			 	<select id="eventList0.notificationMethod" name="eventList[0].notificationMethod">
+			  			<option value="THRESHOLD" selected="selected">THRESHOLD</option>
+			  			<option value="PERIODIC">PERIODIC</option>
+			    </select>   
+			    <label>Repetition Period</label>
+			    <input type="number" value="" id="eventList0.repetitionPeriod" name="eventList[0].repetitionPeriod">
+				<br>
+				<div>
+				Extra Reporting Requirements
+				<hr>
+				<div>
+					<label>Max number of objects</label> 
+					<input type="number" value="12" id="eventList0.maxObjectNbr" name="eventList[0].maxObjectNbr">
+				</div>
+				<div>
+					<label>Max number of supis</label> 
+					<input type="number" value="4" id="eventList0.maxSupiNbr" name="eventList[0].maxSupiNbr">
+				</div>
+				<div>
+					<label>Start of time window to which the subscription applies </label> 
+					<input type="datetime-local" value="2023-06-29T16:21" id="eventList0.startTs" name="eventList[0].startTs">
+				</div>
+				<div>
+					<label>End of time window to which the subscription applies </label> 
+					<input type="datetime-local" value="2023-07-27T16:21" id="eventList0.endTs" name="eventList[0].endTs">
+				</div>
+				<label>Accuracy of the analytics</label>
+				<select id="eventList0.accuracy" name="eventList[0].accuracy">
+					<option value="LOW">LOW</option>
+					<option value="HIGH" selected="selected">HIGH</option>
+		  		</select> 
+				<div>
+					<label>Identification of time when analytics information is needed </label> 
+					<input type="datetime-local" value="2023-07-26T16:21" id="eventList0.timeAnaNeeded" name="eventList[0].timeAnaNeeded">
+				</div> 
+				<div>
+					<label>Offset period to the periodic reporting</label> 
+					<input type="number" value="7" id="eventList0.offsetPeriod" name="eventList[0].offsetPeriod">
+				</div>
+				<br>
+				AnaMeta - Indication of which analytics metadata is requested to be delivered with the notification
+				<hr>
+				<ul>
+					<button type="submit" name="addAnaMeta" value="0">Add</button>
+					<li>
+			        <select value="NUM_OF_SAMPLES" id="eventList0.anaMeta0" name="eventList[0].anaMeta[0]">
+			  			<option value="NUM_OF_SAMPLES" selected="selected">NUM_OF_SAMPLES</option>
+			  			<option value="DATA_WINDOW">DATA_WINDOW</option>
+			  			<option value="DATA_STAT_PROPS">DATA_STAT_PROPS</option>
+			  			<option value="STRATEGY">STRATEGY</option>
+			  			<option value="ACCURACY">ACCURACY</option>
+			         </select>
+			         <button type="submit" name="removeAnaMeta" value="0,0">Remove</button>
+		          	</li>
+					<li>
+			        <select value="DATA_WINDOW" id="eventList0.anaMeta1" name="eventList[0].anaMeta[1]">
+			  			<option value="NUM_OF_SAMPLES">NUM_OF_SAMPLES</option>
+			  			<option value="DATA_WINDOW" selected="selected">DATA_WINDOW</option>
+			  			<option value="DATA_STAT_PROPS">DATA_STAT_PROPS</option>
+			  			<option value="STRATEGY">STRATEGY</option>
+			  			<option value="ACCURACY">ACCURACY</option>
+			         </select>
+			         <button type="submit" name="removeAnaMeta" value="0,1">Remove</button>
+		          	</li>
+		        </ul>
+				<br>
+				AnaMetaInd - Requested values for analytics metadata information to be used for the generation of the analytics
+				<hr>
+				<div>
+					<label>Start of time window to which the analytics metadata information applies </label> 
+					<input type="datetime-local" value="2023-07-28T16:22" id="eventList0.anaMetaInd0" name="eventList[0].anaMetaInd[0]">
+				</div>
+				<div>
+					<label>End of time window to which the analytics metadata information applies </label> 
+					<input type="datetime-local" value="2023-07-29T16:22" id="eventList0.anaMetaInd1" name="eventList[0].anaMetaInd[1]">
+				</div>
+				<label>Τhe output strategy used for the reporting of the analytics</label>
+				<select value="GRADIENT" id="eventList0.anaMetaInd2" name="eventList[0].anaMetaInd[2]">
+					<option value="BINARY ">BINARY </option>
+					<option value="GRADIENT" selected="selected">GRADIENT</option>
+		  		</select> 
+				<br>
+				AggrNwdafIds - Identifiers of NWDAF instances used when aggregating multiple analytics subscriptions
+				  <hr>
+				  <ul>
+					<button type="submit" name="addAggrNwdafIds" value="0">Add</button>
+					<li>
+			        <input type="text" value="f47ac10b-58cc-4372-a567-0e02b2c3d479" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$" id="eventList0.aggrNwdafIds0" name="eventList[0].aggrNwdafIds[0]">
+			         <button type="submit" name="removeAggrNwdafIds" value="0,0">Remove</button>
+		          	</li>
+					<li>
+			        <input type="text" value="f47ac10b-58cc-4372-a567-0e02b2c3d479" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$" id="eventList0.aggrNwdafIds1" name="eventList[0].aggrNwdafIds[1]">
+			         <button type="submit" name="removeAggrNwdafIds" value="0,1">Remove</button>
+		          	</li>
+		        </ul>
+				<br>
+				DataStatProps - List of dataset statistical properties of the data to be used to generate the analytics
+				<hr>
+				<ul>
+					<button type="submit" name="addDataStatProps" value="0">Add</button>
+					<li>
+			        <select value="UNIFORM_DIST_DATA" id="eventList0.dataStatProps0" name="eventList[0].dataStatProps[0]">
+			  			<option value="UNIFORM_DIST_DATA" selected="selected">UNIFORM_DIST_DATA</option>
+			  			<option value="NO_OUTLIERS">NO_OUTLIERS</option>
+			        </select>
+			        <button type="submit" name="removeDataStatProps" value="0,0">Remove</button>
+		          	</li>
+		        </ul>
+				<br>
+				AccPerSubset - Each element indicates the preferred accuracy level per analytics subset.
+				<hr>
+				<ul>
+					<button type="submit" name="addAccPerSubset" value="0">Add</button>
+					<li>
+			        <select value="HIGH" id="eventList0.accPerSubset0" name="eventList[0].accPerSubset[0]">
+			  			<option value="LOW">LOW</option>
+			  			<option value="HIGH" selected="selected">HIGH</option>
+			        </select>
+			        <button type="submit" name="removeAccPerSubset" value="0,0">Remove</button>
+		          	</li>
+		        </ul>
+			<br>	
+				</div>	
+				
+				<div>
+				Target UEs for the analytics
+				<hr>
+					<div>
+						<label>Any UE</label>
+						<input type="checkbox" id="eventList0.anyUE1" name="eventList[0].anyUE" value="true"><input type="hidden" name="_eventList[0].anyUE" value="on">
+					</div>
+				<br>		 
+				</div>
+				<div>
+				  SUPIs of the target UEs for the analytics
+				  <hr>
+				  <ul>
+					<button type="submit" name="addSupis" value="0">Add</button>
+					<li>
+			        <input type="text" value="imsi-12345" pattern="^(imsi-[0-9]{5,15}|nai-.+|gci-.+|gli-.+|.+)$" id="eventList0.supis0" name="eventList[0].supis[0]">
+			         <button type="submit" name="removeSupis" value="0,0">Remove</button>
+		          	</li>
+					<li>
+			        <input type="text" value="imsi-12345" pattern="^(imsi-[0-9]{5,15}|nai-.+|gci-.+|gli-.+|.+)$" id="eventList0.supis1" name="eventList[0].supis[1]">
+			         <button type="submit" name="removeSupis" value="0,1">Remove</button>
+		          	</li>
+		        </ul>
+				<br>
+				<br>	
+				</div>
+				<div>
+				  IntGroupIds - Each element represents an internal group identifier and identifies a group of UEs
+				  <hr>
+				  <ul>
+					<button type="submit" name="addIntGroupIds" value="0">Add</button>
+					<li>
+			        <input type="text" value="ABCDEF12-123-45-FF1122" pattern="^[A-Fa-f0-9]{8}-[0-9]{3}-[0-9]{2,3}-([A-Fa-f0-9][A-Fa-f0-9]){1,10}$" id="eventList0.intGroupIds0" name="eventList[0].intGroupIds[0]">
+			         <button type="submit" name="removeIntGroupIds" value="0,0">Remove</button>
+		          	</li>
+					<li>
+			        <input type="text" value="ABCDEF12-123-45-FF1122" pattern="^[A-Fa-f0-9]{8}-[0-9]{3}-[0-9]{2,3}-([A-Fa-f0-9][A-Fa-f0-9]){1,10}$" id="eventList0.intGroupIds1" name="eventList[0].intGroupIds[1]">
+			         <button type="submit" name="removeIntGroupIds" value="0,1">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <br>	
+				</div>
+				<div>
+					NfInstanceIds - Each element represents the UUID of an nf instance to provide analytics for
+				  <hr>
+				  <ul>
+					<button type="submit" name="addNfInstanceIds" value="0">Add</button>
+					<li>
+			        <input type="text" value="f47ac10b-58cc-4372-a567-0e02b2c3d479" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$" id="eventList0.nfInstanceIds0" name="eventList[0].nfInstanceIds[0]">
+			         <button type="submit" name="removeNfInstanceIds" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <br>	
+				</div>
+				<div>
+					NfSetIds - Each element represents a set identifier and identifies a group of NFs
+				  <hr>
+				  <ul>
+					<button type="submit" name="addNfSetIds" value="0">Add</button>
+					<li>
+			        <input type="text" value="setxyz.amfset.5gc.mnc012.mcc345" pattern="(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.mnc([0-9]){3}\.mcc([0-9]){3})|(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3})" title="for PLMN: set&lt;NFSetId&gt;.&lt;NF&gt;set.5gc.mnc&lt;3digits&gt;.mcc&lt;3digits&gt; for SNPN: ...5gc.nid&lt;11-hexdigits&gt;.mnc..." id="eventList0.nfSetIds0" name="eventList[0].nfSetIds[0]">
+			         <button type="submit" name="removeNfSetIds" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <br>
+				</div>
+				<div>
+					AppIds - Each element the identifier of an application
+				  <hr>
+				  <ul>
+					<button type="submit" name="addAppIds" value="0">Add</button>
+					<li>
+			        <input type="text" value="exampleid" id="eventList0.appIds0" name="eventList[0].appIds[0]">
+			         <button type="submit" name="removeAppIds" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				  <br>
+				</div>
+				<div>
+					Dnns - Each element shall contain either a DNN Network Id, or a full DNN with both the Network Id and Operator Id
+				  <hr>
+				  <ul>
+					<button type="submit" name="addDnns" value="0">Add</button>
+					<li>
+			        <input type="text" value=".nidABCDEF12345.mnc456.mcc789.gprs" pattern="\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3}\.gprs" title=".nid&lt;NID&gt;.mnc&lt;MNC&gt;.mcc&lt;MCC&gt;.gprs" id="eventList0.dnns0" name="eventList[0].dnns[0]">
+			         <button type="submit" name="removeDnns" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				  <br>
+				</div>
+				<div>
+					Dnais - Data network access identifiers
+				  <hr>
+				  <ul>
+					<button type="submit" name="addDnais" value="0">Add</button>
+					<li>
+			        <input type="text" value="examplednai" id="eventList0.dnais0" name="eventList[0].dnais[0]">
+			         <button type="submit" name="removeDnais" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <br>	
+				</div>
+				<div>
+					LadnDnns - Each element represents the id of LADN DNN to indicate the LADN service area as the AOI
+				  <hr>
+				  <ul>
+					<button type="submit" name="addLadnDnns" value="0">Add</button>
+					<li>
+			        <input type="text" value="exampleladndnn" id="eventList0.ladnDnns0" name="eventList[0].ladnDnns[0]">
+			         <button type="submit" name="removeLadnDnns" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <br>	
+				</div>
+				<div>
+					NfTypes - Each element represents the type of each nf instance
+				  <hr>
+				  <ul>
+					<button type="submit" name="addNfTypes" value="0">Add</button>
+					<li>
+					<select value="AF" id="eventList0.nfTypes0" name="eventList[0].nfTypes[0]">
+						<option value="NRF">NRF</option>
+						<option value="UDM">UDM</option>
+						<option value="AMF">AMF</option>
+						<option value="SMF">SMF</option>
+						<option value="AUSF">AUSF</option>
+						<option value="NEF">NEF</option>
+						<option value="PCF">PCF</option>
+						<option value="SMSF">SMSF</option>
+						<option value="NSSF">NSSF</option>
+						<option value="UDR">UDR</option>
+						<option value="LMF">LMF</option>
+						<option value="GMLC">GMLC</option>
+						<option value="5G_EIR">5G_EIR</option>
+						<option value="SEPP">SEPP</option>
+						<option value="UPF">UPF</option>
+						<option value="N3IWF">N3IWF</option>
+						<option value="AF" selected="selected">AF</option>
+						<option value="UDSF">UDSF</option>
+						<option value="BSF">BSF</option>
+						<option value="CHF">CHF</option>
+						<option value="NWDAF">NWDAF</option>
+						<option value="PCSCF">PCSCF</option>
+						<option value="CBCF">CBCF</option>
+						<option value="UCMF">UCMF</option>
+						<option value="HSS">HSS</option>
+						<option value="SOR_AF">SOR_AF</option>
+						<option value="SPAF">SPAF</option>
+						<option value="MME">MME</option>
+						<option value="SCSAS">SCSAS</option>
+						<option value="SCEF">SCEF</option>
+						<option value="SCP">SCP</option>
+						<option value="NSSAAF">NSSAAF</option>
+						<option value="ICSCF">ICSCF</option>
+						<option value="SCSCF">SCSCF</option>
+						<option value="DRA">DRA</option>
+						<option value="IMS_AS">IMS_AS</option>
+						<option value="AANF">AANF</option>
+						<option value="5G_DDNMF">5G_DDNMF</option>
+						<option value="NSACF">NSACF</option>
+						<option value="MFAF">MFAF</option>
+						<option value="EASDF">EASDF</option>
+						<option value="DCCF">DCCF</option>
+						<option value="MB_SMF">MB_SMF</option>
+						<option value="TSCTSF">TSCTSF</option>
+						<option value="ADRF">ADRF</option>
+						<option value="GBA_BSF">GBA_BSF</option>
+						<option value="CEF">CEF</option>
+						<option value="MB_UPF">MB_UPF</option>
+						<option value="NSWOF">NSWOF</option>
+						<option value="PKMF">PKMF</option>
+						<option value="MNPF">MNPF</option>
+						<option value="SMS_GMSC">SMS_GMSC</option>
+						<option value="SMS_IWMSC">SMS_IWMSC</option>
+						<option value="MBSF">MBSF</option>
+						<option value="MBSTF">MBSTF</option>
+						<option value="PANF">PANF</option>
+					</select>
+			        <button type="submit" name="removeNfTypes" value="0,0">Remove</button>
+		          	</li>
+					<li>
+					<select value="NRF" id="eventList0.nfTypes1" name="eventList[0].nfTypes[1]">
+						<option value="NRF" selected="selected">NRF</option>
+						<option value="UDM">UDM</option>
+						<option value="AMF">AMF</option>
+						<option value="SMF">SMF</option>
+						<option value="AUSF">AUSF</option>
+						<option value="NEF">NEF</option>
+						<option value="PCF">PCF</option>
+						<option value="SMSF">SMSF</option>
+						<option value="NSSF">NSSF</option>
+						<option value="UDR">UDR</option>
+						<option value="LMF">LMF</option>
+						<option value="GMLC">GMLC</option>
+						<option value="5G_EIR">5G_EIR</option>
+						<option value="SEPP">SEPP</option>
+						<option value="UPF">UPF</option>
+						<option value="N3IWF">N3IWF</option>
+						<option value="AF">AF</option>
+						<option value="UDSF">UDSF</option>
+						<option value="BSF">BSF</option>
+						<option value="CHF">CHF</option>
+						<option value="NWDAF">NWDAF</option>
+						<option value="PCSCF">PCSCF</option>
+						<option value="CBCF">CBCF</option>
+						<option value="UCMF">UCMF</option>
+						<option value="HSS">HSS</option>
+						<option value="SOR_AF">SOR_AF</option>
+						<option value="SPAF">SPAF</option>
+						<option value="MME">MME</option>
+						<option value="SCSAS">SCSAS</option>
+						<option value="SCEF">SCEF</option>
+						<option value="SCP">SCP</option>
+						<option value="NSSAAF">NSSAAF</option>
+						<option value="ICSCF">ICSCF</option>
+						<option value="SCSCF">SCSCF</option>
+						<option value="DRA">DRA</option>
+						<option value="IMS_AS">IMS_AS</option>
+						<option value="AANF">AANF</option>
+						<option value="5G_DDNMF">5G_DDNMF</option>
+						<option value="NSACF">NSACF</option>
+						<option value="MFAF">MFAF</option>
+						<option value="EASDF">EASDF</option>
+						<option value="DCCF">DCCF</option>
+						<option value="MB_SMF">MB_SMF</option>
+						<option value="TSCTSF">TSCTSF</option>
+						<option value="ADRF">ADRF</option>
+						<option value="GBA_BSF">GBA_BSF</option>
+						<option value="CEF">CEF</option>
+						<option value="MB_UPF">MB_UPF</option>
+						<option value="NSWOF">NSWOF</option>
+						<option value="PKMF">PKMF</option>
+						<option value="MNPF">MNPF</option>
+						<option value="SMS_GMSC">SMS_GMSC</option>
+						<option value="SMS_IWMSC">SMS_IWMSC</option>
+						<option value="MBSF">MBSF</option>
+						<option value="MBSTF">MBSTF</option>
+						<option value="PANF">PANF</option>
+					</select>
+			        <button type="submit" name="removeNfTypes" value="0,1">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				</div>
+				<div>
+					NfLoadLvlThds - Each element represents the id of each nf instance
+				  <hr>
+				  <ul>
+					<button type="submit" name="addNfLoadLvlThds" value="0">Add</button>
+					<li>
+						<!-- <label>CongLevel - Value of Congestion that triggers notification</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,0)}">
+						<br> -->
+						<label>NfLoadLevel - Value of NF Load that triggers notification</label>
+						<input type="text" value="90" id="eventList0.nfLoadLvlThds01" name="eventList[0].nfLoadLvlThds[0][1]">
+						<br>
+						<label>NfCpuUsage - Value of NF CPU Usage that triggers notification </label>
+						<input type="text" value="90" id="eventList0.nfLoadLvlThds02" name="eventList[0].nfLoadLvlThds[0][2]">
+						<br>
+						<label>NfMemoryUsage - Average usage of memory </label>
+						<input type="text" value="50" id="eventList0.nfLoadLvlThds03" name="eventList[0].nfLoadLvlThds[0][3]">
+						<br>
+						<label>NfStorageUsage - Average usage of storage</label>
+						<input type="text" value="20" id="eventList0.nfLoadLvlThds04" name="eventList[0].nfLoadLvlThds[0][4]">
+						<br>
+						<!-- <label>AvgTrafficRate - Threshold level of average traffic rate</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][5]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,5)}">
+						<br>
+						<label>MaxTrafficRate - Threshold level of maximum traffic rate</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][8]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,8)}">
+						<br>
+						<label>AvgPacketDelay - Threshold level of average Packet Delay</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][6]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,6)}">
+						<br>
+						<label>MaxPacketDelay - Threshold level of maximum Packet Delay</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][7]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,7)}">
+						<br>
+						<label>AvgPacketLossRate - Threshold level of average Loss Rate</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][9]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,9)}">
+						<br>
+						<label>SvcExpLevel - Service Experience MOS value</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][10]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,10)}">
+						<br> -->
+						<button type="submit" name="removeNfLoadLvlThds" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>	
+				  <br>
+				</div>
+				<div>
+					NetworkArea -  Represents the Area of Interest for this event subscription 
+				  <hr>
+				  <ul>
+					Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
+					<button type="submit" name="addEcgis" value="0">Add</button>
+					<li>
+					<label>mcc</label>
+					<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.networkArea000" name="eventList[0].networkArea[0][0][0]">
+			        <label>mnc</label>
+					<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.networkArea001" name="eventList[0].networkArea[0][0][1]">
+					<label>eutraCellId</label>
+					<input type="text" value="ABCDEF1" pattern="^[A-Fa-f0-9]{7}$" id="eventList0.networkArea002" name="eventList[0].networkArea[0][0][2]">
+					<label>nid</label>
+					<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.networkArea003" name="eventList[0].networkArea[0][0][3]">					
+					<button type="submit" name="removeEcgis" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <ul>
+					Ncgis - Represents the list of NR cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NR cell Ids.
+					<button type="submit" name="addNcgis" value="0">Add</button>
+					<li>
+					<label>mcc</label>
+					<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.networkArea100" name="eventList[0].networkArea[1][0][0]">
+			        <label>mnc</label>
+					<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.networkArea101" name="eventList[0].networkArea[1][0][1]">
+					<label>nrCellId</label>
+					<input type="text" value="ABCDEF123" pattern="^[A-Fa-f0-9]{9}$" id="eventList0.networkArea102" name="eventList[0].networkArea[1][0][2]">
+					<label>nid</label>
+					<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.networkArea103" name="eventList[0].networkArea[1][0][3]">
+					<button type="submit" name="removeNcgis" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <ul>
+					GRanNodeIds - Represents the list of NG RAN node identifiers that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NG RAN node identifiers.  
+					<button type="submit" name="addGRanNodeIds" value="0">Add</button>
+					<li>
+						<label>mcc</label>
+						<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.networkArea200" name="eventList[0].networkArea[2][0][0]">
+						<label>mnc</label>
+						<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.networkArea201" name="eventList[0].networkArea[2][0][1]">	
+						<label>n3IwfId</label>
+						<input type="text" value="BEEEF" pattern="^[A-Fa-f0-9]+$" id="eventList0.networkArea202" name="eventList[0].networkArea[2][0][2]">	
+						<label>ngeNbId</label>
+						<input type="text" value="MacroNGeNB-12345" pattern="^(MacroNGeNB-[A-Fa-f0-9]{5}|LMacroNGeNB-[A-Fa-f0-9]{6}|SMacroNGeNB-[A-Fa-f0-9]{5})$" id="eventList0.networkArea203" name="eventList[0].networkArea[2][0][3]">	
+						<label>wagfId</label>
+						<input type="text" value="BEEEEEF" pattern="^[A-Fa-f0-9]+$" id="eventList0.networkArea204" name="eventList[0].networkArea[2][0][4]">	
+						<label>tngfId</label>
+						<input type="text" value="BEEEEEEF" pattern="^[A-Fa-f0-9]+$" id="eventList0.networkArea205" name="eventList[0].networkArea[2][0][5]">	
+						<label>nid</label>
+						<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.networkArea206" name="eventList[0].networkArea[2][0][6]">
+						<label>eNbId</label>
+						<input type="text" value="MacroeNB-12345" pattern="^(MacroeNB-[A-Fa-f0-9]{5}|LMacroeNB-[A-Fa-f0-9]{6}|SMacroeNB-[A-Fa-f0-9]{5}|HomeeNB-[A-Fa-f0-9]{7})$" id="eventList0.networkArea207" name="eventList[0].networkArea[2][0][7]">	
+						<label>gNbId-bitLength</label>
+						<input type="text" value="24" pattern="2[2-9]|3[0-2]" id="eventList0.networkArea208" name="eventList[0].networkArea[2][0][8]">	
+						<label>gNBValue</label>
+						<input type="text" value="abcdef" pattern="^[A-Fa-f0-9]{6,8}$" id="eventList0.networkArea209" name="eventList[0].networkArea[2][0][9]">	
+						<button type="submit" name="removeGRanNodeIds" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <ul>
+					Tais -  List of Tracking Area Ids
+					<button type="submit" name="addTais" value="0">Add</button>
+					<li>
+						<label>mcc</label>
+						<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.networkArea300" name="eventList[0].networkArea[3][0][0]">
+						<label>mnc</label>
+						<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.networkArea301" name="eventList[0].networkArea[3][0][1]">	
+						<label>tac</label>
+						<input type="text" value="ABCD" pattern="(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)" id="eventList0.networkArea302" name="eventList[0].networkArea[3][0][2]">
+						<label>nid</label>
+						<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.networkArea303" name="eventList[0].networkArea[3][0][3]">
+						<button type="submit" name="removeTais" value="0,0">Remove</button>
+		          	</li>
+		          </ul>
+				  <br>
+				  <br>	
+				</div>
+				<div>
+					NsiIdInfos - Represents the list of S-NSSAIs and the optionally associated Network Slice Instance Id(s) for each S-NSSAI.
+					<hr>
+					<ul>
+						<button type="submit" name="addNsiIdInfos" value="0">Add</button>
+						<li>
+						<label>sst(0-255) - indicates the expected Network Slice behaviour in terms of features and services</label>
+						<input type="text" value="234" pattern="^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" id="eventList0.nsiIdInfos000" name="eventList[0].nsiIdInfos[0][0][0]">
+						<br>
+						<label>sd(6 hex digits) - This is an optional parameter that complements the Slice/Service type(s) to allow to  differentiate amongst multiple Network Slices of the same Slice/Service type. This IE shall be absent if no SD value is associated with the SST.</label>
+						<br>
+						<input type="text" value="12345A" pattern="^[A-Fa-f0-9]{6}$" id="eventList0.nsiIdInfos001" name="eventList[0].nsiIdInfos[0][0][1]">
+						<br>
+						List of nsi ids
+						<ul>
+							<button type="submit" name="addNsiId" value="0,0">Add</button>
+							<li>
+								<label>nsi id</label>
+							<input type="text" value="examplensiid" id="eventList0.nsiIdInfos010" name="eventList[0].nsiIdInfos[0][1][0]">
+							<button type="submit" name="removeNsiId" value="0,0,0">Remove</button>
+							</li>
+							<li>
+								<label>nsi id</label>
+							<input type="text" value="examplensiid2" id="eventList0.nsiIdInfos011" name="eventList[0].nsiIdInfos[0][1][1]">
+							<button type="submit" name="removeNsiId" value="0,0,1">Remove</button>
+							</li>
+						</ul>
+						<br>
+						<button type="submit" name="removeNsiIdInfos" value="0,0">Remove</button>
+						</li>
+					</ul>
+				</div>
+				<div>
+					NsiLevelThrds - Identifies the load threshold for each S-NSSAI or S-NSSAI and the optionally associated network slice instance identified by the "nsiIds" attribute
+					<ul>
+						<button type="submit" name="addNsiLevelThrds" value="0">Add</button>
+						<li>
+						<input type="number" value="34" id="eventList0.nsiLevelThrds0" name="eventList[0].nsiLevelThrds[0]">
+						<button type="submit" name="removeNsiLevelThrds" value="0,0">Remove</button>	
+					</li>
+						<li>
+						<input type="number" value="33" id="eventList0.nsiLevelThrds1" name="eventList[0].nsiLevelThrds[1]">
+						<button type="submit" name="removeNsiLevelThrds" value="0,1">Remove</button>	
+					</li>
+					</ul>
+				</div>
+				<div>
+					QosFlowRetThds - Represents the QoS flow retainability thresholds. Shall be supplied for the 5QI ("5qi" in "qosRequ") or resource type ("resType" in "qosRequ") of GBR resource type
+					<ul>
+						<button type="submit" name="addQosFlowRetThds" value="0">Add</button>
+						<li>
+							<label>relFlowNum - Represents the number of abnormally released QoS flows.</label>
+							<input type="text" value="12" pattern="^[1-9]\d*$" id="eventList0.qosFlowRetThds00" name="eventList[0].qosFlowRetThds[0][0]">
+							<label>relTimeUnit - Represents the unit for the session active time, shall be present if relFlowNum is present. </label>
+							<select value="HOUR" id="eventList0.qosFlowRetThds01" name="eventList[0].qosFlowRetThds[0][1]">
+								<option value="MINUTE">MINUTE</option>
+								<option value="HOUR" selected="selected">HOUR</option>
+								<option value="DAY">DAY</option>
+						    </select>
+
+							<label>relFlowRatio(0-100) - Represents the ratio of abnormally released QoS flows to the total released QoS flows, expressed in percentage.</label>
+							<input type="text" value="50" pattern="^(?:100|[1-9]\d|\d)$" id="eventList0.qosFlowRetThds02" name="eventList[0].qosFlowRetThds[0][2]">
+							<br>
+							<button type="submit" name="removeQosFlowRetThds" value="0,0">Remove</button>	
+						</li>	
+					</ul>
+				</div>
+				<div>
+					RanUeThrouThds - Represents the RAN UE throughput thresholds. Shall be supplied for the 5QI ("5qi" in "qosRequ") or resource type ("resType" in "qosRequ") of non-GBR resource type. 
+					<ul>
+						<button type="submit" name="addRanUeThrouThds" value="0">Add</button>
+						<li>
+						<input type="text" value="12.5Mbps" pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$" id="eventList0.ranUeThrouThds0" name="eventList[0].ranUeThrouThds[0]">
+						<button type="submit" name="removeRanUeThrouThds" value="0,0">Remove</button>	
+						</li>
+					</ul>
+				</div>
+				<div>
+					Snssaia - Identification(s) of network slice to which the subscription applies.
+					<ul>
+						<button type="submit" name="addSnssaia" value="0">Add</button>
+						<li>
+						<label>sst(0-255) - indicates the expected Network Slice behaviour in terms of features and services</label>
+						<input type="text" value="234" pattern="^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" id="eventList0.snssaia00" name="eventList[0].snssaia[0][0]">
+						<br>
+						<label>sd(6 hex digits) - This is an optional parameter that complements the Slice/Service type(s) to allow to  differentiate amongst multiple Network Slices of the same Slice/Service type. This IE shall be absent if no SD value is associated with the SST.</label>
+						<br>
+						<input type="text" value="ABCEDF" pattern="^[A-Fa-f0-9]{6}$" id="eventList0.snssaia01" name="eventList[0].snssaia[0][1]">
+						<br>
+						<button type="submit" name="removeSnssaia" value="0,0">Remove</button>	
+						</li>	
+					</ul>
+				</div>
+				<div>
+					CongThresholds - Represents the congestion threshold levels.
+					<ul>
+						<button type="submit" name="addCongThresholds" value="0">Add</button>
+						<li>
+						<label>CongLevel - Value of Congestion that triggers notification</label>
+						<input type="text" value="54" id="eventList0.congThresholds00" name="eventList[0].congThresholds[0][0]">
+						<br>
+						<button type="submit" name="removeCongThresholds" value="0,0">Remove</button>	
+						</li>
+					</ul>
+				</div>
+				<div>
+					NwPerfRequs - Represents the network performance requirements. 
+					<ul>
+						<button type="submit" name="addNwPerfRequs" value="0">Add</button>
+						<li>
+						<label>nwPerfType - The type of the network performance.</label>
+						<select value="NUM_OF_UE" id="eventList0.nwPerfRequs00" name="eventList[0].nwPerfRequs[0][0]">
+							<option value="GNB_ACTIVE_RATIO">GNB_ACTIVE_RATIO</option>
+							<option value="GNB_COMPUTING_USAGE">GNB_COMPUTING_USAGE</option>
+							<option value="GNB_MEMORY_USAGE">GNB_MEMORY_USAGE</option>
+							<option value="GNB_DISK_USAGE">GNB_DISK_USAGE</option>
+							<option value="NUM_OF_UE" selected="selected">NUM_OF_UE</option>
+							<option value="SESS_SUCC_RATIO">SESS_SUCC_RATIO</option>
+							<option value="HO_SUCC_RATIO">HO_SUCC_RATIO</option>
+						</select>
+						<br>
+						<label>relativeRatio - The relative ratio expressed in percentage. </label>
+						<input type="text" value="50" pattern="^(?:100|[1-9]\d|\d)$" id="eventList0.nwPerfRequs01" name="eventList[0].nwPerfRequs[0][1]">
+						<br>
+						<label>absoluteNum - The absolute number.</label>
+						<input type="text" value="12" pattern="^(?:0|[1-9]\d*)$" id="eventList0.nwPerfRequs02" name="eventList[0].nwPerfRequs[0][2]">
+						<br>
+						<button type="submit" name="removeNwPerfRequs" value="0,0">Remove</button>	
+						</li>
+					</ul>
+				</div>
+				<div>
+					BwRequs - Represents the bandwidth requirement for each application.
+					<ul>
+						<button type="submit" name="addBwRequs" value="0">Add</button>
+						<li>
+						<label>appId - Represents an application.</label>
+						<input type="text" value="exampleappid" id="eventList0.bwRequs00" name="eventList[0].bwRequs[0][0]">
+						<br>
+						<label>marBwUl - Maximum requested bandwidth for the Uplink. </label>
+						<input type="text" value="12.3Tbps" pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$" id="eventList0.bwRequs01" name="eventList[0].bwRequs[0][1]">
+						<br>
+						<label>marBwDl - Maximum requested bandwidth for the Downlink.</label>
+						<input type="text" value="12.3Tbps" pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$" id="eventList0.bwRequs02" name="eventList[0].bwRequs[0][2]">
+						<br>
+						<label>mirBwUl - Minimum requested bandwidth for the Uplink. </label>
+						<input type="text" value="12.3Tbps" pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$" id="eventList0.bwRequs03" name="eventList[0].bwRequs[0][3]">
+						<br>
+						<label>mirBwDl - Minimum requested bandwidth for the Downlink.</label>
+						<input type="text" value="12.3Tbps" pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$" id="eventList0.bwRequs04" name="eventList[0].bwRequs[0][4]">
+						<br>
+						<button type="submit" name="removeBwRequs" value="0,0">Remove</button>	
+						</li>
+					</ul>
+				</div>
+				<div>
+					ExcepRequs - Represents a list of Exception Ids with associated thresholds.
+					<ul>
+						<button type="submit" name="addExcepRequs" value="0">Add</button>
+						<li>
+						<label>excepId - Indicating the Exception ID.</label>
+						<select value="DATA_WINDOW" id="eventList0.excepRequs00" name="eventList[0].excepRequs[0][0]">
+							<option value="NUM_OF_SAMPLES">NUM_OF_SAMPLES</option>
+							<option value="DATA_WINDOW" selected="selected">DATA_WINDOW</option>
+							<option value="DATA_STAT_PROPS">DATA_STAT_PROPS</option>
+							<option value="STRATEGY">STRATEGY</option>
+							<option value="ACCURACY">ACCURACY</option>
+						</select>
+						<br>
+						<label>excepLevel - Measured level, compared to the threshold. </label>
+						<input type="text" value="45" pattern="^(?:0|[1-9]\d*)$" id="eventList0.excepRequs01" name="eventList[0].excepRequs[0][1]">
+						<br>
+						<label>excepTrend - Measured trend.</label>
+						<select value="DOWN" id="eventList0.excepRequs02" name="eventList[0].excepRequs[0][2]">
+							<option value="UP">UP</option>
+							<option value="DOWN" selected="selected">DOWN</option>
+							<option value="UNKNOW">UNKNOW</option>
+							<option value="STABLE">STABLE</option>
+						</select>
+						<br>
+						<button type="submit" name="removeExcepRequs" value="0,0">Remove</button>	
+						</li>
+					</ul>
+				</div>
+				<div>
+					ListOfAnaSubsets - The list of analytics subsets can be used to indicate the content of the analytics.
+					<ul>
+						<button type="submit" name="addListOfAnaSubsets" value="0">Add</button>
+						<li>
+						<select value="NF_LOAD_AVG_IN_AOI" id="eventList0.listOfAnaSubsets0" name="eventList[0].listOfAnaSubsets[0]">
+							<option value="NUM_OF_UE_REG">NUM_OF_UE_REG</option>
+							<option value="NUM_OF_PDU_SESS_ESTBL">NUM_OF_PDU_SESS_ESTBL</option>
+							<option value="RES_USAGE">RES_USAGE</option>
+							<option value="NUM_OF_EXCEED_RES_USAGE_LOAD_LEVEL_THR">NUM_OF_EXCEED_RES_USAGE_LOAD_LEVEL_THR</option>
+							<option value="PERIOD_OF_EXCEED_RES_USAGE_LOAD_LEVEL_THR">PERIOD_OF_EXCEED_RES_USAGE_LOAD_LEVEL_THR</option>
+							<option value="EXCEED_LOAD_LEVEL_THR_IND">EXCEED_LOAD_LEVEL_THR_IND</option>
+							<option value="LIST_OF_TOP_APP_UL">LIST_OF_TOP_APP_UL</option>
+							<option value="LIST_OF_TOP_APP_DL">LIST_OF_TOP_APP_DL</option>
+							<option value="NF_STATUS">NF_STATUS</option>
+							<option value="NF_RESOURCE_USAGE">NF_RESOURCE_USAGE</option>
+							<option value="NF_LOAD">NF_LOAD</option>
+							<option value="NF_PEAK_LOAD">NF_PEAK_LOAD</option>
+							<option value="NF_LOAD_AVG_IN_AOI" selected="selected">NF_LOAD_AVG_IN_AOI</option>
+							<option value="DISPER_AMOUNT">DISPER_AMOUNT</option>
+							<option value="DISPER_CLASS">DISPER_CLASS</option>
+							<option value="RANKING">RANKING</option>
+							<option value="PERCENTILE_RANKING">PERCENTILE_RANKING</option>
+							<option value="RSSI">RSSI</option>
+							<option value="RTT">RTT</option>
+							<option value="TRAFFIC_INFO">TRAFFIC_INFO</option>
+							<option value="NUMBER_OF_UES">NUMBER_OF_UES</option>
+							<option value="APP_LIST_FOR_UE_COMM">APP_LIST_FOR_UE_COMM</option>
+							<option value="N4_SESS_INACT_TIMER_FOR_UE_COMM">N4_SESS_INACT_TIMER_FOR_UE_COMM</option>
+							<option value="AVG_TRAFFIC_RATE">AVG_TRAFFIC_RATE</option>
+							<option value="MAX_TRAFFIC_RATE">MAX_TRAFFIC_RATE</option>
+							<option value="AVG_PACKET_DELAY">AVG_PACKET_DELAY</option>
+							<option value="MAX_PACKET_DELAY">MAX_PACKET_DELAY</option>
+							<option value="AVG_PACKET_LOSS_RATE">AVG_PACKET_LOSS_RATE</option>
+							<option value="UE_LOCATION">UE_LOCATION</option>
+							<option value="LIST_OF_HIGH_EXP_UE">LIST_OF_HIGH_EXP_UE</option>
+							<option value="LIST_OF_MEDIUM_EXP_UE">LIST_OF_MEDIUM_EXP_UE</option>
+							<option value="LIST_OF_LOW_EXP_UE">LIST_OF_LOW_EXP_UE</option>
+							<option value="AVG_UL_PKT_DROP_RATE">AVG_UL_PKT_DROP_RATE</option>
+							<option value="VAR_UL_PKT_DROP_RATE">VAR_UL_PKT_DROP_RATE</option>
+							<option value="AVG_DL_PKT_DROP_RATE">AVG_DL_PKT_DROP_RATE</option>
+							<option value="VAR_DL_PKT_DROP_RATE">VAR_DL_PKT_DROP_RATE</option>
+							<option value="AVG_UL_PKT_DELAY">AVG_UL_PKT_DELAY</option>
+							<option value="VAR_UL_PKT_DELAY">VAR_UL_PKT_DELAY</option>
+							<option value="AVG_DL_PKT_DELAY">AVG_DL_PKT_DELAY</option>
+							<option value="VAR_DL_PKT_DELAY">VAR_DL_PKT_DELAY</option>
+						</select>
+						<br>
+						<button type="submit" name="removeListOfAnaSubsets" value="0,0">Remove</button>	
+						</li>
+					</ul>
+				</div>
+				<div>
+					RedTransReqs - Represents the redundant transmission experience analytics requirements.
+					<ul>
+						<button type="submit" name="addRedTransReqs" value="0">Add</button>
+						<li>
+						<label>redTOrderCriter - Indicates the ordering criterion for the list of UE Redundant Transmission Experience Analytics information.</label>
+						<select value="RED_TRANS_EXP" id="eventList0.redTransReqs00" name="eventList[0].redTransReqs[0][0]">
+							<option value="TIME_SLOT_START">TIME_SLOT_START</option>
+							<option value="RED_TRANS_EXP" selected="selected">RED_TRANS_EXP</option>
+						</select>
+						<br>
+						<label>order - Indicate the order: ascending or descending. May be present when the "redTOrderCriter" attribute is included.</label>
+						<select value="DESCENDING" id="eventList0.redTransReqs01" name="eventList[0].redTransReqs[0][1]">
+							<option value="ASCENDING">ASCENDING</option>
+							<option value="DESCENDING" selected="selected">DESCENDING</option>
+							<option value="CROSSED">CROSSED</option>
+						</select>
+						<br>
+						<button type="submit" name="removeRedTransReqs" value="0,0">Remove</button>	
+						</li>
+					</ul>
+				</div>
+				<div>
+					AppServerAddrs - Each element represents the Application Server Instance (IP address/FQDN of the Application Server).
+					<ul>
+						<button type="submit" name="addAppServerAddrs" value="0">Add</button>
+						<li>
+						<label>ipv4Addr</label>
+						<input type="text" value="192.168.1.1" pattern="^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$" id="eventList0.appServerAddrs00" name="eventList[0].appServerAddrs[0][0]">
+						<br>
+						<label>ipv6Addr </label>
+						<input type="text" value="2001:0db8:85a3:0000:0000:8a2e:0370:7334" pattern="^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9af]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))|((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))$" id="eventList0.appServerAddrs01" name="eventList[0].appServerAddrs[0][1]">
+						<br>
+						<label>ipv6Prefix</label>
+						<input type="text" value="2001:0db8:85a3::/48" pattern="^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9af]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))(\/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))|((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))(\/.+)$" id="eventList0.appServerAddrs02" name="eventList[0].appServerAddrs[0][2]">
+						<br>
+						<label>fqdn - fully qualified domain name</label>
+						<input type="text" value="www.example.com" pattern="^([0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?\.)+[A-Zaz]{2,63}\.?$" id="eventList0.appServerAddrs03" name="eventList[0].appServerAddrs[0][3]">
+						<br>
+						<button type="submit" name="removeAppServerAddrs" value="0,0">Remove</button>	
+						</li>
+					</ul>
+				</div>
+				<div>
+					QosRequ - Indicates the QoS requirements.
+					<hr>
+					<label>5qi(0-255) - Represents a 5G QoS Identifier. It shall be included for standardized or preconfigured 5QIs.</label>
+					<input type="text" value="123" pattern="^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" id="eventList0.QosRequ0" name="eventList[0].QosRequ[0]">
+					<br>
+					<label>gfbrUl - Indicates GFBR in the uplink. It shall be included for GBR 5QIs. </label>
+					<input type="text" value="12.3Tbps" pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$" id="eventList0.QosRequ1" name="eventList[0].QosRequ[1]">
+					<br>
+					<label>gfbrDl - Indicates GFBR in the downlink. It shall be included for GBR 5QIs.</label>
+					<input type="text" value="12.3Tbps" pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$" id="eventList0.QosRequ2" name="eventList[0].QosRequ[2]">
+					<br>
+					<label>resType - Resource type. Shall be provided for the nonstandardized and nonpreconfigured QoS characteristics. </label>
+					<select value="NON_CRITICAL_GBR" id="eventList0.qosRequ3" name="eventList[0].qosRequ[3]">
+						<option value="NON_GBR">NON_GBR</option>
+						<option value="NON_CRITICAL_GBR" selected="selected">NON_CRITICAL_GBR</option>
+						<option value="CRITICAL_GBR">CRITICAL_GBR</option>
+					</select>						
+					<br>
+					<label>pdb - Packet Delay Budget. May be supplied for the nonstandardized and non-preconfigured QoS characteristics</label>
+					<input type="text" value="1234" pattern="^[1-9]\d*$" id="eventList0.QosRequ4" name="eventList[0].QosRequ[4]">
+					<br>
+					<label>per - Packet Error Rate. May be supplied for the nonstandardized and non-preconfigured QoS characteristics. </label>
+					<input type="text" value="2E-6" pattern="^([0-9]E-[0-9])$" id="eventList0.QosRequ5" name="eventList[0].QosRequ[5]">
+					<br>
+				</div>
+				<div>
+					UpfInfo - Each element represents the Application Server Instance (IP address/FQDN of the Application Server).
+					<hr>
+					<label>upfId - Identifies the UPF.</label>
+					<input type="text" value="exampleupfid" id="eventList0.UpfInfo0" name="eventList[0].UpfInfo[0]">
+					<br>
+					<label>ipv4Addr</label>
+					<input type="text" value="192.168.1.1" pattern="^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$" id="eventList0.UpfInfo1" name="eventList[0].UpfInfo[1]">
+					<br>
+					<label>ipv6Addr </label>
+					<input type="text" value="2001:0db8:85a3:0000:0000:8a2e:0370:7334" pattern="^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9af]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))|((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))$" id="eventList0.UpfInfo2" name="eventList[0].UpfInfo[2]">
+					<br>
+					<label>ipv6Prefix</label>
+					<input type="text" value="2001:0db8:85a3::/48" pattern="^((:|(0?|([1-9a-f][0-9a-f]{0,3}))):)((0?|([1-9a-f][0-9af]{0,3})):){0,6}(:|(0?|([1-9a-f][0-9a-f]{0,3})))(\/(([0-9])|([0-9]{2})|(1[0-1][0-9])|(12[0-8])))|((([^:]+:){7}([^:]+))|((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?))(\/.+)$" id="eventList0.UpfInfo3" name="eventList[0].UpfInfo[3]">
+					<br>
+					<label>fqdn - fully qualified domain name</label>
+					<input type="text" value="www.example.com" pattern="^([0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?\.)+[A-Zaz]{2,63}\.?$" id="eventList0.UpfInfo4" name="eventList[0].UpfInfo[4]">
+					<br>
+				</div>
+				<div>
+					RatFreqs - Identification(s) of the RAT type(s) and/or frequency(ies) of UE's serving cell(s) which the subscriptiont applies.
+					<hr>
+					<ul>
+						<button type="submit" name="addRatFreqs" value="0">Add</button>
+						<li>
+						<label>allFreq - Set to "true" to indicate to handle all the frequencies the NWDAF received, otherwise set to "false" or omit.</label>
+						<input type="checkbox" value="" id="eventList0.ratFreqs0001" name="eventList[0].ratFreqs[0][0][0]" checked="checked"><input type="hidden" name="_eventList[0].ratFreqs[0][0][0]" value="on">
+						<br>
+						<label>allRat - Set to "true" to indicate to handle all the RAT types the NWDAF received, otherwise set to "false" or omit.</label>
+						<input type="checkbox" value="" id="eventList0.ratFreqs0011" name="eventList[0].ratFreqs[0][0][1]"><input type="hidden" name="_eventList[0].ratFreqs[0][0][1]" value="on">
+						<br>
+						<label>freq(0-3279165) - Identification of the frequency of UE's serving cell(s) where the subscription/request applies.</label>
+						<input type="text" value="21456" pattern="^(?:0|[1-9]\d{0,6})$" id="eventList0.ratFreqs002" name="eventList[0].ratFreqs[0][0][2]">
+						<br>
+						<label>ratType - Identification of the RAT type where the subscription/request applies</label>
+						<select value="NR_GEO" id="eventList0.ratFreqs003" name="eventList[0].ratFreqs[0][0][3]">
+							<option value="NR">NR</option>
+							<option value="EUTRA">EUTRA</option>
+							<option value="WLAN">WLAN</option>
+							<option value="VIRTUAL">VIRTUAL</option>
+							<option value="NBIOT">NBIOT</option>
+							<option value="WIRELINE">WIRELINE</option>
+							<option value="WIRELINE_CABLE">WIRELINE_CABLE</option>
+							<option value="WIRELINE_BBF">WIRELINE_BBF</option>
+							<option value="LTE-M">LTE-M</option>
+							<option value="NR_U">NR_U</option>
+							<option value="EUTRA_U">EUTRA_U</option>
+							<option value="TRUSTED_N3GA">TRUSTED_N3GA</option>
+							<option value="TRUSTED_WLAN">TRUSTED_WLAN</option>
+							<option value="UTRA">UTRA</option>
+							<option value="GERA">GERA</option>
+							<option value="NR_LEO">NR_LEO</option>
+							<option value="NR_MEO">NR_MEO</option>
+							<option value="NR_GEO" selected="selected">NR_GEO</option>
+							<option value="NR_OTHER_SAT">NR_OTHER_SAT</option>
+							<option value="NR_REDCAP">NR_REDCAP</option>
+						</select>
+						<br>
+						<label>matchingDir - The matching direction may be provided alongside the service experience threshold. If omitted, the default value is CROSSED.</label>
+						<select value="ASCENDING" id="eventList0.ratFreqs004" name="eventList[0].ratFreqs[0][0][4]">
+							<option value="ASCENDING" selected="selected">ASCENDING</option>
+							<option value="DESCENDING">DESCENDING</option>
+							<option value="CROSSED">CROSSED</option>
+						</select>
+						<br>
+						<label>SvcExpLevel - Service Experience MOS value</label>
+						<input type="text" value="5" pattern="^[1-5]{1}$" id="eventList0.ratFreqs0110" name="eventList[0].ratFreqs[0][1][10]">
+						<br>
+						<button type="submit" name="removeRatFreqs" value="0,0">Remove</button>
+						</li>
+					</ul>
+				</div>
+				<div>
+					WlanReqs - Represents other WLAN performance analytics requirements.
+					<hr>
+					<ul>
+						<button type="submit" name="addWlanReqs" value="0">Add</button>
+						<li>
+						SsIds - SSIDs of WLAN access points (Service set identifiers).
+						<br>
+						<ul>
+							<button type="submit" name="addSsIds" value="0,0">Add</button>
+							<li>
+							<input type="text" value="abcdfghjkl123456" pattern="^(?:[\s\S]{0,32})$" id="eventList0.WlanReqs010" name="eventList[0].WlanReqs[0][1][0]">
+							<button type="submit" name="removeSsIds" value="0,0,0">Remove</button>
+							</li>
+						</ul>
+						<br>
+						<br>
+						BssIds - BSSIDs of WLAN access points (Basic service set identifiers).
+						<br>
+						<ul>
+							<button type="submit" name="addBssIds" value="0,0">Add</button>
+							<li>
+							<input type="text" value="00:1A:2B:3C:4D:5E:6F" pattern="^(?i)([0-9a-f]{2}[:-]){5}[0-9a-f]{2}$" id="eventList0.WlanReqs020" name="eventList[0].WlanReqs[0][2][0]">
+							<button type="submit" name="removeBssIds" value="0,0,0">Remove</button>
+							</li>
+						</ul>
+						<br>
+						<label>wlanOrderCriter - Indicates the ordering criterion for the list of WLAN performance information.</label>
+						<select value="NR" id="eventList0.WlanReqs000" name="eventList[0].WlanReqs[0][0][0]">
+							<option value="NR" selected="selected">NR</option>
+							<option value="EUTRA">EUTRA</option>
+							<option value="WLAN">WLAN</option>
+							<option value="VIRTUAL">VIRTUAL</option>
+							<option value="NBIOT">NBIOT</option>
+							<option value="WIRELINE">WIRELINE</option>
+							<option value="WIRELINE_CABLE">WIRELINE_CABLE</option>
+							<option value="WIRELINE_BBF">WIRELINE_BBF</option>
+							<option value="LTE-M">LTE-M</option>
+							<option value="NR_U">NR_U</option>
+							<option value="EUTRA_U">EUTRA_U</option>
+							<option value="TRUSTED_N3GA">TRUSTED_N3GA</option>
+							<option value="TRUSTED_WLAN">TRUSTED_WLAN</option>
+							<option value="UTRA">UTRA</option>
+							<option value="GERA">GERA</option>
+							<option value="NR_LEO">NR_LEO</option>
+							<option value="NR_MEO">NR_MEO</option>
+							<option value="NR_GEO">NR_GEO</option>
+							<option value="NR_OTHER_SAT">NR_OTHER_SAT</option>
+							<option value="NR_REDCAP">NR_REDCAP</option>
+						</select>
+						<br>
+						<label>order - Indicate the order: ascending or descending. May be present when the "wlanOrderCriter" attribute is included</label>
+						<select value="ASCENDING" id="eventList0.WlanReqs001" name="eventList[0].WlanReqs[0][0][1]">
+							<option value="ASCENDING" selected="selected">ASCENDING</option>
+							<option value="DESCENDING">DESCENDING</option>
+							<option value="CROSSED">CROSSED</option>
+						</select>
+						<br>
+						<button type="submit" name="removeWlanReqs" value="0,0">Remove</button>
+						</li>
+					</ul>
+				</div>
+				<div>
+					VisitedAreas - Indicates the visited network area(s) which the UEs had previously been in at least one of the Visited Area(s) of Interest
+					<hr>
+					<ul>
+						<button type="submit" name="addVisitedAreas" value="0">Add</button>
+						<li>
+						<ul>
+						Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
+						<button type="submit" name="addVisitedAreasEcgis" value="0,0">Add</button>
+						<li>
+						<label>mcc</label>
+						<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.VisitedAreas0000" name="eventList[0].VisitedAreas[0][0][0][0]">
+						<label>mnc</label>
+						<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.VisitedAreas0001" name="eventList[0].VisitedAreas[0][0][0][1]">
+						<label>eutraCellId</label>
+						<input type="text" value="ABCDEF1" pattern="^[A-Fa-f0-9]{7}$" id="eventList0.VisitedAreas0002" name="eventList[0].VisitedAreas[0][0][0][2]">
+						<label>nid</label>
+						<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.VisitedAreas0003" name="eventList[0].VisitedAreas[0][0][0][3]">					
+						<button type="submit" name="removeVisitedAreasEcgis" value="0,0,0">Remove</button>
+						  </li>
+					  </ul>
+					  <br>
+					  <ul>
+						Ncgis - Represents the list of NR cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NR cell Ids.							
+						<button type="submit" name="addVisitedAreasNcgis" value="0,0">Add</button>
+						<li>
+						<label>mcc</label>
+						<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.VisitedAreas0100" name="eventList[0].VisitedAreas[0][1][0][0]">
+						<label>mnc</label>
+						<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.VisitedAreas0101" name="eventList[0].VisitedAreas[0][1][0][1]">
+						<label>nrCellId</label>
+						<input type="text" value="ABCDEF123" pattern="^[A-Fa-f0-9]{9}$" id="eventList0.VisitedAreas0102" name="eventList[0].VisitedAreas[0][1][0][2]">
+						<label>nid</label>
+						<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.VisitedAreas0103" name="eventList[0].VisitedAreas[0][1][0][3]">
+						<button type="submit" name="removeVisitedAreasNcgis" value="0,0,0">Remove</button>
+						</li>
+					   </ul>
+					  <br>
+					  <ul>
+						GRanNodeIds - Represents the list of NG RAN node identifiers that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NG RAN node identifiers.  
+						<button type="submit" name="addVisitedAreasGRanNodeIds" value="0,0">Add</button>
+						<li>
+							<label>mcc</label>
+							<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.VisitedAreas0200" name="eventList[0].VisitedAreas[0][2][0][0]">
+							<label>mnc</label>
+							<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.VisitedAreas0201" name="eventList[0].VisitedAreas[0][2][0][1]">	
+							<label>n3IwfId</label>
+							<input type="text" value="BEEEF" pattern="^[A-Fa-f0-9]+$" id="eventList0.VisitedAreas0202" name="eventList[0].VisitedAreas[0][2][0][2]">	
+							<label>ngeNbId</label>
+							<input type="text" value="MacroNGeNB-12345" pattern="^(MacroNGeNB-[A-Fa-f0-9]{5}|LMacroNGeNB-[A-Fa-f0-9]{6}|SMacroNGeNB-[A-Fa-f0-9]{5})$" id="eventList0.VisitedAreas0203" name="eventList[0].VisitedAreas[0][2][0][3]">	
+							<label>wagfId</label>
+							<input type="text" value="BEEEEEF" pattern="^[A-Fa-f0-9]+$" id="eventList0.VisitedAreas0204" name="eventList[0].VisitedAreas[0][2][0][4]">	
+							<label>tngfId</label>
+							<input type="text" value="BEEEEEEF" pattern="^[A-Fa-f0-9]+$" id="eventList0.VisitedAreas0205" name="eventList[0].VisitedAreas[0][2][0][5]">	
+							<label>nid</label>
+							<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.VisitedAreas0206" name="eventList[0].VisitedAreas[0][2][0][6]">
+							<label>eNbId</label>
+							<input type="text" value="MacroeNB-12345" pattern="^(MacroeNB-[A-Fa-f0-9]{5}|LMacroeNB-[A-Fa-f0-9]{6}|SMacroeNB-[A-Fa-f0-9]{5}|HomeeNB-[A-Fa-f0-9]{7})$" id="eventList0.VisitedAreas0207" name="eventList[0].VisitedAreas[0][2][0][7]">	
+							<label>gNbId-bitLength</label>
+						    <input type="text" value="24" pattern="2[2-9]|3[0-2]" id="eventList0.VisitedAreas0208" name="eventList[0].VisitedAreas[0][2][0][8]">	
+							<label>gNBValue</label>
+							<input type="text" value="ABCDEF" pattern="^[A-Fa-f0-9]{6,8}$" id="eventList0.VisitedAreas0209" name="eventList[0].VisitedAreas[0][2][0][9]">	
+							<button type="submit" name="removeVisitedAreasGRanNodeIds" value="0,0,0">Remove</button>
+						  </li>
+					  </ul>
+					  <br>
+					  <ul>
+						Tais -  List of Tracking Area Ids
+						<button type="submit" name="addVisitedAreasTais" value="0,0">Add</button>
+						<li>
+							<label>mcc</label>
+							<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.VisitedAreas0300" name="eventList[0].VisitedAreas[0][3][0][0]">
+							<label>mnc</label>
+							<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.VisitedAreas0301" name="eventList[0].VisitedAreas[0][3][0][1]">	
+							<label>tac</label>
+							<input type="text" value="ABCD" pattern="(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)" id="eventList0.VisitedAreas0302" name="eventList[0].VisitedAreas[0][3][0][2]">
+							<label>nid</label>
+							<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.VisitedAreas0303" name="eventList[0].VisitedAreas[0][3][0][3]">
+							<button type="submit" name="removeVisitedAreasTais" value="0,0,0">Remove</button>
+						  </li>
+					  </ul>
+					  <br>
+					  <br>
+					  <button type="submit" name="removeVisitedAreas" value="0,0">Remove</button>
+					  </li>
+					</ul>
+				</div>
+				<div>
+					DisperReqs - Represents the dispersion analytics requirements.
+					<hr>
+					<ul>
+						<button type="submit" name="addDisperReqs" value="0">Add</button>
+						<li>
+						<label>disperType - Indicates the required dispersion analytics type.</label>
+						<select value="DVDA" id="eventList0.DisperReqs0000" name="eventList[0].DisperReqs[0][0][0][0]">
+							<option value="DVDA" selected="selected">DVDA</option>
+							<option value="TDA">TDA</option>
+							<option value="DVDA_AND_TDA">DVDA_AND_TDA</option>
+						</select>
+						<br>
+						<label>dispOrderCriter - Indicates the ordering criterion for the list of UE Dispersion Analytics information.</label>
+						<select value="TIME_SLOT_START" id="eventList0.DisperReqs0001" name="eventList[0].DisperReqs[0][0][0][1]">
+							<option value="TIME_SLOT_START" selected="selected">TIME_SLOT_START</option>
+							<option value="DISPERSION">DISPERSION</option>
+							<option value="CLASSIFICATION">CLASSIFICATION</option>
+							<option value="RANKING">RANKING</option>
+							<option value="PERCENTILE_RANKING">PERCENTILE_RANKING</option>
+						</select>
+						<br>
+						<label>matchingDir - Indicate the order: ascending or descending. May be present when the "dispOrderCriter" attribute is included.</label>
+						<select value="ASCENDING" id="eventList0.DisperReqs0002" name="eventList[0].DisperReqs[0][0][0][2]">
+							<option value="ASCENDING" selected="selected">ASCENDING</option>
+							<option value="DESCENDING">DESCENDING</option>
+							<option value="CROSSED">CROSSED</option>
+						</select>
+						<br>
+					  <ul>
+						ClassCriters - Indicates the dispersion mobility class criterion for fixed, camper and/or traveller UE, and/or the top-heavy UE dispersion class criterion.
+						<button type="submit" name="addDisperReqsClassCriters" value="0,0">Add</button>
+						<li>
+						<label>disperClass - Indicates the UE dispersion mobility class.</label>
+						<select value="CAMPER" id="eventList0.DisperReqs0100" name="eventList[0].DisperReqs[0][1][0][0]">
+							<option value="FIXED">FIXED</option>
+							<option value="CAMPER" selected="selected">CAMPER</option>
+							<option value="TRAVELLER">TRAVELLER</option>
+							<option value="TOP_HEAVY">TOP_HEAVY</option>
+						</select>						
+						<br>
+						<label>classThreshold - Indicates the dispersion class threshold (as sampling ratio % among impacted UEs) </label>
+						<input type="text" value="12" pattern="\b(?:[1-9]|[1-9][0-9]|100)\b" id="eventList0.DisperReqs0101" name="eventList[0].DisperReqs[0][1][0][1]">
+						<br>
+						<label>thresMatch</label>
+						<select value="DESCENDING" id="eventList0.DisperReqs0102" name="eventList[0].DisperReqs[0][1][0][2]">
+							<option value="ASCENDING">ASCENDING</option>
+							<option value="DESCENDING" selected="selected">DESCENDING</option>
+							<option value="CROSSED">CROSSED</option>
+						</select>
+						<br>
+						<button type="submit" name="removeDisperReqsClassCriters" value="0,0,0">Remove</button>
+						</li>
+					  </ul>
+					  <br>
+					  <ul>
+						RankCriters - Indicates the usage ranking criterion between the high, medium and low usage UE.							
+						<button type="submit" name="addDisperReqsRankCriters" value="0,0">Add</button>
+						<li>
+						<label>highBase - Indicates the "high" ranking bottom baseline percentage</label>
+						<input type="text" value="45" pattern="\b(?:[1-9]|[1-9][0-9]|100)\b" id="eventList0.DisperReqs0200" name="eventList[0].DisperReqs[0][2][0][0]">
+						<br>
+						<label>lowBase - Indicates the "low" ranking top baseline percentage.</label>
+						<input type="text" value="54" pattern="\b(?:[1-9]|[1-9][0-9]|100)\b" id="eventList0.DisperReqs0201" name="eventList[0].DisperReqs[0][2][0][1]">
+						<br>
+						<button type="submit" name="removeDisperReqsRankCriters" value="0,0,0">Remove</button>
+						</li>
+					   </ul>
+					  <br>
+					  <button type="submit" name="removeDisperReqs" value="0,0">Remove</button>
+					  </li>
+					</ul>
+				</div>
+				<div>
+					DnPerfReqs - Represents the DN performance analytics requirements.
+					<hr>
+					<ul>
+						<button type="submit" name="addDnPerfReqs" value="0">Add</button>
+						<li>
+						<label>dnPerfOrderCriter - Indicates the preferred order criterion of a list of Network Performance analytics results</label>
+						<select value="DVDA" id="eventList0.DnPerfReqs0000" name="eventList[0].DnPerfReqs[0][0][0][0]">
+							<option value="DVDA" selected="selected">DVDA</option>
+							<option value="TDA">TDA</option>
+							<option value="DVDA_AND_TDA">DVDA_AND_TDA</option>
+						</select>
+						<br>
+						<label>order - Indicate the order: ascending or descending. May be present when the "dispOrderCriter" attribute is included.</label>
+						<select value="ASCENDING" id="eventList0.DnPerfReqs0001" name="eventList[0].DnPerfReqs[0][0][0][1]">
+							<option value="ASCENDING" selected="selected">ASCENDING</option>
+							<option value="DESCENDING">DESCENDING</option>
+							<option value="CROSSED">CROSSED</option>
+						</select>
+						<br>
+					  <ul>
+						ReportThresholds - Each of the element represents the reporting threshold of an analytics subset.
+						<button type="submit" name="addDnPerfReqsReportThresholds" value="0,0">Add</button>
+						<li>
+						<!-- <label>CongLevel - Value of Congestion that triggers notification</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].DnPerfReqs[__${i_stat.index}__][1][__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getDnPerfReqs(__${i_stat.index}__,1,__${a_stat.index}__,0)}">
+						<br> -->
+						<!-- <label>NfLoadLevel - Value of NF Load that triggers notification</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].DnPerfReqs[__${i_stat.index}__][1][__${a_stat.index}__][1]}" th:value="*{eventList[__${e_stat.index}__].getDnPerfReqs(__${i_stat.index}__,1,__${a_stat.index}__,1)}">
+						<br>
+						<label>NfCpuUsage - Value of NF CPU Usage that triggers notification </label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].DnPerfReqs[__${i_stat.index}__][1][__${a_stat.index}__][2]}" th:value="*{eventList[__${e_stat.index}__].getDnPerfReqs(__${i_stat.index}__,1,__${a_stat.index}__,2)}">
+						<br>
+						<label>NfMemoryUsage - Average usage of memory </label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].DnPerfReqs[__${i_stat.index}__][1][__${a_stat.index}__][3]}" th:value="*{eventList[__${e_stat.index}__].getDnPerfReqs(__${i_stat.index}__,1,__${a_stat.index}__,3)}">
+						<br>
+						<label>NfStorageUsage - Average usage of storage</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].DnPerfReqs[__${i_stat.index}__][1][__${a_stat.index}__][4]}" th:value="*{eventList[__${e_stat.index}__].getDnPerfReqs(__${i_stat.index}__,1,__${a_stat.index}__,4)}">
+						<br> -->
+						<label>AvgTrafficRate - Threshold level of average traffic rate</label>
+						<input type="text" value="12.32Kbps" pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$" id="eventList0.DnPerfReqs0105" name="eventList[0].DnPerfReqs[0][1][0][5]">
+						<br>
+						<label>MaxTrafficRate - Threshold level of maximum traffic rate</label>
+						<input type="text" value="12.32Kbps" pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$" id="eventList0.DnPerfReqs0108" name="eventList[0].DnPerfReqs[0][1][0][8]">
+						<br>
+						<label>AvgPacketDelay(ms) - Threshold level of average Packet Delay</label>
+						<input type="text" value="134" pattern="^[1-9]\d*$" id="eventList0.DnPerfReqs0106" name="eventList[0].DnPerfReqs[0][1][0][6]">
+						<br>
+						<label>MaxPacketDelay(ms) - Threshold level of maximum Packet Delay</label>
+						<input type="text" value="1000" pattern="^[1-9]\d*$" id="eventList0.DnPerfReqs0107" name="eventList[0].DnPerfReqs[0][1][0][7]">
+						<br>
+						<label>AvgPacketLossRate - Threshold level of average Loss Rate</label>
+						<input type="text" value="2" pattern="^([0-9]|[1-9][0-9]|100)$" id="eventList0.DnPerfReqs0109" name="eventList[0].DnPerfReqs[0][1][0][9]">
+						<br>
+						<!-- <label>SvcExpLevel - Service Experience MOS value</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].DnPerfReqs[__${i_stat.index}__][1][__${a_stat.index}__][10]}" th:value="*{eventList[__${e_stat.index}__].getDnPerfReqs(__${i_stat.index}__,1,__${a_stat.index}__,10)}">
+						<br> -->
+						<br>
+						<button type="submit" name="removeDnPerfReqsReportThresholds" value="0,0,0">Remove</button>
+						</li>
+					  </ul>
+					  <br>
+					  <button type="submit" name="removeDnPerfReqs" value="0,0">Remove</button>
+					  </li>
+					</ul>
+					<br>
+				</div>
+				<div>
+					ExptUeBehav - Represents expected UE behaviour. 
+					<hr>
+					<label>StationaryIndication - Identifies whether the UE is stationary or mobile </label>
+					<select value="MOBILE" id="eventList0.ExptUeBehav000000" name="eventList[0].ExptUeBehav[0][0][0][0][0][0]">
+						<option value="STATIONARY">STATIONARY</option>
+						<option value="MOBILE" selected="selected">MOBILE</option>
+					</select>
+					<br>
+					<label>communicationDurationTime(sec) - Indicates for how long the UE will normally stay in CM-Connected for data transmission</label>
+					<input type="text" value="24" pattern="^(0|[1-9]\d*)$" id="eventList0.ExptUeBehav000001" name="eventList[0].ExptUeBehav[0][0][0][0][0][1]">
+					<br>
+					<label>periodicTime(sec) - Identifies interval time of periodic communication</label>
+					<input type="text" value="2" pattern="^(0|[1-9]\d*)$" id="eventList0.ExptUeBehav000002" name="eventList[0].ExptUeBehav[0][0][0][0][0][2]">
+					<br>
+					<label>scheduledCommunicationType - Identifies the type of data transmission: single packet transmission (UL or DL), dual packet transmission (UL with subsequent DL or DL with subsequent UL), multiple packets transmission</label>
+					<select value="BIDIRECTIONA" id="eventList0.ExptUeBehav000003" name="eventList[0].ExptUeBehav[0][0][0][0][0][3]">
+						<option value="DOWNLINK_ONLY">DOWNLINK_ONLY</option>
+						<option value="UPLINK_ONLY">UPLINK_ONLY</option>
+						<option value="BIDIRECTIONA" selected="selected">BIDIRECTIONA</option>
+					</select>
+					<br>
+					<label>trafficProfile - Identifies the type of data transmission: single packet transmission (UL or DL), dual packet transmission (UL with subsequent DL or DL with subsequent UL), multiple packets transmission</label>
+					<select value="SINGLE_TRANS_UL" id="eventList0.ExptUeBehav000004" name="eventList[0].ExptUeBehav[0][0][0][0][0][4]">
+						<option value="SINGLE_TRANS_UL" selected="selected">SINGLE_TRANS_UL</option>
+						<option value="SINGLE_TRANS_DL">SINGLE_TRANS_DL</option>
+						<option value="DUAL_TRANS_UL_FIRST">DUAL_TRANS_UL_FIRST</option>
+						<option value="DUAL_TRANS_DL_FIRST">DUAL_TRANS_DL_FIRST</option>
+						<option value="MULTI_TRANS">MULTI_TRANS</option>
+					</select>
+					<br>
+					<label>validityTime - If present, identifies when the expected UE behaviour parameters expire and shall be deleted locally if it expires </label>
+					<input type="datetime-local" value="2023-07-30T17:33" id="eventList0.ExptUeBehav000005" name="eventList[0].ExptUeBehav[0][0][0][0][0][5]">
+					<br>
+					scheduledCommunicationTime - Identifies time and day of the week when the UE is available for communication
+					<ul>
+						DaysOfWeek - Identifies the day(s) of the week. If absent, it indicates every day of the week.
+						<button type="submit" name="addExptUeBehavScheduledCommunicationTimeDaysOfWeek" value="0">Add</button>
+						<li>
+						<input type="text" value="1" pattern="[1-7]" id="eventList0.ExptUeBehav100000" name="eventList[0].ExptUeBehav[1][0][0][0][0][0]">
+						<button type="submit" name="removeExptUeBehavScheduledCommunicationTimeDaysOfWeek" value="0,0">Remove</button>
+						</li>
+						<li>
+						<input type="text" value="2" pattern="[1-7]" id="eventList0.ExptUeBehav100001" name="eventList[0].ExptUeBehav[1][0][0][0][0][1]">
+						<button type="submit" name="removeExptUeBehavScheduledCommunicationTimeDaysOfWeek" value="0,1">Remove</button>
+						</li>
+						<li>
+						<input type="text" value="3" pattern="[1-7]" id="eventList0.ExptUeBehav100002" name="eventList[0].ExptUeBehav[1][0][0][0][0][2]">
+						<button type="submit" name="removeExptUeBehavScheduledCommunicationTimeDaysOfWeek" value="0,2">Remove</button>
+						</li>
+						<li>
+						<input type="text" value="4" pattern="[1-7]" id="eventList0.ExptUeBehav100003" name="eventList[0].ExptUeBehav[1][0][0][0][0][3]">
+						<button type="submit" name="removeExptUeBehavScheduledCommunicationTimeDaysOfWeek" value="0,3">Remove</button>
+						</li>
+					</ul>
+					<br>
+					<label>timeOfDayStart</label>
+					<input type="text" value="20:15:00-08:00" pattern="^(?:(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{3})?(?:Z|[-+](?:[01]\d|2[0-3]):[0-5]\d)?)$" id="eventList0.ExptUeBehav100010" name="eventList[0].ExptUeBehav[1][0][0][0][1][0]">
+					<label>timeOfDayEnd</label>
+					<input type="text" value="21:17:00-08:00" pattern="^(?:(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{3})?(?:Z|[-+](?:[01]\d|2[0-3]):[0-5]\d)?)$" id="eventList0.ExptUeBehav100011" name="eventList[0].ExptUeBehav[1][0][0][0][1][1]">
+					<br>
+					<label>batteryInd - When present, this IE shall indicate whether the UE is battery powered or not.</label>
+					<input type="checkbox" value="" id="eventList0.ExptUeBehav2000001" name="eventList[0].ExptUeBehav[2][0][0][0][0][0]" checked="checked"><input type="hidden" name="_eventList[0].ExptUeBehav[2][0][0][0][0][0]" value="on">
+					<br>
+					<label>replaceableInd - When present, this IE shall indicate whether the battery of the UE is replaceable or not.</label>
+					<input type="checkbox" value="" id="eventList0.ExptUeBehav2000011" name="eventList[0].ExptUeBehav[2][0][0][0][0][1]" checked="checked"><input type="hidden" name="_eventList[0].ExptUeBehav[2][0][0][0][0][1]" value="on">
+					<br>
+					<label>rechargeableInd - When present, this IE shall indicate whether the battery of the UE is rechargeable or not.</label>
+					<input type="checkbox" value="" id="eventList0.ExptUeBehav2000021" name="eventList[0].ExptUeBehav[2][0][0][0][0][2]" checked="checked"><input type="hidden" name="_eventList[0].ExptUeBehav[2][0][0][0][0][2]" value="on">
+					<br>
+					<ul>
+					expectedUmts - Identifies the UE's expected geographical movement. (Only used by AMF) The attribute is only applicable in 5G. The first instance of the attribute represents the start of the location, and the last one represents the stop of the location
+						<hr>
+						<button type="submit" name="addExptUeBehavExpectedUmts" value="0">Add</button>
+						<li>
+						umtTime - This IE identifies the time when the UE is expected to arrive at the location.
+						<label>timeOfDay</label>
+						<input type="text" value="21:17:00-08:00" pattern="^(?:(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{3})?(?:Z|[-+](?:[01]\d|2[0-3]):[0-5]\d)?)$" id="eventList0.ExptUeBehav301000" name="eventList[0].ExptUeBehav[3][0][1][0][0][0]">
+						<label>dayOfWeek</label>
+						<input type="text" value="2" pattern="[1-7]" id="eventList0.ExptUeBehav301001" name="eventList[0].ExptUeBehav[3][0][1][0][0][1]">
+						<br>
+						<br>
+						nwAreaInfo - This IE represents the network area information of the user where the UE is located.
+						<br>
+						<ul>
+							Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
+							<button type="submit" name="addExptUeBehavEcgis" value="0,0">Add</button>
+							<li>
+							<label>mcc</label>
+							<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.ExptUeBehav300000" name="eventList[0].ExptUeBehav[3][0][0][0][0][0]">
+							<label>mnc</label>
+							<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.ExptUeBehav300001" name="eventList[0].ExptUeBehav[3][0][0][0][0][1]">
+							<label>eutraCellId</label>
+							<input type="text" value="ABCDEF1" pattern="^[A-Fa-f0-9]{7}$" id="eventList0.ExptUeBehav300002" name="eventList[0].ExptUeBehav[3][0][0][0][0][2]">
+							<label>nid</label>
+							<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.ExptUeBehav300003" name="eventList[0].ExptUeBehav[3][0][0][0][0][3]">					
+							<button type="submit" name="removeExptUeBehavEcgis" value="0,0,0">Remove</button>
+							  </li>
+						  </ul>
+						  <br>
+						  <ul>
+							Ncgis - Represents the list of NR cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NR cell Ids.							
+							<button type="submit" name="addExptUeBehavNcgis" value="0,0">Add</button>
+							<li>
+							<label>mcc</label>
+							<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.ExptUeBehav300100" name="eventList[0].ExptUeBehav[3][0][0][1][0][0]">
+							<label>mnc</label>
+							<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.ExptUeBehav300101" name="eventList[0].ExptUeBehav[3][0][0][1][0][1]">
+							<label>nrCellId</label>
+							<input type="text" value="ABCDEF123" pattern="^[A-Fa-f0-9]{9}$" id="eventList0.ExptUeBehav300102" name="eventList[0].ExptUeBehav[3][0][0][1][0][2]">
+							<label>nid</label>
+							<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.ExptUeBehav300103" name="eventList[0].ExptUeBehav[3][0][0][1][0][3]">
+							<button type="submit" name="removeExptUeBehavNcgis" value="0,0,0">Remove</button>
+							</li>
+						   </ul>
+						  <br>
+						  <ul>
+							GRanNodeIds - Represents the list of NG RAN node identifiers that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NG RAN node identifiers.  
+							<button type="submit" name="addExptUeBehavGRanNodeIds" value="0,0">Add</button>
+							<li>
+								<label>mcc</label>
+								<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.ExptUeBehav300200" name="eventList[0].ExptUeBehav[3][0][0][2][0][0]">
+								<label>mnc</label>
+								<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.ExptUeBehav300201" name="eventList[0].ExptUeBehav[3][0][0][2][0][1]">	
+								<label>n3IwfId</label>
+								<input type="text" value="BEEEEF" pattern="^[A-Fa-f0-9]+$" id="eventList0.ExptUeBehav300202" name="eventList[0].ExptUeBehav[3][0][0][2][0][2]">	
+								<label>ngeNbId</label>
+								<input type="text" value="MacroNGeNB-12345" pattern="^(MacroNGeNB-[A-Fa-f0-9]{5}|LMacroNGeNB-[A-Fa-f0-9]{6}|SMacroNGeNB-[A-Fa-f0-9]{5})$" id="eventList0.ExptUeBehav300203" name="eventList[0].ExptUeBehav[3][0][0][2][0][3]">	
+								<label>wagfId</label>
+								<input type="text" value="BEEEEF" pattern="^[A-Fa-f0-9]+$" id="eventList0.ExptUeBehav300204" name="eventList[0].ExptUeBehav[3][0][0][2][0][4]">	
+								<label>tngfId</label>
+								<input type="text" value="BEEEEEEEEF" pattern="^[A-Fa-f0-9]+$" id="eventList0.ExptUeBehav300205" name="eventList[0].ExptUeBehav[3][0][0][2][0][5]">	
+								<label>nid</label>
+								<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.ExptUeBehav300206" name="eventList[0].ExptUeBehav[3][0][0][2][0][6]">
+								<label>eNbId</label>
+								<input type="text" value="MacroeNB-12345" pattern="^(MacroeNB-[A-Fa-f0-9]{5}|LMacroeNB-[A-Fa-f0-9]{6}|SMacroeNB-[A-Fa-f0-9]{5}|HomeeNB-[A-Fa-f0-9]{7})$" id="eventList0.ExptUeBehav300207" name="eventList[0].ExptUeBehav[3][0][0][2][0][7]">	
+								<label>gNbId-bitLength</label>
+								<input type="text" value="24" pattern="2[2-9]|3[0-2]" id="eventList0.ExptUeBehav300208" name="eventList[0].ExptUeBehav[3][0][0][2][0][8]">	
+								<label>gNBValue</label>
+								<input type="text" value="abcdef" pattern="^[A-Fa-f0-9]{6,8}$" id="eventList0.ExptUeBehav300209" name="eventList[0].ExptUeBehav[3][0][0][2][0][9]">	
+								<button type="submit" name="removeExptUeBehavGRanNodeIds" value="0,0,0">Remove</button>
+							  </li>
+						  </ul>
+						  <br>
+						  <ul>
+							Tais -  List of Tracking Area Ids
+							<button type="submit" name="addExptUeBehavTais" value="0,0">Add</button>
+							<li>
+								<label>mcc</label>
+								<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.ExptUeBehav300300" name="eventList[0].ExptUeBehav[3][0][0][3][0][0]">
+								<label>mnc</label>
+								<input type="text" value="123" pattern="([0-9]){3}" id="eventList0.ExptUeBehav300301" name="eventList[0].ExptUeBehav[3][0][0][3][0][1]">	
+								<label>tac</label>
+								<input type="text" value="ABCD" pattern="(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)" id="eventList0.ExptUeBehav300302" name="eventList[0].ExptUeBehav[3][0][0][3][0][2]">
+								<label>nid</label>
+								<input type="text" value="ABCDEF12345" pattern="([A-Za-z0-9]){11}" id="eventList0.ExptUeBehav300303" name="eventList[0].ExptUeBehav[3][0][0][3][0][3]">
+								<button type="submit" name="removeExptUeBehavTais" value="0,0,0">Remove</button>
+							  </li>
+						  </ul>
+						GeographicalAreas - Identifies a list of geographic areas of the user where the UE is located.
+						<ul>
+						<button type="submit" name="addExptUeBehavGeographicalAreas" value="0,0">Add</button>
+						<li>
+							<label>supportedGADShape - the shape of the geographical area</label>
+							<select value="POINT_UNCERTAINTY_ELLIPSE" id="eventList0.ExptUeBehav302000" name="eventList[0].ExptUeBehav[3][0][2][0][0][0]">
+								<option value="POINT">POINT</option>
+								<option value="POINT_UNCERTAINTY_CIRCLE">POINT_UNCERTAINTY_CIRCLE</option>
+								<option value="POINT_UNCERTAINTY_ELLIPSE" selected="selected">POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="POLYGON">POLYGON</option>
+								<option value="POINT_ALTITUDE">POINT_ALTITUDE</option>
+								<option value="POINT_ALTITUDE_UNCERTAINTY">POINT_ALTITUDE_UNCERTAINTY</option>
+								<option value="ELLIPSOID_ARC">ELLIPSOID_ARC</option>
+								<option value="LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE">LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID">LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID</option>
+							</select>
+							<br>
+							
+							
+							<div>
+							PointUncertaintyEllipse - Geographical area consisting of a point, plus an uncertainty ellipse and a confidence value
+							<label>lon - longitude</label>
+							<input type="text" value="-123.13333" pattern="^-?((180(\.0{1,6})?)|((1[0-7]\d|\d{1,2})(\.\d{1,6})?))$" id="eventList0.ExptUeBehav302001" name="eventList[0].ExptUeBehav[3][0][2][0][0][1]">
+							<br>
+							<label>lat - latitude</label>
+							<input type="text" value="89.9999" pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$" id="eventList0.ExptUeBehav302002" name="eventList[0].ExptUeBehav[3][0][2][0][0][2]">
+							<br>
+							<label>orientationMajor (angle of major axis) of uncertaintyEllipse</label>
+							<input type="text" value="130" pattern="^(?:[0-9]|[1-9][0-9]|1[0-7][0-9]|180)$" id="eventList0.ExptUeBehav302004" name="eventList[0].ExptUeBehav[3][0][2][0][0][4]">
+							<br>
+							<label>semiMajor (axis) of uncertaintyEllipse(meters)</label>
+							<input type="text" value="9.89" pattern="^(?:0|[1-9]\d*)(?:\.\d+)?$" id="eventList0.ExptUeBehav302005" name="eventList[0].ExptUeBehav[3][0][2][0][0][5]">
+							<br>
+							<label>semiMinor (axis) of uncertaintyEllipse(meters)</label>
+							<input type="text" value="7.65" pattern="^(?:0|[1-9]\d*)(?:\.\d+)?$" id="eventList0.ExptUeBehav302006" name="eventList[0].ExptUeBehav[3][0][2][0][0][6]">
+							<br>
+							<label>confidence</label>
+							<input type="text" value="34" pattern="^([0-9]|[1-9][0-9]|100)$" id="eventList0.ExptUeBehav302003" name="eventList[0].ExptUeBehav[3][0][2][0][0][3]">
+							<br>
+							</div>
+							
+							
+							
+							
+							<button type="submit" name="removeExptUeBehavGeographicalAreas" value="0,0,0">Remove</button>
+							</li>
+						<li>
+							<label>supportedGADShape - the shape of the geographical area</label>
+							<select value="POINT" id="eventList0.ExptUeBehav302100" name="eventList[0].ExptUeBehav[3][0][2][1][0][0]">
+								<option value="POINT" selected="selected">POINT</option>
+								<option value="POINT_UNCERTAINTY_CIRCLE">POINT_UNCERTAINTY_CIRCLE</option>
+								<option value="POINT_UNCERTAINTY_ELLIPSE">POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="POLYGON">POLYGON</option>
+								<option value="POINT_ALTITUDE">POINT_ALTITUDE</option>
+								<option value="POINT_ALTITUDE_UNCERTAINTY">POINT_ALTITUDE_UNCERTAINTY</option>
+								<option value="ELLIPSOID_ARC">ELLIPSOID_ARC</option>
+								<option value="LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE">LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID">LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID</option>
+							</select>
+							<br>
+							<div>
+							Point - Geographical area consisting of a single point, represented by its longitude and latitude.
+							
+							<label>lon - longitude</label>
+							<input type="text" value="-123.13333" pattern="^-?((180(\.0{1,6})?)|((1[0-7]\d|\d{1,2})(\.\d{1,6})?))$" id="eventList0.ExptUeBehav302101" name="eventList[0].ExptUeBehav[3][0][2][1][0][1]">
+							<br>
+							<label>lat - latitude</label>
+							<input type="text" value="89.9999" pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$" id="eventList0.ExptUeBehav302102" name="eventList[0].ExptUeBehav[3][0][2][1][0][2]">
+							<br>
+							<br>
+							</div>
+							
+							
+							
+							
+							
+							
+							<button type="submit" name="removeExptUeBehavGeographicalAreas" value="0,0,1">Remove</button>
+							</li>
+						<li>
+							<label>supportedGADShape - the shape of the geographical area</label>
+							<select value="POINT_UNCERTAINTY_CIRCLE" id="eventList0.ExptUeBehav302200" name="eventList[0].ExptUeBehav[3][0][2][2][0][0]">
+								<option value="POINT">POINT</option>
+								<option value="POINT_UNCERTAINTY_CIRCLE" selected="selected">POINT_UNCERTAINTY_CIRCLE</option>
+								<option value="POINT_UNCERTAINTY_ELLIPSE">POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="POLYGON">POLYGON</option>
+								<option value="POINT_ALTITUDE">POINT_ALTITUDE</option>
+								<option value="POINT_ALTITUDE_UNCERTAINTY">POINT_ALTITUDE_UNCERTAINTY</option>
+								<option value="ELLIPSOID_ARC">ELLIPSOID_ARC</option>
+								<option value="LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE">LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID">LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID</option>
+							</select>
+							<br>
+							
+							<div>
+							PointUncertaintyCircle - Geographical area consisting of a point and an uncertainty value
+							<label>lon - longitude</label>
+							<input type="text" value="-123.13333" pattern="^-?((180(\.0{1,6})?)|((1[0-7]\d|\d{1,2})(\.\d{1,6})?))$" id="eventList0.ExptUeBehav302201" name="eventList[0].ExptUeBehav[3][0][2][2][0][1]">
+							<br>
+							<label>lat - latitude</label>
+							<input type="text" value="89.9999" pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$" id="eventList0.ExptUeBehav302202" name="eventList[0].ExptUeBehav[3][0][2][2][0][2]">
+							<br>
+							<label>uncertainty(meters)</label>
+							<input type="text" value="6.5" pattern="^(?:0|[1-9]\d*)(?:\.\d+)?$" id="eventList0.ExptUeBehav302203" name="eventList[0].ExptUeBehav[3][0][2][2][0][3]">
+							<br>
+							<br>
+							</div>
+							
+							
+							
+							
+							
+							<button type="submit" name="removeExptUeBehavGeographicalAreas" value="0,0,2">Remove</button>
+							</li>
+						<li>
+							<label>supportedGADShape - the shape of the geographical area</label>
+							<select value="POLYGON" id="eventList0.ExptUeBehav302300" name="eventList[0].ExptUeBehav[3][0][2][3][0][0]">
+								<option value="POINT">POINT</option>
+								<option value="POINT_UNCERTAINTY_CIRCLE">POINT_UNCERTAINTY_CIRCLE</option>
+								<option value="POINT_UNCERTAINTY_ELLIPSE">POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="POLYGON" selected="selected">POLYGON</option>
+								<option value="POINT_ALTITUDE">POINT_ALTITUDE</option>
+								<option value="POINT_ALTITUDE_UNCERTAINTY">POINT_ALTITUDE_UNCERTAINTY</option>
+								<option value="ELLIPSOID_ARC">ELLIPSOID_ARC</option>
+								<option value="LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE">LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID">LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID</option>
+							</select>
+							<br>
+							
+							
+							
+							<div>
+							Polygon - Geographical area consisting of a list of points (between 3 to 15 points).
+							<ul>
+								<button type="submit" name="addExptUeBehavGeographicalAreasPolygon" value="0,0,3">Add</button>
+								<li>
+								<label>lon - longitude</label>
+								<input type="text" value="-73.9875" pattern="^-?((180(\.0{1,6})?)|((1[0-7]\d|\d{1,2})(\.\d{1,6})?))$" id="eventList0.ExptUeBehav302310" name="eventList[0].ExptUeBehav[3][0][2][3][1][0]">
+								<br>
+								<label>lat - latitude</label>
+								<input type="text" value="40.748817" pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$" id="eventList0.ExptUeBehav302320" name="eventList[0].ExptUeBehav[3][0][2][3][2][0]">
+								<br>
+								<button type="submit" name="removeExptUeBehavGeographicalAreasPolygon" value="0,0,3,0">Remove</button>
+								</li>
+								<li>
+								<label>lon - longitude</label>
+								<input type="text" value="-73.9836" pattern="^-?((180(\.0{1,6})?)|((1[0-7]\d|\d{1,2})(\.\d{1,6})?))$" id="eventList0.ExptUeBehav302311" name="eventList[0].ExptUeBehav[3][0][2][3][1][1]">
+								<br>
+								<label>lat - latitude</label>
+								<input type="text" value="40.7549" pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$" id="eventList0.ExptUeBehav302321" name="eventList[0].ExptUeBehav[3][0][2][3][2][1]">
+								<br>
+								<button type="submit" name="removeExptUeBehavGeographicalAreasPolygon" value="0,0,3,1">Remove</button>
+								</li>
+								<li>
+								<label>lon - longitude</label>
+								<input type="text" value="-73.9798" pattern="^-?((180(\.0{1,6})?)|((1[0-7]\d|\d{1,2})(\.\d{1,6})?))$" id="eventList0.ExptUeBehav302312" name="eventList[0].ExptUeBehav[3][0][2][3][1][2]">
+								<br>
+								<label>lat - latitude</label>
+								<input type="text" value="40.7492" pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$" id="eventList0.ExptUeBehav302322" name="eventList[0].ExptUeBehav[3][0][2][3][2][2]">
+								<br>
+								<button type="submit" name="removeExptUeBehavGeographicalAreasPolygon" value="0,0,3,2">Remove</button>
+								</li>
+							</ul>
+							<br>
+							</div>
+							
+							
+							
+							<button type="submit" name="removeExptUeBehavGeographicalAreas" value="0,0,3">Remove</button>
+							</li>
+						<li>
+							<label>supportedGADShape - the shape of the geographical area</label>
+							<select value="POINT_ALTITUDE" id="eventList0.ExptUeBehav302400" name="eventList[0].ExptUeBehav[3][0][2][4][0][0]">
+								<option value="POINT">POINT</option>
+								<option value="POINT_UNCERTAINTY_CIRCLE">POINT_UNCERTAINTY_CIRCLE</option>
+								<option value="POINT_UNCERTAINTY_ELLIPSE">POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="POLYGON">POLYGON</option>
+								<option value="POINT_ALTITUDE" selected="selected">POINT_ALTITUDE</option>
+								<option value="POINT_ALTITUDE_UNCERTAINTY">POINT_ALTITUDE_UNCERTAINTY</option>
+								<option value="ELLIPSOID_ARC">ELLIPSOID_ARC</option>
+								<option value="LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE">LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID">LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID</option>
+							</select>
+							<br>
+							
+							
+							
+							
+							<div>
+							PointAltitude - Geographical area consisting of a point and an altitude value.
+							<label>lon - longitude</label>
+							<input type="text" value="" pattern="^-?((180(\.0{1,6})?)|((1[0-7]\d|\d{1,2})(\.\d{1,6})?))$" id="eventList0.ExptUeBehav302401" name="eventList[0].ExptUeBehav[3][0][2][4][0][1]">
+							<br>
+							<label>lat - latitude</label>
+							<input type="text" value="" pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$" id="eventList0.ExptUeBehav302402" name="eventList[0].ExptUeBehav[3][0][2][4][0][2]">
+							<br>
+							<label>altitude</label>
+							<input type="text" value="" pattern="^(-?([0-9]{1,4}|[1-2][0-9]{4}|3[0-1][0-9]{3}|32[0-6][0-9]{2}|327[0-5][0-9]|32767)(\.\d+)?|32767(\.0+)?)$" id="eventList0.ExptUeBehav302403" name="eventList[0].ExptUeBehav[3][0][2][4][0][3]">
+							<br>
+							<br>
+							</div>
+							
+							
+							<button type="submit" name="removeExptUeBehavGeographicalAreas" value="0,0,4">Remove</button>
+							</li>
+						<li>
+							<label>supportedGADShape - the shape of the geographical area</label>
+							<select value="POINT_ALTITUDE_UNCERTAINTY" id="eventList0.ExptUeBehav302500" name="eventList[0].ExptUeBehav[3][0][2][5][0][0]">
+								<option value="POINT">POINT</option>
+								<option value="POINT_UNCERTAINTY_CIRCLE">POINT_UNCERTAINTY_CIRCLE</option>
+								<option value="POINT_UNCERTAINTY_ELLIPSE">POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="POLYGON">POLYGON</option>
+								<option value="POINT_ALTITUDE">POINT_ALTITUDE</option>
+								<option value="POINT_ALTITUDE_UNCERTAINTY" selected="selected">POINT_ALTITUDE_UNCERTAINTY</option>
+								<option value="ELLIPSOID_ARC">ELLIPSOID_ARC</option>
+								<option value="LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE">LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID">LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID</option>
+							</select>
+							<br>
+							
+							
+							
+							
+							
+							<div>
+							PointAltitudeUncertainty - Geographical area consisting of a point, an altitude value and an uncertainty value.
+							<label>lon - longitude</label>
+							<input type="text" value="-73.9875" pattern="^-?((180(\.0{1,6})?)|((1[0-7]\d|\d{1,2})(\.\d{1,6})?))$" id="eventList0.ExptUeBehav302501" name="eventList[0].ExptUeBehav[3][0][2][5][0][1]">
+							<br>
+							<label>lat - latitude</label>
+							<input type="text" value="40.748817" pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$" id="eventList0.ExptUeBehav302502" name="eventList[0].ExptUeBehav[3][0][2][5][0][2]">
+							<br>
+							<label>orientationMajor (angle of major axis) of uncertaintyEllipse</label>
+							<input type="text" value="123" pattern="^(?:[0-9]|[1-9][0-9]|1[0-7][0-9]|180)$" id="eventList0.ExptUeBehav302504" name="eventList[0].ExptUeBehav[3][0][2][5][0][4]">
+							<br>
+							<label>semiMajor (axis) of uncertaintyEllipse(meters)</label>
+							<input type="text" value="2.34" pattern="^(?:0|[1-9]\d*)(?:\.\d+)?$" id="eventList0.ExptUeBehav302505" name="eventList[0].ExptUeBehav[3][0][2][5][0][5]">
+							<br>
+							<label>semiMinor (axis) of uncertaintyEllipse(meters)</label>
+							<input type="text" value="2.33" pattern="^(?:0|[1-9]\d*)(?:\.\d+)?$" id="eventList0.ExptUeBehav302506" name="eventList[0].ExptUeBehav[3][0][2][5][0][6]">
+							<br>
+							<label>confidence</label>
+							<input type="text" value="100" pattern="^([0-9]|[1-9][0-9]|100)$" id="eventList0.ExptUeBehav302503" name="eventList[0].ExptUeBehav[3][0][2][5][0][3]">
+							<br>
+							<label>altitude</label>
+							<input type="text" value="3456" pattern="^(-?([0-9]{1,4}|[1-2][0-9]{4}|3[0-1][0-9]{3}|32[0-6][0-9]{2}|327[0-5][0-9]|32767)(\.\d+)?|32767(\.0+)?)$" id="eventList0.ExptUeBehav302507" name="eventList[0].ExptUeBehav[3][0][2][5][0][7]">
+							<br>
+							<label>uncertaintyAltitude(meters)</label>
+							<input type="text" value="2.45" pattern="^(?:0|[1-9]\d*)(?:\.\d+)?$" id="eventList0.ExptUeBehav302508" name="eventList[0].ExptUeBehav[3][0][2][5][0][8]">
+							<br>
+							<br>
+							</div>
+							
+							<button type="submit" name="removeExptUeBehavGeographicalAreas" value="0,0,5">Remove</button>
+							</li>
+						<li>
+							<label>supportedGADShape - the shape of the geographical area</label>
+							<select value="ELLIPSOID_ARC" id="eventList0.ExptUeBehav302600" name="eventList[0].ExptUeBehav[3][0][2][6][0][0]">
+								<option value="POINT">POINT</option>
+								<option value="POINT_UNCERTAINTY_CIRCLE">POINT_UNCERTAINTY_CIRCLE</option>
+								<option value="POINT_UNCERTAINTY_ELLIPSE">POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="POLYGON">POLYGON</option>
+								<option value="POINT_ALTITUDE">POINT_ALTITUDE</option>
+								<option value="POINT_ALTITUDE_UNCERTAINTY">POINT_ALTITUDE_UNCERTAINTY</option>
+								<option value="ELLIPSOID_ARC" selected="selected">ELLIPSOID_ARC</option>
+								<option value="LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE">LOCAL_2D_POINT_UNCERTAINTY_ELLIPSE</option>
+								<option value="LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID">LOCAL_3D_POINT_UNCERTAINTY_ELLIPSOID</option>
+							</select>
+							<br>
+							
+							
+							
+							
+							
+							
+							<div>
+							EllipsoidArc - Geographical are consisting of an ellipsoid arc
+							<label>lon - longitude</label>
+							<input type="text" value="-73.9875" pattern="^-?((180(\.0{1,6})?)|((1[0-7]\d|\d{1,2})(\.\d{1,6})?))$" id="eventList0.ExptUeBehav302601" name="eventList[0].ExptUeBehav[3][0][2][6][0][1]">
+							<br>
+							<label>lat - latitude</label>
+							<input type="text" value="40.748817" pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$" id="eventList0.ExptUeBehav302602" name="eventList[0].ExptUeBehav[3][0][2][6][0][2]">
+							<br>
+							<label>confidence</label>
+							<input type="text" value="100" pattern="^([0-9]|[1-9][0-9]|100)$" id="eventList0.ExptUeBehav302603" name="eventList[0].ExptUeBehav[3][0][2][6][0][3]">
+							<br>
+							<label>innerRadius(meters)</label>
+							<input type="text" value="345" pattern="^(?:0|[1-9]\d{0,4}|[1-2]\d{5}|3[0-1]\d{4}|327[0-5]\d{3}|3276[0-6]\d{2}|32767[0-5]\d|327675)$" id="eventList0.ExptUeBehav302604" name="eventList[0].ExptUeBehav[3][0][2][6][0][4]">
+							<br>
+							<label>uncertaintyRadius(meters)</label>
+							<input type="text" value="2.45" pattern="^(?:0|[1-9]\d*)(?:\.\d+)?$" id="eventList0.ExptUeBehav302605" name="eventList[0].ExptUeBehav[3][0][2][6][0][5]">
+							<br>
+							<label>offsetAngle</label>
+							<input type="text" value="123" id="eventList0.ExptUeBehav302606" name="eventList[0].ExptUeBehav[3][0][2][6][0][6]">
+							<br>
+							<label>includedAngle</label>
+							<input type="text" value="67" id="eventList0.ExptUeBehav302607" name="eventList[0].ExptUeBehav[3][0][2][6][0][7]">
+							<br>
+							<br>
+							</div>
+							<button type="submit" name="removeExptUeBehavGeographicalAreas" value="0,0,6">Remove</button>
+							</li>
+						</ul>
+						<br>
+						CivicAddresses - Identifies a list of civic addresses of the user where the UE is located.
+						<ul>
+							<button type="submit" name="addExptUeBehavCivicAddresses" value="0,0">Add</button>
+							<li>
+							<label>country</label>
+							<input type="text" value="AU" pattern="^[A-Z]{2}$" id="eventList0.ExptUeBehav303000" name="eventList[0].ExptUeBehav[3][0][3][0][0][0]">
+							<br>
+							<label>a1 - National subdivisions </label>
+							<input type="text" value="NSW" id="eventList0.ExptUeBehav303001" name="eventList[0].ExptUeBehav[3][0][3][0][0][1]">
+							<br>
+							<label>a2- County, parish, gun (JP), district (IN)</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav303002" name="eventList[0].ExptUeBehav[3][0][3][0][0][2]">
+							<br>
+							<label>a3 - City, township, shi (JP)</label>
+							<input type="text" value="Wollongong" id="eventList0.ExptUeBehav303003" name="eventList[0].ExptUeBehav[3][0][3][0][0][3]">
+							<br>
+							<label>a4 - City division, borough, city district, ward, chou (JP)</label>
+							<input type="text" value="North Wollongong" id="eventList0.ExptUeBehav303004" name="eventList[0].ExptUeBehav[3][0][3][0][0][4]">
+							<br>
+							<label>a5 - Neighbourhood, block</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav303005" name="eventList[0].ExptUeBehav[3][0][3][0][0][5]">
+							<br>
+							<label>a6 - Group of streets below the neighbourhood level</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav303006" name="eventList[0].ExptUeBehav[3][0][3][0][0][6]">
+							<br>
+							<label>PRD - Leading street direction</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav303007" name="eventList[0].ExptUeBehav[3][0][3][0][0][7]">
+							<br>
+							<label>POD - Trailing street suffix</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav303008" name="eventList[0].ExptUeBehav[3][0][3][0][0][8]">
+							<br>
+							<label>STS - Street suffix or type</label>
+							<input type="text" value="Street" id="eventList0.ExptUeBehav303009" name="eventList[0].ExptUeBehav[3][0][3][0][0][9]">
+
+							<label>HNO - House number</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030010" name="eventList[0].ExptUeBehav[3][0][3][0][0][10]">
+
+							<label>HNS - House number suffix</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030011" name="eventList[0].ExptUeBehav[3][0][3][0][0][11]">
+
+							<label>LMK - Landmark or vanity address</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030012" name="eventList[0].ExptUeBehav[3][0][3][0][0][12]">
+
+							<label>LOC - Additional location information</label>
+							<input type="text" value="Corner" id="eventList0.ExptUeBehav3030013" name="eventList[0].ExptUeBehav[3][0][3][0][0][13]">
+
+							<label>NAM - Name (residence and office occupant)</label>
+							<input type="text" value="Video Rental Store" id="eventList0.ExptUeBehav3030014" name="eventList[0].ExptUeBehav[3][0][3][0][0][14]">
+
+							<label>PC - Postal/zip code</label>
+							<input type="text" value="2500" id="eventList0.ExptUeBehav3030015" name="eventList[0].ExptUeBehav[3][0][3][0][0][15]">
+
+							<label>BLD - Building (structure)</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030016" name="eventList[0].ExptUeBehav[3][0][3][0][0][16]">
+							<br>
+							<label>UNIT - Unit (apartment, suite)</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030017" name="eventList[0].ExptUeBehav[3][0][3][0][0][17]">
+
+							<label>FLR - Floor</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030018" name="eventList[0].ExptUeBehav[3][0][3][0][0][18]">
+
+							<label>ROOM - Room</label>
+							<input type="text" value="Westerns and Classics" id="eventList0.ExptUeBehav3030019" name="eventList[0].ExptUeBehav[3][0][3][0][0][19]">
+
+							<label>PLC - Place-type</label>
+							<input type="text" value="store" id="eventList0.ExptUeBehav3030020" name="eventList[0].ExptUeBehav[3][0][3][0][0][20]">
+
+							<label>PCN - Postal community name</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030021" name="eventList[0].ExptUeBehav[3][0][3][0][0][21]">
+
+							<label>POBOX - Post office box (P.O. box)</label>
+							<input type="text" value="Private Box 15" id="eventList0.ExptUeBehav3030022" name="eventList[0].ExptUeBehav[3][0][3][0][0][22]">
+
+							<label>ADDCODE - Additional code</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030023" name="eventList[0].ExptUeBehav[3][0][3][0][0][23]">
+
+							<label>SEAT - Seat (desk, cubicle, workstation)</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030024" name="eventList[0].ExptUeBehav[3][0][3][0][0][24]">
+
+							<label>RD - Primary road or street</label>
+							<input type="text" value="Flinders" id="eventList0.ExptUeBehav3030025" name="eventList[0].ExptUeBehav[3][0][3][0][0][25]">
+							<br>
+							<label>RDSEC - Road clause</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030026" name="eventList[0].ExptUeBehav[3][0][3][0][0][26]">
+
+							<label>RDBR - Road branch</label>
+							<input type="text" value="Cambell Street" id="eventList0.ExptUeBehav3030027" name="eventList[0].ExptUeBehav[3][0][3][0][0][27]">
+
+							<label>RDSUBBR - Road sub-branch</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030028" name="eventList[0].ExptUeBehav[3][0][3][0][0][28]">
+
+							<label>PRM - Road pre-modifier</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030029" name="eventList[0].ExptUeBehav[3][0][3][0][0][29]">
+
+							<label>POM - Road post-modifier</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030030" name="eventList[0].ExptUeBehav[3][0][3][0][0][30]">
+
+							<label>usageRules - When present, this IE shall carry the value of "usagerules" Element of the PIDL-LO XML document, with UTF-8 encoding.</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030031" name="eventList[0].ExptUeBehav[3][0][3][0][0][31]">
+
+							<label>method - When present, this IE shall contain the method token, carried by the "method" Element of the PIDLLO XML document.</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030032" name="eventList[0].ExptUeBehav[3][0][3][0][0][32]">
+
+							<label>providedBy - When present, this IE shall carry the value of "provided-by" Element of the PIDL-LO XML document, with UTF-8 encoding.</label>
+							<input type="text" value="" id="eventList0.ExptUeBehav3030033" name="eventList[0].ExptUeBehav[3][0][3][0][0][33]">
+
+							<button type="submit" name="removeExptUeBehavCivicAddresses" value="0,0,0">Remove</button>
+							</li>
+						</ul>
+						<br>
+						<button type="submit" name="removeExptUeBehavExpectedUmts" value="0,0">Remove</button>
+						</li>
+						<li>
+						umtTime - This IE identifies the time when the UE is expected to arrive at the location.
+						<label>timeOfDay</label>
+						<input type="text" value="21:17:00-08:00" pattern="^(?:(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{3})?(?:Z|[-+](?:[01]\d|2[0-3]):[0-5]\d)?)$" id="eventList0.ExptUeBehav311000" name="eventList[0].ExptUeBehav[3][1][1][0][0][0]">
+						<label>dayOfWeek</label>
+						<input type="text" value="2" pattern="[1-7]" id="eventList0.ExptUeBehav311001" name="eventList[0].ExptUeBehav[3][1][1][0][0][1]">
+						<br>
+						<br>
+						nwAreaInfo - This IE represents the network area information of the user where the UE is located.
+						<br>
+						<ul>
+							Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
+							<button type="submit" name="addExptUeBehavEcgis" value="0,1">Add</button>
+							<li>
+							<label>mcc</label>
+							<input type="text" value="" pattern="([0-9]){3}" id="eventList0.ExptUeBehav310000" name="eventList[0].ExptUeBehav[3][1][0][0][0][0]">
+							<label>mnc</label>
+							<input type="text" value="" pattern="([0-9]){3}" id="eventList0.ExptUeBehav310001" name="eventList[0].ExptUeBehav[3][1][0][0][0][1]">
+							<label>eutraCellId</label>
+							<input type="text" value="" pattern="^[A-Fa-f0-9]{7}$" id="eventList0.ExptUeBehav310002" name="eventList[0].ExptUeBehav[3][1][0][0][0][2]">
+							<label>nid</label>
+							<input type="text" value="" pattern="([A-Za-z0-9]){11}" id="eventList0.ExptUeBehav310003" name="eventList[0].ExptUeBehav[3][1][0][0][0][3]">					
+							<button type="submit" name="removeExptUeBehavEcgis" value="0,1,0">Remove</button>
+							  </li>
+						  </ul>
+						  <br>
+						  <ul>
+							Ncgis - Represents the list of NR cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NR cell Ids.							
+							<button type="submit" name="addExptUeBehavNcgis" value="0,1">Add</button>
+							
+						   </ul>
+						  <br>
+						  <ul>
+							GRanNodeIds - Represents the list of NG RAN node identifiers that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of NG RAN node identifiers.  
+							<button type="submit" name="addExptUeBehavGRanNodeIds" value="0,1">Add</button>
+							
+						  </ul>
+						  <br>
+						  <ul>
+							Tais -  List of Tracking Area Ids
+							<button type="submit" name="addExptUeBehavTais" value="0,1">Add</button>
+							
+						  </ul>
+						GeographicalAreas - Identifies a list of geographic areas of the user where the UE is located.
+						<ul>
+						<button type="submit" name="addExptUeBehavGeographicalAreas" value="0,1">Add</button>
+						
+						</ul>
+						<br>
+						CivicAddresses - Identifies a list of civic addresses of the user where the UE is located.
+						<ul>
+							<button type="submit" name="addExptUeBehavCivicAddresses" value="0,1">Add</button>
+							
+						</ul>
+						<br>
+						<button type="submit" name="removeExptUeBehavExpectedUmts" value="0,1">Remove</button>
+						</li>
+					</ul>
+					<br>
+				</div>
+			 <br>
+			 <button type="submit" name="removeEventRow" value="0">RemoveEvent</button>		
+			</li>
+		</ul>
+        <input type="submit" value="Send">
+    </form>
+	<div><div>
+	   
+   </div></div>
+    
+
+</body></html>
