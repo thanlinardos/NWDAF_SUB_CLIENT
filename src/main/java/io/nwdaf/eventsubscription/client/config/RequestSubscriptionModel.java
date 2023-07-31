@@ -40,9 +40,10 @@ public class RequestSubscriptionModel implements Serializable{
 	private Boolean showEvtReq = false;
 	private Boolean showPrevSub = false;
 	private Boolean showConsNfInfo = false;
+	private Boolean showNotificationMethod = false;
 	
 	private Boolean immRep;
-	private NotificationMethodEnum notifMethod;
+	private NotificationMethodEnum notificationMethod;
 	private MatchingDirectionEnum matchingDir;
 	private Integer maxReportNbr;
 	private String monDur;
@@ -64,8 +65,8 @@ public class RequestSubscriptionModel implements Serializable{
 		if(immRep!=null) {
 			this.optionals.set(0,Boolean.toString(immRep).toUpperCase());
 		}
-		if(notifMethod!=null) {
-			this.optionals.set(1, notifMethod.toString());
+		if(notificationMethod!=null) {
+			this.optionals.set(1, notificationMethod.toString());
 		}
 		if(maxReportNbr!=null) {
 			this.optionals.set(2, String.valueOf(maxReportNbr));

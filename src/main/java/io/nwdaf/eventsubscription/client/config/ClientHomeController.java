@@ -77,7 +77,7 @@ public class ClientHomeController {
     			object = new RequestSubscriptionModel();
     			if(result!=null) {
     				object.setId(idVal);
-    				object.setNotifMethod(result.getEvtReq().getNotifMethod().getNotifMethod());
+    				object.setNotificationMethod(result.getEvtReq().getNotifMethod().getNotifMethod());
     				object.setRepPeriod(result.getEvtReq().getRepPeriod());
     				for(int i=0;i<result.getEventSubscriptions().size();i++) {
     					RequestEventModel e = new RequestEventModel();
@@ -120,7 +120,7 @@ public class ClientHomeController {
     			object = new RequestSubscriptionModel();
     			if(result!=null) {
     				object.setId(id);
-    				object.setNotifMethod(result.getEvtReq().getNotifMethod().getNotifMethod());
+    				object.setNotificationMethod(result.getEvtReq().getNotifMethod().getNotifMethod());
     				object.setRepPeriod(result.getEvtReq().getRepPeriod());
     				for(int i=0;i<result.getEventSubscriptions().size();i++) {
     					RequestEventModel e = new RequestEventModel();
