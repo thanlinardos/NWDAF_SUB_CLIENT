@@ -55,11 +55,11 @@ public class ScheduledCommunicationType {
   **/
   @Schema(description="scheduledCommunicationType")
 
-  public ScheduledCommunicationTypeEnum getAnaMeta(){
+  public ScheduledCommunicationTypeEnum getScheduledCommunicationType(){
     return scheduledCommunicationType;
   }
 
-  public void setAnaMeta(ScheduledCommunicationTypeEnum scheduledCommunicationType){
+  public void setScheduledCommunicationType(ScheduledCommunicationTypeEnum scheduledCommunicationType){
     this.scheduledCommunicationType = scheduledCommunicationType;
   }
 

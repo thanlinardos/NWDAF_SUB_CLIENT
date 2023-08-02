@@ -492,7 +492,7 @@ public class CreateSubscriptionRequestBuilder {
 		    			
 		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(0).get(1).size();i++) {
 		    				Ncgi ncgi = new Ncgi();
-		    				if(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(1)!=null&&object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(1)!=null) {
+		    				if(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(0)!=null&&object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(1)!=null) {
 		    					ncgi.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(1)));
 		    				}
 		    				ncgi.nrCellId(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(2)).nid(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(3));
@@ -501,7 +501,7 @@ public class CreateSubscriptionRequestBuilder {
 		    			
 		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(0).get(2).size();i++) {
 		    				GlobalRanNodeId gRanNodeId = new GlobalRanNodeId();
-		    				if(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(1)!=null&&object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(1)!=null) {
+		    				if(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(0)!=null&&object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(1)!=null) {
 		    					gRanNodeId.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(1)));
 		    				}
 		    				gRanNodeId.n3IwfId(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(2)).ngeNbId(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(3))
@@ -630,7 +630,7 @@ public class CreateSubscriptionRequestBuilder {
 			    			.ROOM(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(19))
 			    			.PLC(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(20))
 			    			.PCN(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(21))
-			    			.POD(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(22))
+			    			.POBOX(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(22))
 			    			.ADDCODE(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(23))
 			    			.SEAT(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(24))
 			    			.RD(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(25))
@@ -658,12 +658,12 @@ public class CreateSubscriptionRequestBuilder {
 			}
 		}
 		eventSub.anySlice(ParserUtil.safeParseBoolean(object.getArgs().get(1)));
-			eventSub.loadLevelThreshold(ParserUtil.safeParseInteger(object.getArgs().get(2)));
-			eventSub.matchingDir(new MatchingDirection().matchingDir(MatchingDirectionEnum.fromValue(object.getArgs().get(3))));
-			eventSub.maxTopAppUlNbr(ParserUtil.safeParseInteger(object.getArgs().get(4)));
-			eventSub.maxTopAppDlNbr(ParserUtil.safeParseInteger(object.getArgs().get(5)));
-			eventSub.repetitionPeriod(ParserUtil.safeParseInteger(object.getArgs().get(6)));
-			eventSub.exptAnaType(new ExpectedAnalyticsType().exptAnaType(ExpectedAnalyticsTypeEnum.fromValue(object.getArgs().get(7))));
+		eventSub.loadLevelThreshold(ParserUtil.safeParseInteger(object.getArgs().get(2)));
+		eventSub.matchingDir(new MatchingDirection().matchingDir(MatchingDirectionEnum.fromValue(object.getArgs().get(3))));
+		eventSub.maxTopAppUlNbr(ParserUtil.safeParseInteger(object.getArgs().get(4)));
+		eventSub.maxTopAppDlNbr(ParserUtil.safeParseInteger(object.getArgs().get(5)));
+		eventSub.repetitionPeriod(ParserUtil.safeParseInteger(object.getArgs().get(6)));
+		eventSub.exptAnaType(new ExpectedAnalyticsType().exptAnaType(ExpectedAnalyticsTypeEnum.fromValue(object.getArgs().get(7))));
 		
 		sub.addEventSubscriptionsItem(eventSub);
 		return sub;
@@ -729,6 +729,9 @@ public class CreateSubscriptionRequestBuilder {
 		
 		NnwdafEventsSubscription bodyObject = InitSubscriptionRequest(clientURI);
 		if(object!=null) {
+			if(object.getSupportedFeatures()!=null){
+				bodyObject.setSupportedFeatures(object.getSupportedFeatures());
+			}
 		}
 		
 		System.out.println("Request body:");

@@ -33,6 +33,7 @@ import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscriptionNotificat
 import io.nwdaf.eventsubscription.client.model.SupportedGADShapes;
 import io.nwdaf.eventsubscription.client.model.SupportedGADShapes.SupportedGADShapesEnum;
 import io.nwdaf.eventsubscription.client.requestbuilders.CreateSubscriptionRequestBuilder;
+import io.nwdaf.eventsubscription.client.requestbuilders.ParserUtil;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -174,13 +175,14 @@ public class ClientHomeController {
         if(res.getStatusCode().is2xxSuccessful()) {
         	System.out.println("Location:"+res.getHeaders().getFirst("Location"));
             String[] arr = res.getHeaders().getFirst("Location").split("/");
-            object.setId(Long.parseLong(arr[arr.length-1]));
+			RequestSubscriptionModel newReq = new RequestSubscriptionModel().fromSubObject(res.getBody());
+            newReq.setId(Long.parseLong(arr[arr.length-1]));
             NwdafSubClientApplication.getLogger().info(res.getBody().toString());
-        	currentSubRequests.put(object.getId(),object);
-        	currentSubRequests.put(-1l,object);
-        	currentSubs.put(object.getId(), res.getBody());
+        	currentSubRequests.put(newReq.getId(),newReq);
+        	currentSubRequests.put(-1l,newReq);
+        	currentSubs.put(newReq.getId(), res.getBody());
         	map.addAttribute("location",res.getHeaders().getFirst("Location"));
-        	map.put("result",res.getBody().toString());
+        	map.put("result",res.getBody());
         }
         
         map.addAttribute("nnwdafEventsSubscription",object);
@@ -223,6 +225,17 @@ public class ClientHomeController {
         map.addAttribute("serverTime", OffsetDateTime.now());
         return "redirect:/client/formSuccess/"+id;
     }
+	@RequestMapping(value="/client/formSuccess/{id}", params={"deleteSub"})
+	public String deleteSub(RequestSubscriptionModel object,@PathVariable("id") Long id, ModelMap map){
+		String apiURI = env.getProperty("nnwdaf-eventsubscription.openapi.dev-url")+"/nwdaf-eventsubscription/v1/subscriptions/"+id.toString();
+		HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(null);
+		try{
+			restTemplate.delete(apiURI, req);
+		}catch(Exception e){
+			return "redirect:/client/formSuccess/"+id;
+		}
+		return "redirect:/client/form";
+	}
     @PostMapping(value="/client/notify")
     public ResponseEntity<NnwdafEventsSubscriptionNotification> post(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody NnwdafEventsSubscriptionNotification notification){
     	currentSubNotifications.put(Long.parseLong(notification.getSubscriptionId()), notification);
@@ -231,66 +244,49 @@ public class ClientHomeController {
         return response;
 
     }
-    
+
+    @RequestMapping(value="/client/form")
+    public String buttonHandler(RequestSubscriptionModel object, ModelMap map,@RequestParam(value="action") String action,@RequestParam(value="id",defaultValue="-1") Optional<Long> id) {
+    	String[] values = action.split(",");
+		action = values[0];
+
+		switch(action){
+			case "addRow":
+				object.addPartitionCriteria(null);
+				break;
+		}
+    	initFormAction(object,map,id);
+        return "form";
+    }
     @RequestMapping(value="/client/form", params={"addRow"})
     public String addRow(RequestSubscriptionModel object, ModelMap map,@RequestParam(value="id",defaultValue="-1") Optional<Long> id) {
     	object.addPartitionCriteria(null);
-    	object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
-    	currentSubRequests.put(-1l,object);
-    	if(id.orElse(-1l)!=-1l) {
-    		currentSubRequests.put(id.orElse(-1l),object);
-    	}
-    	map.addAttribute("nnwdafEventsSubscription",object);
-    	map.addAttribute("serverTime", OffsetDateTime.now());
+    	initFormAction(object,map,id);
         return "form";
     }
     @RequestMapping(value="/client/form", params={"addRowtaiList"})
     public String addRowtaiList(RequestSubscriptionModel object, ModelMap map,@RequestParam(value="id",defaultValue="-1") Optional<Long> id) {
     	object.addTaiList(null);
-    	object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
-    	currentSubRequests.put(-1l,object);
-    	if(id.orElse(-1l)!=-1l) {
-    		currentSubRequests.put(id.orElse(-1l),object);
-    	}
-    	map.addAttribute("nnwdafEventsSubscription",object);
-    	map.addAttribute("serverTime", OffsetDateTime.now());
+    	initFormAction(object,map,id);
         return "form";
     }
     @RequestMapping(value="/client/form", params={"addRowueAnaEvents"})
     public String addRowueAnaEvents(RequestSubscriptionModel object, ModelMap map,@RequestParam(value="id",defaultValue="-1") Optional<Long> id) {
     	object.addUeAnaEvents(null);
-    	object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
-    	currentSubRequests.put(-1l,object);
-    	if(id.orElse(-1l)!=-1l) {
-    		currentSubRequests.put(id.orElse(-1l),object);
-    	}
-    	map.addAttribute("nnwdafEventsSubscription",object);
-    	map.addAttribute("serverTime", OffsetDateTime.now());
+    	initFormAction(object,map,id);
         return "form";
     }
     @RequestMapping(value="/client/form", params={"addRowueAnaEventsItem"})
     public String addRowueAnaEventsItem(RequestSubscriptionModel object, ModelMap map,final HttpServletRequest req,@RequestParam(value="id",defaultValue="-1") Optional<Long> id) {
     	final Integer rowId = Integer.valueOf(req.getParameter("addRowueAnaEventsItem"));
     	object.addUeAnaEventsItem(rowId);
-    	object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
-    	currentSubRequests.put(-1l,object);
-    	if(id.orElse(-1l)!=-1l) {
-    		currentSubRequests.put(id.orElse(-1l),object);
-    	}
-    	map.addAttribute("nnwdafEventsSubscription",object);
-    	map.addAttribute("serverTime", OffsetDateTime.now());
+    	initFormAction(object,map,id);
     	return "form";
     }
     @RequestMapping(value="/client/form", params={"addRownfAnaEvents"})
     public String addRownfAnaEvents(RequestSubscriptionModel object, ModelMap map,@RequestParam(value="id",defaultValue="-1") Optional<Long> id) {
     	object.addNfAnaEvents(null);
-    	object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
-    	currentSubRequests.put(-1l,object);
-    	if(id.orElse(-1l)!=-1l) {
-    		currentSubRequests.put(id.orElse(-1l),object);
-    	}
-    	map.addAttribute("nnwdafEventsSubscription",object);
-    	map.addAttribute("serverTime", OffsetDateTime.now());
+    	initFormAction(object,map,id);
         return "form";
     }
     
@@ -299,14 +295,8 @@ public class ClientHomeController {
     		RequestSubscriptionModel object, ModelMap map,@RequestParam(value="id",defaultValue="-1") Optional<Long> id, 
             final HttpServletRequest req) {
         final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
-        object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
-        object.removePartitionCriteria(rowId.intValue());
-        currentSubRequests.put(-1l,object);
-    	if(id.orElse(-1l)!=-1l) {
-    		currentSubRequests.put(id.orElse(-1l),object);
-    	}
-        map.addAttribute("nnwdafEventsSubscription",object);
-        map.addAttribute("serverTime", OffsetDateTime.now());
+		object.removePartitionCriteria(rowId.intValue());
+        initFormAction(object,map,id);
         return "form";
     }
     @RequestMapping(value="/client/form", params={"removeRownfAnaEvents"})
@@ -2347,6 +2337,16 @@ public class ClientHomeController {
         map.addAttribute("serverTime", OffsetDateTime.now());
         return "redirect:/client/formSuccess/"+id.toString();
     }
+
+	private void initFormAction(RequestSubscriptionModel object,ModelMap map,Optional<Long> id){
+		object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
+    	currentSubRequests.put(-1l,object);
+    	if(id.orElse(-1l)!=-1l) {
+    		currentSubRequests.put(id.orElse(-1l),object);
+    	}
+    	map.addAttribute("nnwdafEventsSubscription",object);
+    	map.addAttribute("serverTime", OffsetDateTime.now());
+	}
 	private NnwdafEventsSubscription setupShapes(NnwdafEventsSubscription s){
 		if(s!=null){
 			if(s.getEventSubscriptions()!=null){

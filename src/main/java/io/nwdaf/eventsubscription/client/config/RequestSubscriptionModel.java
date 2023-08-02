@@ -11,10 +11,15 @@ import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import ch.qos.logback.core.pattern.parser.Parser;
+import io.nwdaf.eventsubscription.client.Constants;
 import io.nwdaf.eventsubscription.client.Regex;
 import io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum;
+import io.nwdaf.eventsubscription.client.model.EventSubscription;
+import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscription;
 import io.nwdaf.eventsubscription.client.model.NotificationFlag.NotificationFlagEnum;
 import io.nwdaf.eventsubscription.client.model.NotificationMethod.NotificationMethodEnum;
+import io.nwdaf.eventsubscription.client.requestbuilders.ParserUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,10 +42,7 @@ public class RequestSubscriptionModel implements Serializable{
 	private final List<String> taiAttributes = new ArrayList<String>(Arrays.asList("mcc","mnc","tac","nid"));
 	private final List<String> taiPatterns = new ArrayList<String>(Arrays.asList(Regex.mcc,Regex.mnc,Regex.tac,Regex.nid));
 	
-	private Boolean showEvtReq = false;
-	private Boolean showPrevSub = false;
-	private Boolean showConsNfInfo = false;
-	private Boolean showNotificationMethod = false;
+	private Boolean showConsNfInfo = false,showPrevSub = false,showEvtReq = false,showFeatures=false,showNotificationMethod = false,showResult=true,showNotifBody=true;
 	
 	private Boolean immRep;
 	private NotificationMethodEnum notificationMethod;
@@ -58,10 +60,19 @@ public class RequestSubscriptionModel implements Serializable{
 	private String nfId;
 	private String nfSetId;
 	private String notificationURI;
-	
+	//features
+	private String supportedFeatures = Constants.supportedFeatures;
+	private List<Integer> supportedFeaturesList = convertFeaturesToList(Constants.supportedFeatures);
+	private List<Boolean> supportedFeaturesBooleans = convertListToBooleans(convertFeaturesToList(Constants.supportedFeatures));
 	private List<RequestEventModel> eventList = new ArrayList<RequestEventModel>();
-	
+	private List<String> supportedFeaturesNames = Constants.supportedFeaturesNames;
+	private List<String> supportedFeaturesDesc = Constants.supportedFeaturesDesc;
+	//other responses
+	private List<String> failEventReportsEvents = new ArrayList<>();
+	private List<String> failEventReportsCodes = new ArrayList<>();
 	public void setAllLists() {
+		supportedFeaturesList = convertBooleansToList(supportedFeaturesBooleans);
+		supportedFeatures = convertListToFeatures(supportedFeaturesList);
 		if(immRep!=null) {
 			this.optionals.set(0,Boolean.toString(immRep).toUpperCase());
 		}
@@ -201,6 +212,14 @@ public class RequestSubscriptionModel implements Serializable{
 		}
 		this.ueAnaEvents.get(rowId).get(1).add(null);
 	}
+	public void addUeAnaEventsItem(Integer rowId,String item) {
+		for(int i=0;i<this.ueAnaEvents.size();i++) {
+			if(this.ueAnaEvents.get(i).size()<2) {
+				this.ueAnaEvents.get(i).add(new ArrayList<String>());
+			}
+		}
+		this.ueAnaEvents.get(rowId).get(1).add(item);
+	}
 	public void removeUeAnaEvents(Integer i,Integer j) {
 		this.ueAnaEvents.get(i).get(1).remove((int)j);
 	}
@@ -248,5 +267,147 @@ public class RequestSubscriptionModel implements Serializable{
 	public void removeEventList(Integer rowId) {
 		this.eventList.remove((int)rowId);
 	}
-	
+
+	private List<Integer> convertFeaturesToList(String features){
+		int in = Integer.parseInt(features, 16);
+        List<Integer> res = new ArrayList<>();
+
+        for (int i = 1; i <= 24; i++) {
+            int featureBit = 1 << (i - 1);
+            if ((in & featureBit) != 0) {
+                res.add(i);
+            }
+        }
+
+        return res;
+	}
+
+	private String convertListToFeatures(List<Integer> list){
+		int res = 0;
+        for (int i : list) {
+            if (i < 1 || i > 24) {
+                throw new IllegalArgumentException("Each integer in the list must be between 1 and 24 (inclusive).");
+            }
+
+            res |= 1 << (i - 1);
+        }
+
+        return String.format("%06x", res);
+	}
+	private List<Boolean> convertListToBooleans(List<Integer> list){
+		List<Boolean> res = new ArrayList<>();
+		for(int i=1;i<25;i++){
+			if(list.contains(i)){
+				res.add(true);
+			}
+			else{
+				res.add(false);
+			}
+		}
+		return res;
+	}
+	private List<Integer> convertBooleansToList(List<Boolean> b){
+		List<Integer> res = new ArrayList<>();
+		for(int i=0;i<24;i++){
+			if(b.get(i)){
+				res.add(i+1);
+			}
+		}
+		return res;
+	}
+
+	public RequestSubscriptionModel fromSubObject(NnwdafEventsSubscription sub){
+		if(sub!=null){
+			if(sub.getEvtReq()!=null){
+				this.optionals.set(0,ParserUtil.safeParseString(sub.getEvtReq().isImmRep()));
+				if(sub.getEvtReq().getNotifMethod()!=null){
+					this.optionals.set(1,ParserUtil.safeParseString(sub.getEvtReq().getNotifMethod().getNotifMethod()));
+				}
+				this.optionals.set(2,ParserUtil.safeParseString(sub.getEvtReq().getMaxReportNbr()));
+				this.optionals.set(3,ParserUtil.safeParseString(sub.getEvtReq().getMonDur()));
+				this.optionals.set(4,ParserUtil.safeParseString(sub.getEvtReq().getRepPeriod()));
+				this.optionals.set(5,ParserUtil.safeParseString(sub.getEvtReq().getSampRatio()));
+				this.optionals.set(6,ParserUtil.safeParseString(sub.getEvtReq().getGrpRepTime()));
+				if(sub.getEvtReq().getNotifFlag()!=null){
+					this.optionals.set(7,ParserUtil.safeParseString(sub.getEvtReq().getNotifFlag().getNotifFlag()));
+				}
+				if(sub.getEvtReq().getPartitionCriteria()!=null){
+					for(int i=0;i<sub.getEvtReq().getPartitionCriteria().size();i++){
+						if(sub.getEvtReq().getPartitionCriteria().get(i)!=null){
+							this.partitionCriteria.add(ParserUtil.safeParseString(sub.getEvtReq().getPartitionCriteria().get(i).getPartitionCriteria()));
+						}
+						else{
+							this.partitionCriteria.add(null);
+						}
+					}
+				}
+			}
+			if(sub.getPrevSub()!=null){
+				this.optionals.set(8,ParserUtil.safeParseString(sub.getPrevSub().getProducerId()));
+				this.optionals.set(9,ParserUtil.safeParseString(sub.getPrevSub().getProducerSetId()));
+				this.optionals.set(10,ParserUtil.safeParseString(sub.getPrevSub().getSubscriptionId()));
+				if(sub.getPrevSub().getNfAnaEvents()!=null){
+					for(int i=0;i<sub.getPrevSub().getNfAnaEvents().size();i++){
+						if(sub.getPrevSub().getNfAnaEvents().get(i)!=null){
+							this.nfAnaEvents.add(ParserUtil.safeParseString(sub.getPrevSub().getNfAnaEvents().get(i).getEvent()));
+						}
+					}
+				}
+				if(sub.getPrevSub().getUeAnaEvents()!=null){
+					for(int i=0;i<sub.getPrevSub().getUeAnaEvents().size();i++){
+						if(sub.getPrevSub().getUeAnaEvents().get(i)!=null){
+							for(int j=0;j<sub.getPrevSub().getUeAnaEvents().get(i).getAnaTypes().size();j++){
+								if(sub.getPrevSub().getUeAnaEvents().get(i).getAnaTypes().get(j)!=null){
+								this.addUeAnaEventsItem(i,ParserUtil.safeParseString(sub.getPrevSub().getUeAnaEvents().get(i).getAnaTypes().get(j).getEvent()));
+								}
+							}
+							this.setUeAnaEvents(ParserUtil.safeParseString(sub.getPrevSub().getUeAnaEvents().get(i).getSupi()),i);
+						}
+					}
+				}
+			}
+			this.optionals.set(11,sub.getNotifCorrId());
+			if(sub.getConsNfInfo()!=null){
+				this.optionals.set(12,ParserUtil.safeParseString(sub.getConsNfInfo().getNfId()));
+				this.optionals.set(13,sub.getConsNfInfo().getNfSetId());
+				if(sub.getConsNfInfo().getTaiList()!=null){
+					for(int i=0;i<sub.getConsNfInfo().getTaiList().size();i++){
+						if(sub.getConsNfInfo().getTaiList().get(i)!=null){
+							String mcc = null,mnc = null;
+							if(sub.getConsNfInfo().getTaiList().get(i).getPlmnId()!=null){
+								mcc = sub.getConsNfInfo().getTaiList().get(i).getPlmnId().getMcc();
+								mnc = sub.getConsNfInfo().getTaiList().get(i).getPlmnId().getMnc();
+							}
+							this.addTaiList(new ArrayList<>(Arrays.asList(mcc,mnc,sub.getConsNfInfo().getTaiList().get(i).getTac(),sub.getConsNfInfo().getTaiList().get(i).getNid())));
+						}
+					}
+				}
+			}
+			if(sub.getEventSubscriptions()!=null){
+				for(int i=0;i<sub.getEventSubscriptions().size();i++){
+					this.eventList.add(new RequestEventModel().fromEventObject(sub.getEventSubscriptions().get(i)));
+				}
+			}
+			if(sub.getFailEventReports()!=null){
+				for(int i=0;i<sub.getFailEventReports().size();i++){
+					if(sub.getFailEventReports().get(i)!=null){
+						if(sub.getFailEventReports().get(i).getEvent()!=null){
+						failEventReportsEvents.add(ParserUtil.safeParseString(sub.getFailEventReports().get(i).getEvent().getEvent()));
+						}
+						else{
+							failEventReportsEvents.add(null);
+						}
+						if(sub.getFailEventReports().get(i).getFailureCode()!=null){
+						failEventReportsCodes.add(ParserUtil.safeParseString(sub.getFailEventReports().get(i).getFailureCode().getFailureCode()));
+						}
+						else{
+							failEventReportsCodes.add(null);
+						}
+					}
+				}
+			}
+		}
+
+		return this;
+	}
 }

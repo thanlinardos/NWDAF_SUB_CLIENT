@@ -2,6 +2,8 @@ package io.nwdaf.eventsubscription.client.requestbuilders;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ParserUtil {
@@ -57,6 +59,20 @@ public class ParserUtil {
         }
 
         return Boolean.parseBoolean(value);
+    }
+    public static String safeParseString(Object o) {
+        if (o == null) {
+            return null;
+        }
+
+        return o.toString();
+    }
+    public static List<String> safeParseListString(List<Object> l){
+        List<String> res = new ArrayList<>();
+        for(int i=0;i<l.size();i++){
+            res.add(safeParseString(l.get(i)));
+        }
+        return res;
     }
     public static Boolean safeParseEquals(String value,String comparisonValue) {
         if (value == null) {

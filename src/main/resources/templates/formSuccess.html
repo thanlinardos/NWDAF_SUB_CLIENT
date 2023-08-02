@@ -29,8 +29,21 @@
         <label>Show ConsNfInfo Fields</label>
         <input type="checkbox" th:field="*{showConsNfInfo}" th:value="*{showConsNfInfo}"/>
         <button type="submit" name="update" th:text="Update">Update shown fields</button>
+		<label>Show Supported Features</label>
+        <input type="checkbox" th:field="*{showFeatures}" th:value="*{showFeatures}"/>
+        <button type="submit" name="update" th:text="Update">Update shown fields</button>
         </div>
         <br>
+		<div th:if="*{showFeatures==true}">
+			Features the client should ask support for:
+			<hr>
+			<div th:each=" f,f_stat: *{supportedFeaturesBooleans}">
+				<input type="checkbox" th:field="*{supportedFeaturesBooleans[__${f_stat.index}__]}">
+				<span th:text="*{supportedFeaturesNames[__${f_stat.index}__].toString()+' - '+supportedFeaturesDesc[__${f_stat.index}__].toString()}"></span>
+				<br>
+			</div>
+		</div>
+		<br>
         <div>
 	        <label>Notification Correlation ID</label> 
 	        <input type="text" th:field="*{notifCorrId}" th:value="*{notifCorrId}" pattern="[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}\b-[0-9a-fA-F]{2}"/>
@@ -185,6 +198,11 @@
         <ul>
 		<button type="submit" name="addEventRow" th:text="AddEvent">AddEvent</button>
 			<li th:each="e,e_stat:*{eventList}">
+				<label>Show Optionals</label>
+		        <input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showOptionals}" th:value=${e.getShowOptionals()}/>
+				<label>Show All Checkboxes</label>
+		        <input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showButtons}" th:value=${e.getShowButtons()}/>
+				<div th:if="*{eventList[__${e_stat.index}__].showButtons==true}">
 				<div>
 					<label>Show ExtraRepReq Fields</label>
 		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showExtraRepReq}" th:value=${e.getShowExtraRepReq()}/>
@@ -275,6 +293,7 @@
 					<label>Show QosRequ Fields</label>
 		        	<input type="checkbox" th:field="*{eventList[__${e_stat.index}__].showQosRequ}" th:value=${e.getShowQosRequ()}/>
 				</div>
+				</div>
 				<button type="submit" name="update" th:text="Update">Update shown fields</button>
 				<hr>
 				<span th:text="'Event no ' + __${e_stat.index}__"></span>
@@ -290,7 +309,7 @@
 			          	th:value="${type}" 
 			          	th:text="${type.toString()}"></option>
 			    </select>
-				<div  th:if="${e.getShowMatchingDir==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('NF_LOAD') || e.getEvent().toString().equals('QOS_SUSTAINABILITY') || e.getEvent().toString().equals('USER_DATA_CONGESTION') || e.getEvent().toString().equals('NETWORK_PERFORMANCE'))}">
+				<div  th:if="${e.getShowMatchingDir==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('NF_LOAD') || e.getEvent().toString().equals('QOS_SUSTAINABILITY') || e.getEvent().toString().equals('USER_DATA_CONGESTION') || e.getEvent().toString().equals('NETWORK_PERFORMANCE'))}">
 				<label>Matching Direction</label>
 			 	<select th:field="*{eventList[__${e_stat.index}__].matchingDir}">
 			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum).values()}" 
@@ -303,12 +322,12 @@
 			    <input type="number" th:field="*{eventList[__${e_stat.index}__].repetitionPeriod}" th:value="${e.getRepetitionPeriod()}"/>
 				<br>
 				</div>
-				<div th:if="${e.getShowMaxTopAppUlNbr()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('USER_DATA_CONGESTION'))}">
+				<div th:if="${e.getShowMaxTopAppUlNbr()==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('USER_DATA_CONGESTION'))}">
 				<label>MaxTopAppUlNbr</label>
 			    <input type="number" th:field="*{eventList[__${e_stat.index}__].maxTopAppUlNbr}" th:value="${e.getMaxTopAppUlNbr()}"/>
 				<br>
 				</div>
-				<div th:if="${e.getShowMaxTopAppDlNbr()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('USER_DATA_CONGESTION'))}">
+				<div th:if="${e.getShowMaxTopAppDlNbr()==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('USER_DATA_CONGESTION'))}">
 				<label>MaxTopAppDlNbr</label>
 			    <input type="number" th:field="*{eventList[__${e_stat.index}__].maxTopAppDlNbr}" th:value="${e.getMaxTopAppDlNbr()}"/>
 				<br>
@@ -326,7 +345,7 @@
 			    <input type="checkbox" th:field="*{eventList[__${e_stat.index}__].anySlice}"/>
 				<br>
 				</div>
-				<div th:if="${e.getShowExtraRepReq()==true}">
+				<div th:if="${e.getShowExtraRepReq()==true && e.getShowOptionals()==true }">
 				Extra Reporting Requirements
 				<hr>
 				<div>
@@ -347,7 +366,7 @@
 					<input type="datetime-local" th:field="*{eventList[__${e_stat.index}__].endTs}" th:value="${e.getEndTs()}"/>
 				</div>
 				</div>
-				<div th:if="*{eventList[__${e_stat.index}__].accPerSubset==null || eventList[__${e_stat.index}__].accPerSubset.size()==0}">
+				<div th:if="*{(eventList[__${e_stat.index}__].accPerSubset==null || eventList[__${e_stat.index}__].accPerSubset.size()==0)&& eventList[__${e_stat.index}__].getShowOptionals()==true }">
 				<label>Accuracy of the analytics</label>
 				<select th:field="*{eventList[__${e_stat.index}__].accuracy}">
 					<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.Accuracy.AccuracyEnum).values()}" 
@@ -355,14 +374,15 @@
 					th:text="${type.toString()}"></option>
 		  		</select>
 				</div> 
-				<div>
+				<div th:if="${e.getShowOptionals()==true}">
 					<label>Identification of time when analytics information is needed </label> 
 					<input type="datetime-local" th:field="*{eventList[__${e_stat.index}__].timeAnaNeeded}" th:value="${e.getTimeAnaNeeded()}"/>
 				</div> 
-				<div>
+				<div th:if="${e.getShowOptionals()==true}">
 					<label>Offset period to the periodic reporting</label> 
 					<input type="number" th:field="*{eventList[__${e_stat.index}__].offsetPeriod}" th:value="${e.getOffsetPeriod()}"/>
 				</div>
+				<div th:if="${e.getShowOptionals()==true}">
 				<br>
 				AnaMeta - Indication of which analytics metadata is requested to be delivered with the notification
 				<hr>
@@ -436,8 +456,9 @@
 		                th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove</button>
 		          	</li>
 		        </ul>
-			<br>	
-				</div>	
+				<br>	
+				</div>
+			</div>	
 				
 				<div th:if="${e.getShowTgtUe()==true}">
 				Target UEs for the analytics
@@ -490,7 +511,7 @@
 				  <br>
 				  <br>	
 				</div>
-				<div th:if="${e.getShowNfInstanceIds()==true && e.getEvent()!=null && e.getEvent().toString().equals('NF_LOAD')}">
+				<div th:if="${e.getShowNfInstanceIds()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('NF_LOAD')}">
 					NfInstanceIds - Each element represents the UUID of an nf instance to provide analytics for
 				  <hr>
 				  <ul>
@@ -504,7 +525,7 @@
 				  <br>
 				  <br>	
 				</div>
-				<div th:if="${e.getShowNfSetIds()==true && e.getEvent()!=null && e.getEvent().toString().equals('NF_LOAD')}">
+				<div th:if="${e.getShowNfSetIds()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('NF_LOAD')}">
 					NfSetIds - Each element represents a set identifier and identifies a group of NFs
 				  <hr>
 				  <ul>
@@ -518,7 +539,7 @@
 				  <br>
 				  <br>
 				</div>
-				<div th:if="${e.getShowAppIds()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('SERVICE_EXPERIENCE')||e.getEvent().toString().equals('UE_COMM')||e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR')||e.getEvent().toString().equals('DISPERSION')||e.getEvent().toString().equals('DN_PERFORMANCE'))}">
+				<div th:if="${e.getShowAppIds()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('SERVICE_EXPERIENCE')||e.getEvent().toString().equals('UE_COMM')||e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR')||e.getEvent().toString().equals('DISPERSION')||e.getEvent().toString().equals('DN_PERFORMANCE'))}">
 					AppIds - Each element the identifier of an application
 				  <hr>
 				  <ul>
@@ -532,7 +553,7 @@
 				  <br>	
 				  <br>
 				</div>
-				<div th:if="${e.getShowDnns()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('SERVICE_EXPERIENCE')||e.getEvent().toString().equals('UE_COMM')||e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR')||e.getEvent().toString().equals('SM_CONGESTION')||e.getEvent().toString().equals('DN_PERFORMANCE')||e.getEvent().toString().equals('RED_TRANS_EXP'))}">
+				<div th:if="${e.getShowDnns()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('SERVICE_EXPERIENCE')||e.getEvent().toString().equals('UE_COMM')||e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR')||e.getEvent().toString().equals('SM_CONGESTION')||e.getEvent().toString().equals('DN_PERFORMANCE')||e.getEvent().toString().equals('RED_TRANS_EXP'))}">
 					Dnns - Each element shall contain either a DNN Network Id, or a full DNN with both the Network Id and Operator Id
 				  <hr>
 				  <ul>
@@ -546,7 +567,7 @@
 				  <br>	
 				  <br>
 				</div>
-				<div th:if="${e.getShowDnais()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('SERVICE_EXPERIENCE')||e.getEvent().toString().equals('DN_PERFORMANCE'))}">
+				<div th:if="${e.getShowDnais()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('SERVICE_EXPERIENCE')||e.getEvent().toString().equals('DN_PERFORMANCE'))}">
 					Dnais - Data network access identifiers
 				  <hr>
 				  <ul>
@@ -574,7 +595,7 @@
 				  <br>
 				  <br>	
 				</div>
-				<div th:if="${e.getShowNfTypes()==true && e.getEvent()!=null && (e.getEvent().toString().equals('NF_LOAD')||e.getEvent().toString().equals('NSI_LOAD_LEVEL'))}">
+				<div th:if="${e.getShowNfTypes()==true && e.getShowOptionals() && e.getEvent()!=null && (e.getEvent().toString().equals('NF_LOAD')||e.getEvent().toString().equals('NSI_LOAD_LEVEL'))}">
 					NfTypes - Each element represents the type of each nf instance (only for these types does the nwdaf account for resource usage for the output analytics when event is NSI_LOAD_LEVEL)
 				  <hr>
 				  <ul>
@@ -637,7 +658,7 @@
 				  <br>	
 				  <br>
 				</div>
-				<div th:if="${e.getShowNetworkArea()==true  && e.getEvent()!=null && (!e.getEvent().toString().equals('SM_CONGESTION')) && (!e.getEvent().toString().equals('SLICE_LOAD_LEVEL'))}">
+				<div th:if="${e.getShowNetworkArea()==true && e.getShowOptionals() && e.getEvent()!=null && (!e.getEvent().toString().equals('SM_CONGESTION')) && (!e.getEvent().toString().equals('SLICE_LOAD_LEVEL'))}">
 					NetworkArea -  Represents the Area of Interest for this event subscription 
 				  <hr>
 				  <ul>
@@ -812,7 +833,7 @@
 						</li>	
 					</ul>
 				</div>
-				<div th:if="${e.getShowCongThresholds() && e.getEvent()!=null && e.getEvent().toString().equals('USER_DATA_CONGESTION') && ((nnwdafEventsSubscription.getNotificationMethod()==null && e.getNotificationMethod()==null) || (nnwdafEventsSubscription.getNotificationMethod()==null && e.getNotificationMethod()!=null && e.getNotificationMethod().equals('THRESHOLD')) || (nnwdafEventsSubscription.getNotificationMethod()!=null && nnwdafEventsSubscription.getNotificationMethod().equals('THRESHOLD')))}">
+				<div th:if="${e.getShowCongThresholds() && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('USER_DATA_CONGESTION') && ((nnwdafEventsSubscription.getNotificationMethod()==null && e.getNotificationMethod()==null) || (nnwdafEventsSubscription.getNotificationMethod()==null && e.getNotificationMethod()!=null && e.getNotificationMethod().equals('THRESHOLD')) || (nnwdafEventsSubscription.getNotificationMethod()!=null && nnwdafEventsSubscription.getNotificationMethod().equals('THRESHOLD')))}">
 					CongThresholds - Represents the congestion threshold levels.
 					<ul>
 						<button type="submit" name="addCongThresholds" th:text="Add" th:value="${e_stat.index}">Add CongThresholds</button>
@@ -848,7 +869,7 @@
 						</li>
 					</ul>
 				</div>
-				<div th:if="${e.getShowBwRequs() && e.getEvent()!=null && e.getEvent().toString().equals('SERVICE_EXPERIENCE')}">
+				<div th:if="${e.getShowBwRequs() && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('SERVICE_EXPERIENCE')}">
 					BwRequs - Represents the bandwidth requirement for each application.
 					<ul>
 						<button type="submit" name="addBwRequs" th:text="Add" th:value="${e_stat.index}">Add BwRequs</button>
@@ -900,7 +921,7 @@
 						</li>
 					</ul>
 				</div>
-				<div th:if="${e.getShowListOfAnaSubsets()}">
+				<div th:if="${e.getShowListOfAnaSubsets() && e.getShowOptionals()}">
 					ListOfAnaSubsets - The list of analytics subsets can be used to indicate the content of the analytics.
 					<ul>
 						<button type="submit" name="addListOfAnaSubsets" th:text="Add" th:value="${e_stat.index}">Add ListOfAnaSubsets</button>
@@ -916,7 +937,7 @@
 						</li>
 					</ul>
 				</div>
-				<div th:if="${e.getShowRedTransReqs() && e.getEvent()!=null && e.getEvent().toString().equals('RED_TRANS_EXP')}">
+				<div th:if="${e.getShowRedTransReqs() && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('RED_TRANS_EXP')}">
 					RedTransReqs - Represents the redundant transmission experience analytics requirements.
 					<ul>
 						<button type="submit" name="addRedTransReqs" th:text="Add" th:value="${e_stat.index}">Add RedTransReqs</button>
@@ -940,7 +961,7 @@
 						</li>
 					</ul>
 				</div>
-				<div th:if="${e.getShowAppServerAddrs() && e.getEvent()!=null && e.getEvent().toString().equals('SERVICE_EXPERIENCE') && e.getEvent().toString().equals('DN_PERFORMANCE')}">
+				<div th:if="${e.getShowAppServerAddrs() && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('SERVICE_EXPERIENCE') && e.getEvent().toString().equals('DN_PERFORMANCE')}">
 					AppServerAddrs - Each element represents the Application Server Instance (IP address/FQDN of the Application Server) - Required for analytics of edge application over UP path.
 					<ul>
 						<button type="submit" name="addAppServerAddrs" th:text="Add" th:value="${e_stat.index}">Add AppServerAddrs</button>
@@ -962,7 +983,7 @@
 						</li>
 					</ul>
 				</div>
-				<div th:if="${e.getShowQosRequ() && e.getEvent()!=null && e.getEvent().toString().equals('QOS_SUSTAINABILITY')}">
+				<div th:if="${e.getShowQosRequ() && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('QOS_SUSTAINABILITY')}">
 					QosRequ - Indicates the QoS requirements.
 					<hr>
 					<label>5qi(0-255) - Represents a 5G QoS Identifier. It shall be included for standardized or preconfigured 5QIs.</label>
@@ -988,7 +1009,7 @@
 					<input type="text" th:field="*{eventList[__${e_stat.index}__].QosRequ[5]}" th:value="*{eventList[__${e_stat.index}__].getQosRequ(5)}" pattern="^([0-9]E-[0-9])$">
 					<br>
 				</div>
-				<div th:if="${e.getShowUpfInfo()==true && e.getEvent()!=null && e.getEvent().toString().equals('SERVICE_EXPERIENCE') && e.getEvent().toString().equals('DN_PERFORMANCE')}">
+				<div th:if="${e.getShowUpfInfo()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('SERVICE_EXPERIENCE') && e.getEvent().toString().equals('DN_PERFORMANCE')}">
 					UpfInfo - Each element represents the Application Server Instance (IP address/FQDN of the Application Server) - Optional for analytics of edge application over UP path.
 					<hr>
 					<label>upfId - Identifies the UPF.</label>
@@ -1007,7 +1028,7 @@
 					<input type="text" th:field="*{eventList[__${e_stat.index}__].UpfInfo[4]}" th:value="*{eventList[__${e_stat.index}__].getUpfInfo(4)}" pattern="^([0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?\.)+[A-Zaz]{2,63}\.?$">
 					<br>
 				</div>
-				<div th:if="${e.getShowRatFreqs()==true && e.getEvent()!=null && e.getEvent().toString().equals('SERVICE_EXPERIENCE')}">
+				<div th:if="${e.getShowRatFreqs()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('SERVICE_EXPERIENCE')}">
 					RatFreqs - Identification(s) of the RAT type(s) and/or frequency(ies) of UE's serving cell(s) which the subscriptiont applies.
 					<hr>
 					<ul>
@@ -1048,6 +1069,7 @@
 					<ul>
 						<button type="submit" name="addWlanReqs" th:text="Add" th:value="${e_stat.index}">Add WlanReqs</button>
 						<li th:each="a,a_stat: ${e.getWlanReqs()}">
+						<div th:if="${e.getShowOptionals()}">
 						SsIds - SSIDs of WLAN access points (Service set identifiers).
 						<br>
 						<ul>
@@ -1071,6 +1093,7 @@
 							</li>
 						</ul>
 						<br>
+						</div>
 						<label>wlanOrderCriter - Indicates the ordering criterion for the list of WLAN performance information.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].WlanReqs[__${a_stat.index}__][0][0]}" th:value="*{eventList[__${e_stat.index}__].getWlanReqs(__${a_stat.index}__,0)}">
 							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.WlanOrderingCriterion.WlanOrderingCriterionEnum).values()}" 
@@ -1180,7 +1203,7 @@
 					  </li>
 					</ul>
 				</div>
-				<div th:if="${e.getShowDisperReqs()==true && e.getEvent()!=null && e.getEvent().toString().equals('DISPERSION')}">
+				<div th:if="${e.getShowDisperReqs()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('DISPERSION')}">
 					DisperReqs - Represents the dispersion analytics requirements.
 					<hr>
 					<ul>
@@ -1248,7 +1271,7 @@
 					  </li>
 					</ul>
 				</div>
-				<div th:if="${e.getShowDnPerfReqs()==true && e.getEvent()!=null && e.getEvent().toString().equals('DN_PERFORMANCE')}">
+				<div th:if="${e.getShowDnPerfReqs()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('DN_PERFORMANCE')}">
 					DnPerfReqs - Represents the DN performance analytics requirements.
 					<hr>
 					<ul>
@@ -1315,7 +1338,7 @@
 					</ul>
 					<br>
 				</div>
-				<div th:if="${e.getShowExptUeBehav()==true && e.getEvent()!=null && e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR')}">
+				<div th:if="${e.getShowExptUeBehav()==true && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR')}">
 					ExptUeBehav - Represents expected UE behaviour. 
 					<hr>
 					<label>StationaryIndication - Identifies whether the UE is stationary or mobile </label>
@@ -1729,16 +1752,30 @@
 			</li>
 		</ul>
         <input type="submit" value="UpdateSub" />
+		<br>
+		<input type="submit" name = "deleteSub" value="DeleteSub">
+		<br>
+		<label>Show Notification Body</label>
+		<input type="checkbox" th:field="*{showNotifBody}" th:value=*{showNotifBody}/>
+		<label>Show Result Body</label>
+		<input type="checkbox" th:field="*{showResult}" th:value=*{showResult}/>
+		<button type="submit" name="update" th:text="Update">Update shown fields</button>
     </form>
+	
 	<div th:insert="~{/notify :: notify}">  </div>
 	<div th:if="${result != null && result.getFailEventReports()!=null}">
 		<h3>Failed to get analytics for the following events:</h3>
-		<div style="white-space: pre-wrap;" th:text="${result.getFailEventReports()}"></div>
+		<ul>
+			<li th:each=" i,i_stat: ${nnwdafEventsSubscription.getFailEventReportsEvents()}">
+			<div>Event Type: <span th:text="${i}"></span></div>
+			<div>Failure Code: <span th:text="${nnwdafEventsSubscription.getFailEventReportsCodes().get(i_stat.index)}"></span></div>
+			</li>
+		</ul>
 	</div>
 	<br>
-    <div th:if="${result != null}">
+    <div th:if="${result != null && nnwdafEventsSubscription.getShowResult()==true}">
         <h1>Result</h1>
-            <div style="white-space: pre-wrap;" th:text="${result}"></div>
+            <div style="white-space: pre-wrap;" th:text="${result.toString()}"></div>
         
     </div>
     <!-- <script type="text/javascript" th:inline="javascript">

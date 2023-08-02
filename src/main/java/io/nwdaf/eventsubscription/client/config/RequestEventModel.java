@@ -5,9 +5,25 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import ch.qos.logback.core.pattern.parser.Parser;
+import io.nwdaf.eventsubscription.client.Constants;
+import io.nwdaf.eventsubscription.client.model.EventSubscription;
+import io.nwdaf.eventsubscription.client.model.GADShape;
+import io.nwdaf.eventsubscription.client.model.GeographicArea;
+import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscription;
+import io.nwdaf.eventsubscription.client.model.Point;
+import io.nwdaf.eventsubscription.client.model.Polygon;
+import io.nwdaf.eventsubscription.client.model.PointAltitude;
+import io.nwdaf.eventsubscription.client.model.PointAltitudeUncertainty;
+import io.nwdaf.eventsubscription.client.model.PointUncertaintyCircle;
+import io.nwdaf.eventsubscription.client.model.PointUncertaintyEllipse;
 import io.nwdaf.eventsubscription.client.model.Accuracy.AccuracyEnum;
+import io.nwdaf.eventsubscription.client.model.CivicAddress;
+import io.nwdaf.eventsubscription.client.model.EllipsoidArc;
 import io.nwdaf.eventsubscription.client.model.ExpectedAnalyticsType.ExpectedAnalyticsTypeEnum;
 import io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum;
+import io.nwdaf.eventsubscription.client.requestbuilders.ParserUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,7 +71,7 @@ public class RequestEventModel {
 	private List<List<List<List<List<List<String>>>>>> exptUeBehav = new ArrayList<List<List<List<List<List<String>>>>>>();
 	private List<String> upfInfo = new ArrayList<String>(Arrays.asList(null,null,null,null,null));
 	//show booleans
-	private Boolean showNotifMethod=true,showExtraRepReq=true,showQosRequ=true,showExcepRequs=true,showNwPerfRequs=true,showSnssaia=true,showNfTypes=true,showTgtUe=true,showLoadLevelThreshold=true,showAnySlice=true,showNsiIdInfos=true,showNsiLevelThrds=true,showListOfAnaSubsets=true,showNetworkArea=true,showSupis=true,showNfLoadLvlThds=true,showNfInstanceIds=true,showNfSetIds=true,showMatchingDir=true,showIntGroupIds=true,showBwRequs=true,showRatFreqs=true,showUpfInfo=true,showAppServerAddrs=true,showDnns=true,showLadnDnns=true,showVisitedAreas=true,showQosFlowRetThds=true,showRanUeThrouThds=true,showExptAnaType=true,showExptUeBehav=true,showGpsis=true,showCongThresholds=true,showMaxTopAppUlNbr=true,showMaxTopAppDlNbr=true,showDisperReqs=true,showRedTransReqs=true,showWlanReqs=true,showDnais=true,showDnPerfReqs=true,showAppIds=true;
+	private Boolean showOptionals=false,showButtons=false,showNotifMethod=true,showExtraRepReq=true,showQosRequ=true,showExcepRequs=true,showNwPerfRequs=true,showSnssaia=true,showNfTypes=true,showTgtUe=true,showLoadLevelThreshold=true,showAnySlice=true,showNsiIdInfos=true,showNsiLevelThrds=true,showListOfAnaSubsets=true,showNetworkArea=true,showSupis=true,showNfLoadLvlThds=true,showNfInstanceIds=true,showNfSetIds=true,showMatchingDir=true,showIntGroupIds=true,showBwRequs=true,showRatFreqs=true,showUpfInfo=true,showAppServerAddrs=true,showDnns=true,showLadnDnns=true,showVisitedAreas=true,showQosFlowRetThds=true,showRanUeThrouThds=true,showExptAnaType=true,showExptUeBehav=true,showGpsis=true,showCongThresholds=true,showMaxTopAppUlNbr=true,showMaxTopAppDlNbr=true,showDisperReqs=true,showRedTransReqs=true,showWlanReqs=true,showDnais=true,showDnPerfReqs=true,showAppIds=true;
 	//optionals
 	private Integer maxObjectNbr;
 	private Integer maxSupiNbr;
@@ -75,6 +91,7 @@ public class RequestEventModel {
 	private Integer repetitionPeriod;
 	private ExpectedAnalyticsTypeEnum exptAnaType;
 	
+
 	public void setAllLists() {
 		initExptUeBehav();
 		for(int i=0;i<this.nfLoadLvlThds.size();i++){
@@ -606,6 +623,14 @@ public class RequestEventModel {
 		}
 		this.nsiIdInfos.get(rowId).get(1).add(null);
 	}
+	public void addNsiIdInfosItem(Integer rowId,String item) {
+		for(int i=0;i<this.nsiIdInfos.size();i++) {
+			if(this.nsiIdInfos.get(i).size()<2) {
+				this.nsiIdInfos.get(i).add(new ArrayList<String>());
+			}
+		}
+		this.nsiIdInfos.get(rowId).get(1).add(item);
+	}
 	public void removeNsiIdInfos(Integer i,Integer j) {
 		this.nsiIdInfos.get(i).get(1).remove((int)j);
 	}
@@ -813,6 +838,12 @@ public class RequestEventModel {
 			item.add(item_2);
 		}
 		this.ratFreqs.add(item);
+	}
+	public void setRatFreqs(String item,Integer i,Integer j){
+		this.ratFreqs.get(i).get(0).set(j,item);
+	}
+	public void setRatFreqsItem(String item,Integer i,Integer j){
+		this.ratFreqs.get(i).get(1).set(j,item);
 	}
 	public void removeRatFreqs(Integer i){
 		this.ratFreqs.remove((int)i);
@@ -1350,6 +1381,22 @@ public class RequestEventModel {
 			this.networkArea.get(i).add(new ArrayList<>(Arrays.asList(null,null,null,null,null,null,null,null,null,null)));
 		}
 	}
+	public void addNetworkAreaItem(List<String> item,Integer i) {
+		while(this.networkArea.size()<4){
+			this.networkArea.add(new ArrayList<List<String>>());
+		}
+		if(item == null){
+			if(i==0||i==1||i==3){
+				this.networkArea.get(i).add(new ArrayList<>(Arrays.asList(null,null,null,null)));
+			}
+			if(i==2){
+				this.networkArea.get(i).add(new ArrayList<>(Arrays.asList(null,null,null,null,null,null,null,null,null,null)));
+			}
+		}
+		else{
+			this.networkArea.get(i).add(item);
+		}
+	}
 	public void removeNetworkArea(Integer i,Integer j) {
 		this.networkArea.get(i).remove((int)j);
 	}
@@ -1567,6 +1614,722 @@ public class RequestEventModel {
 	public void setUpfInfo(String item,Integer i) {
 		this.upfInfo.set(i, item);
 	}
+
+    public RequestEventModel fromEventObject(EventSubscription e) {
+		if(e!=null){
+			if(e.getEvent()!=null){
+				this.setEvent(ParserUtil.safeParseString(e.getEvent().getEvent()));
+			}
+			if(e.getNotificationMethod()!=null){
+				this.setNotificationMethod((ParserUtil.safeParseString(e.getNotificationMethod().getNotifMethod())));
+			}
+			if(e.getMatchingDir()!=null){
+				this.setMatchingDir(e.getMatchingDir().getMatchingDir());
+			}
+			if(e.getExtraReportReq()!=null){
+				this.optionals.set(0, ParserUtil.safeParseString(e.getExtraReportReq().getMaxObjectNbr()));
+				this.optionals.set(1, ParserUtil.safeParseString(e.getExtraReportReq().getMaxSupiNbr()));
+				this.optionals.set(2, ParserUtil.safeParseString(e.getExtraReportReq().getStartTs()));
+				this.optionals.set(3, ParserUtil.safeParseString(e.getExtraReportReq().getEndTs()));
+				if(e.getExtraReportReq().getAccuracy()!=null){
+					this.optionals.set(4, ParserUtil.safeParseString(e.getExtraReportReq().getAccuracy().getAccuracy()));
+				}
+				this.optionals.set(5, ParserUtil.safeParseString(e.getExtraReportReq().getTimeAnaNeeded()));
+				this.optionals.set(6, ParserUtil.safeParseString(e.getExtraReportReq().getOffsetPeriod()));
+				if(e.getExtraReportReq().getAnaMeta()!=null){
+					for(int i=0;i<e.getExtraReportReq().getAnaMeta().size();i++){
+						if(e.getExtraReportReq().getAnaMeta().get(i)!=null){
+						this.anaMeta.add(ParserUtil.safeParseString(e.getExtraReportReq().getAnaMeta().get(i).getAnaMeta()));
+						}
+					}
+				}
+				if(e.getExtraReportReq().getAnaMetaInd()!=null){
+					if(e.getExtraReportReq().getAnaMetaInd().getDataWindow()!=null){
+						this.anaMetaInd.set(0,ParserUtil.safeParseString(e.getExtraReportReq().getAnaMetaInd().getDataWindow().getStartTime()));
+						this.anaMetaInd.set(1,ParserUtil.safeParseString(e.getExtraReportReq().getAnaMetaInd().getDataWindow().getStopTime()));
+					}
+					if(e.getExtraReportReq().getAnaMetaInd().getStrategy()!=null){
+						this.anaMetaInd.set(2,ParserUtil.safeParseString(e.getExtraReportReq().getAnaMetaInd().getStrategy().getStrategy()));
+					}
+					if(e.getExtraReportReq().getAnaMetaInd().getAggrNwdafIds()!=null){
+						for(int i=0;i<e.getExtraReportReq().getAnaMetaInd().getAggrNwdafIds().size();i++){
+							this.aggrNwdafIds.add(ParserUtil.safeParseString(e.getExtraReportReq().getAnaMetaInd().getAggrNwdafIds().get(i)));
+						}
+					}
+					if(e.getExtraReportReq().getAnaMetaInd().getDataStatProps()!=null){
+						for(int i=0;i<e.getExtraReportReq().getAnaMetaInd().getDataStatProps().size();i++){
+							if(e.getExtraReportReq().getAnaMetaInd().getDataStatProps().get(i)!=null){
+								this.dataStatProps.add(ParserUtil.safeParseString(e.getExtraReportReq().getAnaMetaInd().getDataStatProps().get(i).getDataStatProps()));
+							}
+						}
+					}
+				}
+				if(e.getExtraReportReq().getAccPerSubset()!=null){
+					for(int i=0;i<e.getExtraReportReq().getAccPerSubset().size();i++){
+						if(e.getExtraReportReq().getAccPerSubset().get(i)!=null){
+							this.accPerSubset.add(ParserUtil.safeParseString(e.getExtraReportReq().getAccPerSubset().get(i).getAccuracy()));
+						}
+					}
+				}
+			}
+			if(e.getTgtUe()!=null){
+				this.setSupis(e.getTgtUe().getSupis());
+				this.setGpsis(e.getTgtUe().getGpsis());
+				this.setIntGroupIds(e.getTgtUe().getIntGroupIds());
+				this.args.set(0, ParserUtil.safeParseString(e.getTgtUe().isAnyUe()));
+			}
+			if(e.getNfInstanceIds()!=null){
+				for(int i=0;i<e.getNfInstanceIds().size();i++){
+					this.nfInstanceIds.add(ParserUtil.safeParseString(e.getNfInstanceIds().get(i)));
+				}
+			}
+			if(e.getNfSetIds()!=null){
+				for(int i=0;i<e.getNfSetIds().size();i++){
+					this.nfSetIds.add(e.getNfSetIds().get(i));
+				}
+			}
+			if(e.getAppIds()!=null){
+				for(int i=0;i<e.getAppIds().size();i++){
+					this.nfSetIds.add(e.getAppIds().get(i));
+				}
+			}
+			if(e.getDnns()!=null){
+				for(int i=0;i<e.getDnns().size();i++){
+					this.nfSetIds.add(e.getDnns().get(i));
+				}
+			}
+			if(e.getDnais()!=null){
+				for(int i=0;i<e.getDnais().size();i++){
+					this.nfSetIds.add(e.getDnais().get(i));
+				}
+			}
+			if(e.getLadnDnns()!=null){
+				for(int i=0;i<e.getLadnDnns().size();i++){
+					this.nfSetIds.add(e.getLadnDnns().get(i));
+				}
+			}
+			if(e.getNfTypes()!=null){
+				for(int i=0;i<e.getNfTypes().size();i++){
+					if(e.getNfTypes().get(i)!=null){
+						this.nfInstanceIds.add(ParserUtil.safeParseString(e.getNfTypes().get(i).getNfType()));
+					}
+				}
+			}
+			if(e.getNfLoadLvlThds()!=null){
+				for(int i=0;i<e.getNfLoadLvlThds().size();i++){
+					if(e.getNfLoadLvlThds().get(i)!=null){
+						this.nfLoadLvlThds.add(new ArrayList<>(Arrays.asList(ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getCongLevel()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getNfLoadLevel()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getNfCpuUsage()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getNfMemoryUsage()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getNfStorageUsage()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getAvgTrafficRate()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getMaxTrafficRate()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getAvgPacketDelay()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getMaxPacketDelay()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getAvgPacketLossRate()),
+						ParserUtil.safeParseString(e.getNfLoadLvlThds().get(i).getSvcExpLevel())
+						)));
+					}
+				}
+			}
+			if(e.getVisitedAreas()!=null){
+				for(int i=0;i<e.getVisitedAreas().size();i++){
+					if(e.getVisitedAreas().get(i)!=null){
+						if(e.getVisitedAreas().get(i).getEcgis()!=null){
+							for(int j=0;j<e.getVisitedAreas().get(i).getEcgis().size();j++){
+								if(e.getVisitedAreas().get(i).getEcgis().get(j)!=null){
+									if(e.getVisitedAreas().get(i).getEcgis().get(j).getPlmnId()!=null){
+										this.addVisitedAreasItem(new ArrayList<>(Arrays.asList(e.getVisitedAreas().get(i).getEcgis().get(j).getPlmnId().getMcc(),
+										e.getVisitedAreas().get(i).getEcgis().get(j).getPlmnId().getMnc(),
+										e.getVisitedAreas().get(i).getEcgis().get(j).getEutraCellId(),
+										e.getVisitedAreas().get(i).getEcgis().get(j).getNid())), i, 0);
+									}
+								}
+							}
+							for(int j=0;j<e.getVisitedAreas().get(i).getNcgis().size();j++){
+								if(e.getVisitedAreas().get(i).getNcgis().get(j)!=null){
+									if(e.getVisitedAreas().get(i).getNcgis().get(j).getPlmnId()!=null){
+										this.addVisitedAreasItem(new ArrayList<>(Arrays.asList(e.getVisitedAreas().get(i).getNcgis().get(j).getPlmnId().getMcc(),
+										e.getVisitedAreas().get(i).getNcgis().get(j).getPlmnId().getMnc(),
+										e.getVisitedAreas().get(i).getNcgis().get(j).getNrCellId(),
+										e.getVisitedAreas().get(i).getNcgis().get(j).getNid())), i, 1);
+									}
+								}
+							}
+							for(int j=0;j<e.getVisitedAreas().get(i).getGRanNodeIds().size();j++){
+								if(e.getVisitedAreas().get(i).getGRanNodeIds().get(j)!=null){
+									String bitlength=null,gnbvalue=null,mcc=null,mnc=null;
+									if(e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getGNbId()!=null){
+										bitlength = ParserUtil.safeParseString(e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getGNbId().getBitLength());
+										gnbvalue = ParserUtil.safeParseString(e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getGNbId().getGNBValue());
+									}
+									if(e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getPlmnId()!=null){
+										mcc = e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getPlmnId().getMcc();
+										mnc = e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getPlmnId().getMnc();
+									}
+									this.addVisitedAreasItem(new ArrayList<>(Arrays.asList(mcc,mnc,
+									e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getN3IwfId(),
+									e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getNgeNbId(),
+									e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getWagfId(),
+									e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getTngfId(),
+									e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getNid(),
+									e.getVisitedAreas().get(i).getGRanNodeIds().get(j).getENbId(),
+									bitlength, gnbvalue)), i, 2);
+								}
+							}
+							for(int j=0;j<e.getVisitedAreas().get(i).getTais().size();j++){
+								if(e.getVisitedAreas().get(i).getTais().get(j)!=null){
+									if(e.getVisitedAreas().get(i).getTais().get(j).getPlmnId()!=null){
+										this.addVisitedAreasItem(new ArrayList<>(Arrays.asList(e.getVisitedAreas().get(i).getTais().get(j).getPlmnId().getMcc(),
+										e.getVisitedAreas().get(i).getTais().get(j).getPlmnId().getMnc(),
+										e.getVisitedAreas().get(i).getTais().get(j).getTac(),
+										e.getVisitedAreas().get(i).getTais().get(j).getNid())), i, 3);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if(e.getNsiIdInfos()!=null){
+				for(int i=0;i<e.getNsiIdInfos().size();i++){
+					if(e.getNsiIdInfos().get(i)!=null){
+						this.addNsiIdInfos(null);
+						if(e.getNsiIdInfos().get(i).getSnssai()!=null){
+							this.setNsiIdInfos(ParserUtil.safeParseString(e.getNsiIdInfos().get(i).getSnssai().getSst()), i, 0);
+							this.setNsiIdInfos(ParserUtil.safeParseString(e.getNsiIdInfos().get(i).getSnssai().getSd()), i, 1);
+						}
+						this.nsiIdInfos.get(i).set(1, e.getNsiIdInfos().get(i).getNsiIds());
+				}
+				}
+			}
+			if(e.getNsiLevelThrds()!=null){
+				for(int i=0;i<e.getNsiLevelThrds().size();i++){
+					this.nsiLevelThrds.add(e.getNsiLevelThrds().get(i));
+				}
+			}
+			if(e.getQosFlowRetThds()!=null){
+				for(int i=0;i<e.getQosFlowRetThds().size();i++){
+					if(e.getQosFlowRetThds().get(i)!=null){
+						this.addQosFlowRetThds(null);
+						this.setQosFlowRetThds(ParserUtil.safeParseString(e.getQosFlowRetThds().get(i).getRelFlowNum()), i, 0);
+						this.setQosFlowRetThds(ParserUtil.safeParseString(e.getQosFlowRetThds().get(i).getRelFlowRatio()), i, 1);
+						if(e.getQosFlowRetThds().get(i).getRelTimeUnit()!=null){
+							this.setQosFlowRetThds(ParserUtil.safeParseString(e.getQosFlowRetThds().get(i).getRelTimeUnit().getRelTimeUnit()), i, 2);
+						}
+					}
+				}
+			}
+			if(e.getRanUeThrouThds()!=null){
+				for(int i=0;i<e.getRanUeThrouThds().size();i++){
+					this.ranUeThrouThds.add(e.getRanUeThrouThds().get(i));
+				}
+			}
+			if(e.getSnssaia()!=null){
+				for(int i=0;i<e.getSnssaia().size();i++){
+					if(e.getSnssaia().get(i)!=null){
+						this.addSnssaia(null);
+						this.setSnssaia(ParserUtil.safeParseString(e.getSnssaia().get(i).getSst()), i, 0);
+						this.setSnssaia(ParserUtil.safeParseString(e.getSnssaia().get(i).getSd()), i, 1);
+					}
+				}
+			}
+			if(e.getCongThresholds()!=null){
+				for(int i=0;i<e.getCongThresholds().size();i++){
+					if(e.getCongThresholds().get(i)!=null){
+						this.congThresholds.add(new ArrayList<>(Arrays.asList(ParserUtil.safeParseString(e.getCongThresholds().get(i).getCongLevel()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getNfLoadLevel()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getNfCpuUsage()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getNfMemoryUsage()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getNfStorageUsage()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getAvgTrafficRate()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getMaxTrafficRate()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getAvgPacketDelay()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getMaxPacketDelay()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getAvgPacketLossRate()),
+						ParserUtil.safeParseString(e.getCongThresholds().get(i).getSvcExpLevel())
+						)));
+					}
+				}
+			}
+			if(e.getNwPerfRequs()!=null){
+				for(int i=0;i<e.getNwPerfRequs().size();i++){
+					if(e.getNwPerfRequs().get(i)!=null){
+						this.addNwPerfRequs(null);
+						if(e.getNwPerfRequs().get(i)!=null){
+							if(e.getNwPerfRequs().get(i).getNwPerfType()!=null){
+								this.setNwPerfRequs(ParserUtil.safeParseString(e.getNwPerfRequs().get(i).getNwPerfType().getnwPerfType()), i, 0);
+							}
+							this.setSnssaia(ParserUtil.safeParseString(e.getNwPerfRequs().get(i).getRelativeRatio()), i, 1);
+							this.setSnssaia(ParserUtil.safeParseString(e.getNwPerfRequs().get(i).getAbsoluteNum()), i, 2);
+						}
+					}
+				}
+			}
+			if(e.getExcepRequs()!=null){
+				for(int i=0;i<e.getExcepRequs().size();i++){
+					if(e.getExcepRequs().get(i)!=null){
+						this.addExcepRequs(null);
+						if(e.getExcepRequs().get(i)!=null){
+							if(e.getExcepRequs().get(i).getExcepId()!=null){
+								this.setExcepRequs(ParserUtil.safeParseString(e.getExcepRequs().get(i).getExcepId().getExcepId()), i, 0);
+							}
+							this.setExcepRequs(ParserUtil.safeParseString(e.getExcepRequs().get(i).getExcepLevel()), i, 1);
+							if(e.getExcepRequs().get(i).getExcepTrend()!=null){
+								this.setExcepRequs(ParserUtil.safeParseString(e.getExcepRequs().get(i).getExcepTrend().getExcepTrend()), i, 2);
+							}
+						}
+					}
+				}
+			}
+			if(e.getRatFreqs()!=null){
+				for(int i=0;i<e.getRatFreqs().size();i++){
+					if(e.getRatFreqs().get(i)!=null){
+						this.addRatFreqs(null);
+						this.setRatFreqs(ParserUtil.safeParseString(e.getRatFreqs().get(i).isAllFreq()), i, 0);
+						this.setRatFreqs(ParserUtil.safeParseString(e.getRatFreqs().get(i).isAllRat()), i, 1);
+						this.setRatFreqs(ParserUtil.safeParseString(e.getRatFreqs().get(i).getFreq()), i, 2);
+						if(e.getRatFreqs().get(i).getRatType()!=null){
+							this.setRatFreqs(ParserUtil.safeParseString(e.getRatFreqs().get(i).getRatType().getRatType()), i, 3);
+						}
+						if(e.getRatFreqs().get(i).getMatchingDir()!=null){
+								this.setRatFreqs(ParserUtil.safeParseString(e.getRatFreqs().get(i).getMatchingDir().getMatchingDir()), i, 4);
+						}
+						if(e.getRatFreqs().get(i).getSvcExpThreshold()!=null){
+							this.ratFreqs.get(i).set(1,ParserUtil.safeParseListString(new ArrayList<>(Arrays.asList(e.getNfLoadLvlThds().get(i).getCongLevel(),
+							e.getNfLoadLvlThds().get(i).getNfLoadLevel(),
+							e.getNfLoadLvlThds().get(i).getNfCpuUsage(),
+							e.getNfLoadLvlThds().get(i).getNfMemoryUsage(),
+							e.getNfLoadLvlThds().get(i).getNfStorageUsage(),
+							e.getNfLoadLvlThds().get(i).getAvgTrafficRate(),
+							e.getNfLoadLvlThds().get(i).getMaxTrafficRate(),
+							e.getNfLoadLvlThds().get(i).getAvgPacketDelay(),
+							e.getNfLoadLvlThds().get(i).getMaxPacketDelay(),
+							e.getNfLoadLvlThds().get(i).getAvgPacketLossRate(),
+							e.getNfLoadLvlThds().get(i).getSvcExpLevel()
+							))));
+						}
+					}
+				}
+			}
+			if(e.getListOfAnaSubsets()!=null){
+				for(int i=0;i<e.getListOfAnaSubsets().size();i++){
+					if(e.getListOfAnaSubsets().get(i)!=null){
+						this.ranUeThrouThds.add(ParserUtil.safeParseString(e.getListOfAnaSubsets().get(i).getAnaSubset()));
+					}
+				}
+			}
+			if(e.getDisperReqs()!=null){
+				for(int i=0;i<e.getDisperReqs().size();i++){
+					if(e.getDisperReqs().get(i)!=null){
+						this.addDisperReqs(null);
+						if(e.getDisperReqs().get(i).getDisperType()!=null){
+							this.disperReqs.get(i).get(0).get(0).set(0,ParserUtil.safeParseString(e.getDisperReqs().get(i).getDisperType().getDisperType()));
+						}
+						if(e.getDisperReqs().get(i).getDispOrderCriter()!=null){
+							this.disperReqs.get(i).get(0).get(0).set(1,ParserUtil.safeParseString(e.getDisperReqs().get(i).getDispOrderCriter().getDispOrderCriter()));
+						}
+						if(e.getDisperReqs().get(i).getOrder()!=null){
+							this.disperReqs.get(i).get(0).get(0).set(2,ParserUtil.safeParseString(e.getDisperReqs().get(i).getOrder().getMatchingDir()));
+						}
+						if(e.getDisperReqs().get(i).getClassCriters()!=null){
+							for(int j=0;j<e.getDisperReqs().get(i).getClassCriters().size();j++){
+								if(e.getDisperReqs().get(i).getClassCriters().get(j)!=null){
+									String disperClass=null,classThreshold=null,thresMatch=null;
+									if(e.getDisperReqs().get(i).getClassCriters().get(j).getDisperClass()!=null){
+										disperClass = ParserUtil.safeParseString(e.getDisperReqs().get(i).getClassCriters().get(j).getDisperClass().getDisperClass());
+									}
+									classThreshold = ParserUtil.safeParseString(e.getDisperReqs().get(i).getClassCriters().get(j).getClassThreshold());
+									if(e.getDisperReqs().get(i).getClassCriters().get(j).getThresMatch()!=null){
+										thresMatch = ParserUtil.safeParseString(e.getDisperReqs().get(i).getClassCriters().get(j).getThresMatch().getMatchingDir());
+									}
+									this.addDisperReqsItem(new ArrayList<>(Arrays.asList(disperClass,classThreshold,thresMatch)), i, 1);
+								}
+							}
+							for(int j=0;j<e.getDisperReqs().get(i).getRankCriters().size();j++){
+								if(e.getDisperReqs().get(i).getRankCriters().get(j)!=null){
+									this.addDisperReqsItem(new ArrayList<>(Arrays.asList(ParserUtil.safeParseString(e.getDisperReqs().get(i).getRankCriters().get(j).getHighBase()),
+										ParserUtil.safeParseString(e.getDisperReqs().get(i).getRankCriters().get(j).getLowBase()))), i, 2);
+								}
+							}
+						}
+					}
+				}
+			}
+			if(e.getRedTransReqs()!=null){
+				for(int i=0;i<e.getRedTransReqs().size();i++){
+					if(e.getRedTransReqs().get(i)!=null){
+						this.addRedTransReqs(null);
+						if(e.getRedTransReqs().get(i).getRedTOrderCriter()!=null){
+							this.setRedTransReqs(ParserUtil.safeParseString(e.getRedTransReqs().get(i).getRedTOrderCriter().getRedTOrderCriter()), i, 0);
+						}
+						if(e.getRedTransReqs().get(i).getOrder()!=null){
+							this.setRedTransReqs(ParserUtil.safeParseString(e.getRedTransReqs().get(i).getOrder().getMatchingDir()), i, 1);
+						}
+					}		
+				}
+			}
+			if(e.getWlanReqs()!=null){
+				for(int i=0;i<e.getWlanReqs().size();i++){
+					if(e.getWlanReqs().get(i)!=null){
+						this.addWlanReqs(null);
+						if(e.getWlanReqs().get(i).getWlanOrderCriter()!=null){
+							this.setWlanReqs(ParserUtil.safeParseString(e.getWlanReqs().get(i).getWlanOrderCriter().getWlanOrderCriter()), i, 0);
+						}
+						if(e.getWlanReqs().get(i).getWlanOrderCriter()!=null){
+							this.setWlanReqs(ParserUtil.safeParseString(e.getWlanReqs().get(i).getOrder().getMatchingDir()), i, 1);
+						}
+						this.wlanReqs.get(i).set(1,e.getWlanReqs().get(i).getSsIds());
+						this.wlanReqs.get(i).set(2,e.getWlanReqs().get(i).getBssIds());
+					}
+				}
+			}
+			if(e.getAppServerAddrs()!=null){
+				for(int i=0;i<e.getAppServerAddrs().size();i++){
+					if(e.getAppServerAddrs().get(i)!=null){
+						this.setAppServerAddrs(e.getAppServerAddrs().get(i).getIpAddr().getIpv4Addr(), i, 0);
+						this.setAppServerAddrs(e.getAppServerAddrs().get(i).getIpAddr().getIpv6Addr(), i, 1);
+						this.setAppServerAddrs(e.getAppServerAddrs().get(i).getIpAddr().getIpv6Prefix(), i, 2);
+						this.setAppServerAddrs(e.getAppServerAddrs().get(i).getFqdn(), i, 3);
+					}
+				}
+			}
+			if(e.getDnPerfReqs()!=null){
+				for(int i=0;i<e.getDnPerfReqs().size();i++){
+					if(e.getDnPerfReqs().get(i)!=null){
+						this.addDnPerfReqs(null);
+						if(e.getDnPerfReqs().get(i).getDnPerfOrderCriter()!=null){
+							this.dnPerfReqs.get(i).get(0).get(0).set(0,ParserUtil.safeParseString(e.getDnPerfReqs().get(i).getDnPerfOrderCriter().getDnPerfOrderCriter()));
+						}
+						if(e.getDnPerfReqs().get(i).getOrder()!=null){
+							this.dnPerfReqs.get(i).get(0).get(0).set(1,ParserUtil.safeParseString(e.getDnPerfReqs().get(i).getOrder().getMatchingDir()));
+						}
+						if(e.getDnPerfReqs().get(i).getReportThresholds()!=null){
+							for(int j=0;j<e.getDnPerfReqs().get(i).getReportThresholds().size();j++){
+								this.addDnPerfReqsItem(ParserUtil.safeParseListString(new ArrayList<>(Arrays.asList(e.getDnPerfReqs().get(i).getReportThresholds().get(j).getCongLevel(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getNfLoadLevel(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getNfCpuUsage(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getNfMemoryUsage(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getNfStorageUsage(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getAvgTrafficRate(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getMaxTrafficRate(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getAvgPacketDelay(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getMaxPacketDelay(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getAvgPacketLossRate(),
+							e.getDnPerfReqs().get(i).getReportThresholds().get(j).getSvcExpLevel()
+							))), i, 1);
+							}
+						}
+					}
+				}
+			}
+			if(e.getNetworkArea()!=null){
+				if(e.getNetworkArea().getEcgis()!=null){
+				for(int j=0;j<e.getNetworkArea().getEcgis().size();j++){
+					if(e.getNetworkArea().getEcgis().get(j)!=null){
+						if(e.getNetworkArea().getEcgis().get(j).getPlmnId()!=null){
+							this.addNetworkAreaItem(new ArrayList<>(Arrays.asList(e.getNetworkArea().getEcgis().get(j).getPlmnId().getMcc(),
+							e.getNetworkArea().getEcgis().get(j).getPlmnId().getMnc(),
+							e.getNetworkArea().getEcgis().get(j).getEutraCellId(),
+							e.getNetworkArea().getEcgis().get(j).getNid())), 0);
+						}
+					}
+				}
+				}
+				if(e.getNetworkArea().getNcgis()!=null){
+				for(int j=0;j<e.getNetworkArea().getNcgis().size();j++){
+					if(e.getNetworkArea().getNcgis().get(j)!=null){
+						if(e.getNetworkArea().getNcgis().get(j).getPlmnId()!=null){
+							this.addNetworkAreaItem(new ArrayList<>(Arrays.asList(e.getNetworkArea().getNcgis().get(j).getPlmnId().getMcc(),
+							e.getNetworkArea().getNcgis().get(j).getPlmnId().getMnc(),
+							e.getNetworkArea().getNcgis().get(j).getNrCellId(),
+							e.getNetworkArea().getNcgis().get(j).getNid())), 1);
+						}
+					}
+				}
+				}
+				if(e.getNetworkArea().getGRanNodeIds()!=null){
+				for(int j=0;j<e.getNetworkArea().getGRanNodeIds().size();j++){
+					if(e.getNetworkArea().getGRanNodeIds().get(j)!=null){
+						String bitlength=null,gnbvalue=null,mcc=null,mnc=null;
+						if(e.getNetworkArea().getGRanNodeIds().get(j).getGNbId()!=null){
+							bitlength = ParserUtil.safeParseString(e.getNetworkArea().getGRanNodeIds().get(j).getGNbId().getBitLength());
+							gnbvalue = ParserUtil.safeParseString(e.getNetworkArea().getGRanNodeIds().get(j).getGNbId().getGNBValue());
+						}
+						if(e.getNetworkArea().getGRanNodeIds().get(j).getPlmnId()!=null){
+							mcc = e.getNetworkArea().getGRanNodeIds().get(j).getPlmnId().getMcc();
+							mnc = e.getNetworkArea().getGRanNodeIds().get(j).getPlmnId().getMnc();
+						}
+						this.addNetworkAreaItem(new ArrayList<>(Arrays.asList(mcc,mnc,
+						e.getNetworkArea().getGRanNodeIds().get(j).getN3IwfId(),
+						e.getNetworkArea().getGRanNodeIds().get(j).getNgeNbId(),
+						e.getNetworkArea().getGRanNodeIds().get(j).getWagfId(),
+						e.getNetworkArea().getGRanNodeIds().get(j).getTngfId(),
+						e.getNetworkArea().getGRanNodeIds().get(j).getNid(),
+						e.getNetworkArea().getGRanNodeIds().get(j).getENbId(),
+						bitlength, gnbvalue)), 2);
+					}
+				}
+				}
+				if(e.getNetworkArea().getTais()!=null){
+				for(int j=0;j<e.getNetworkArea().getTais().size();j++){
+					if(e.getNetworkArea().getTais().get(j)!=null){
+						if(e.getNetworkArea().getTais().get(j).getPlmnId()!=null){
+							this.addNetworkAreaItem(new ArrayList<>(Arrays.asList(e.getNetworkArea().getTais().get(j).getPlmnId().getMcc(),
+							e.getNetworkArea().getTais().get(j).getPlmnId().getMnc(),
+							e.getNetworkArea().getTais().get(j).getTac(),
+							e.getNetworkArea().getTais().get(j).getNid())), 3);
+						}
+					}
+				}
+				}				
+			}
+			if(e.getQosRequ()!=null){
+				this.setQosRequ(ParserUtil.safeParseString(e.getQosRequ().get5qi()), 0);
+				this.setQosRequ(ParserUtil.safeParseString(e.getQosRequ().getGfbrUl()), 1);
+				this.setQosRequ(ParserUtil.safeParseString(e.getQosRequ().getGfbrDl()), 2);
+				if(e.getQosRequ().getResType()!=null){
+					this.setQosRequ(ParserUtil.safeParseString(e.getQosRequ().getResType().getResType()), 3);
+				}
+				this.setQosRequ(ParserUtil.safeParseString(e.getQosRequ().getPdb()), 4);
+				this.setQosRequ(ParserUtil.safeParseString(e.getQosRequ().getPer()), 5);
+			}
+			if(e.getExptUeBehav()!=null){
+				this.initExptUeBehav();
+				if(e.getExptUeBehav().getStationaryIndication()!=null){
+					this.exptUeBehav.get(0).get(0).get(0).get(0).get(0).set(0,ParserUtil.safeParseString(e.getExptUeBehav().getStationaryIndication().getStationaryIndication()));
+				}
+				this.exptUeBehav.get(0).get(0).get(0).get(0).get(0).set(1,ParserUtil.safeParseString(e.getExptUeBehav().getCommunicationDurationTime()));
+				this.exptUeBehav.get(0).get(0).get(0).get(0).get(0).set(2,ParserUtil.safeParseString(e.getExptUeBehav().getPeriodicTime()));
+				if(e.getExptUeBehav().getScheduledCommunicationType()!=null){
+					this.exptUeBehav.get(0).get(0).get(0).get(0).get(0).set(3,ParserUtil.safeParseString(e.getExptUeBehav().getScheduledCommunicationType().getScheduledCommunicationType()));
+				}
+				if(e.getExptUeBehav().getTrafficProfile()!=null){
+					this.exptUeBehav.get(0).get(0).get(0).get(0).get(0).set(4,ParserUtil.safeParseString(e.getExptUeBehav().getTrafficProfile().getTrafficProfile()));
+				}
+				this.exptUeBehav.get(0).get(0).get(0).get(0).get(0).set(5,ParserUtil.safeParseString(e.getExptUeBehav().getValidityTime()));
+				if(e.getExptUeBehav().getScheduledCommunicationTime()!=null){
+					if(e.getExptUeBehav().getScheduledCommunicationTime().getDaysOfWeek()!=null){
+						for(int i=0;i<e.getExptUeBehav().getScheduledCommunicationTime().getDaysOfWeek().size();i++){
+							this.exptUeBehav.get(1).get(0).get(0).get(0).get(0).add(ParserUtil.safeParseString(e.getExptUeBehav().getScheduledCommunicationTime().getDaysOfWeek().get(i)));
+						}
+					}
+					this.exptUeBehav.get(1).get(0).get(0).get(0).get(1).set(0,e.getExptUeBehav().getScheduledCommunicationTime().getTimeOfDayStart());
+					this.exptUeBehav.get(1).get(0).get(0).get(0).get(1).set(1,e.getExptUeBehav().getScheduledCommunicationTime().getTimeOfDayEnd());
+				}
+				this.exptUeBehav.get(2).get(0).get(0).get(0).get(0).set(0,ParserUtil.safeParseString(e.getExptUeBehav().getBatteryIndication().isBatteryInd()));
+				this.exptUeBehav.get(2).get(0).get(0).get(0).get(0).set(1,ParserUtil.safeParseString(e.getExptUeBehav().getBatteryIndication().isReplaceableInd()));
+				this.exptUeBehav.get(2).get(0).get(0).get(0).get(0).set(2,ParserUtil.safeParseString(e.getExptUeBehav().getBatteryIndication().isRechargeableInd()));
+				if(e.getExptUeBehav().getExpectedUmts()!=null){
+					for(int i=0;i<e.getExptUeBehav().getExpectedUmts().size();i++){
+						if(e.getExptUeBehav().getExpectedUmts().get(i)!=null){
+							if(e.getExptUeBehav().getExpectedUmts().get(i)!=null){
+								if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo()!=null){
+									if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getEcgis()!=null){
+									for(int j=0;j<e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getEcgis().size();j++){
+										if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getEcgis().get(j)!=null){
+											if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getEcgis().get(j).getPlmnId()!=null){
+												this.addExptUeBehavItem(new ArrayList<>(Arrays.asList(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getEcgis().get(j).getPlmnId().getMcc(),
+												e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getEcgis().get(j).getPlmnId().getMnc(),
+												e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getEcgis().get(j).getEutraCellId(),
+												e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getEcgis().get(j).getNid())), i, 0);
+											}
+										}
+									}
+									}
+									if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getNcgis()!=null){
+									for(int j=0;j<e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getNcgis().size();j++){
+										if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getNcgis().get(j)!=null){
+											if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getNcgis().get(j).getPlmnId()!=null){
+												this.addExptUeBehavItem(new ArrayList<>(Arrays.asList(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getNcgis().get(j).getPlmnId().getMcc(),
+												e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getNcgis().get(j).getPlmnId().getMnc(),
+												e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getNcgis().get(j).getNrCellId(),
+												e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getNcgis().get(j).getNid())), i, 1);
+											}
+										}
+									}
+									}
+									if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds()!=null){
+									for(int j=0;j<e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().size();j++){
+										if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j)!=null){
+											String bitlength=null,gnbvalue=null,mcc=null,mnc=null;
+											if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getGNbId()!=null){
+												bitlength = ParserUtil.safeParseString(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getGNbId().getBitLength());
+												gnbvalue = ParserUtil.safeParseString(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getGNbId().getGNBValue());
+											}
+											if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getPlmnId()!=null){
+												mcc = e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getPlmnId().getMcc();
+												mnc = e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getPlmnId().getMnc();
+											}
+											this.addExptUeBehavItem(new ArrayList<>(Arrays.asList(mcc,mnc,
+											e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getN3IwfId(),
+											e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getNgeNbId(),
+											e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getWagfId(),
+											e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getTngfId(),
+											e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getNid(),
+											e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getGRanNodeIds().get(j).getENbId(),
+											bitlength, gnbvalue)), i, 2);
+										}
+									}
+									}
+									if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getTais()!=null){
+									for(int j=0;j<e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getTais().size();j++){
+										if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getTais().get(j)!=null){
+											if(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getTais().get(j).getPlmnId()!=null){
+												this.addExptUeBehavItem(new ArrayList<>(Arrays.asList(e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getTais().get(j).getPlmnId().getMcc(),
+												e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getTais().get(j).getPlmnId().getMnc(),
+												e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getTais().get(j).getTac(),
+												e.getExptUeBehav().getExpectedUmts().get(i).getNwAreaInfo().getTais().get(j).getNid())), i, 3);
+											}
+										}
+									}
+									}
+								}
+								if(e.getExptUeBehav().getExpectedUmts().get(i).getUmtTime()!=null){
+									this.exptUeBehav.get(3).get(i).get(1).get(0).get(0).set(0,e.getExptUeBehav().getExpectedUmts().get(i).getUmtTime().getTimeOfDay());
+									this.exptUeBehav.get(3).get(i).get(1).get(0).get(0).set(0,ParserUtil.safeParseString(e.getExptUeBehav().getExpectedUmts().get(i).getUmtTime().getDayOfWeek()));
+								}
+								if(e.getExptUeBehav().getExpectedUmts().get(i).getGeographicAreas()!=null){
+									for(int j=0;j<e.getExptUeBehav().getExpectedUmts().get(i).getGeographicAreas().size();j++){
+										GeographicArea g = e.getExptUeBehav().getExpectedUmts().get(i).getGeographicAreas().get(j);
+										if(g!=null && g.getType()!=null){
+											this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(0,g.getType());
+											if(g.getType().equals("Point") && ((Point) g).getPoint()!=null){
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(1,ParserUtil.safeParseString(((Point) g).getPoint().getLon()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(2,ParserUtil.safeParseString(((Point) g).getPoint().getLat()));
+											}
+											else if(g.getType().equals("PointUncertaintyCircle") && ((PointUncertaintyCircle) g).getPoint()!=null){
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(1,ParserUtil.safeParseString(((PointUncertaintyCircle) g).getPoint().getLon()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(2,ParserUtil.safeParseString(((PointUncertaintyCircle) g).getPoint().getLat()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(3,ParserUtil.safeParseString(((PointUncertaintyCircle) g).getUncertainty()));
+											
+											}
+											else if(g.getType().equals("PointUncertaintyEllipse") && ((PointUncertaintyEllipse) g).getPoint()!=null){
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(1,ParserUtil.safeParseString(((PointUncertaintyEllipse) g).getPoint().getLon()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(2,ParserUtil.safeParseString(((PointUncertaintyEllipse) g).getPoint().getLat()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(3,ParserUtil.safeParseString(((PointUncertaintyEllipse) g).getConfidence()));
+												if(((PointUncertaintyEllipse) g).getUncertaintyEllipse()!=null){
+													this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(4,ParserUtil.safeParseString(((PointUncertaintyEllipse) g).getUncertaintyEllipse().getOrientationMajor()));
+													this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(5,ParserUtil.safeParseString(((PointUncertaintyEllipse) g).getUncertaintyEllipse().getSemiMajor()));
+													this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(6,ParserUtil.safeParseString(((PointUncertaintyEllipse) g).getUncertaintyEllipse().getSemiMinor()));
+												}
+											}
+											else if(g.getType().equals("Polygon") && ((Polygon) g).getPointList()!=null){
+												if(((Polygon) g).getPointList()!=null){
+													for(int k=0;k<((Polygon) g).getPointList().size();k++){
+														if(((Polygon) g).getPointList().get(k)!=null){
+														this.exptUeBehav.get(3).get(i).get(2).get(j).get(1).add(ParserUtil.safeParseString(((Polygon) g).getPointList().get(k).getLon()));
+														this.exptUeBehav.get(3).get(i).get(2).get(j).get(2).add(ParserUtil.safeParseString(((Polygon) g).getPointList().get(k).getLat()));
+														}
+													}
+												}
+											}
+											else if(g.getType().equals("PointAltitude") && ((PointAltitude) g).getPoint()!=null){
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(1,ParserUtil.safeParseString(((PointAltitude) g).getPoint().getLon()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(2,ParserUtil.safeParseString(((PointAltitude) g).getPoint().getLat()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(3,ParserUtil.safeParseString(((PointAltitude) g).getAltitude()));
+											}
+											else if(g.getType().equals("PointAltitudeUncertainty") && ((PointAltitudeUncertainty) g).getPoint()!=null){
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(1,ParserUtil.safeParseString(((PointAltitudeUncertainty) g).getPoint().getLon()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(2,ParserUtil.safeParseString(((PointAltitudeUncertainty) g).getPoint().getLat()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(3,ParserUtil.safeParseString(((PointAltitudeUncertainty) g).getConfidence()));
+												if(((PointAltitudeUncertainty) g).getUncertaintyEllipse()!=null){
+													this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(4,ParserUtil.safeParseString(((PointAltitudeUncertainty) g).getUncertaintyEllipse().getOrientationMajor()));
+													this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(5,ParserUtil.safeParseString(((PointAltitudeUncertainty) g).getUncertaintyEllipse().getSemiMajor()));
+													this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(6,ParserUtil.safeParseString(((PointAltitudeUncertainty) g).getUncertaintyEllipse().getSemiMinor()));
+												}
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(7,ParserUtil.safeParseString(((PointAltitudeUncertainty) g).getAltitude()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(8,ParserUtil.safeParseString(((PointAltitudeUncertainty) g).getUncertaintyAltitude()));
+											}
+											else if(g.getType().equals("EllipsoidArc") && ((EllipsoidArc) g).getPoint()!=null){
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(1,ParserUtil.safeParseString(((EllipsoidArc) g).getPoint().getLon()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(2,ParserUtil.safeParseString(((EllipsoidArc) g).getPoint().getLat()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(3,ParserUtil.safeParseString(((EllipsoidArc) g).getConfidence()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(4,ParserUtil.safeParseString(((EllipsoidArc) g).getInnerRadius()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(5,ParserUtil.safeParseString(((EllipsoidArc) g).getUncertaintyRadius()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(6,ParserUtil.safeParseString(((EllipsoidArc) g).getOffsetAngle()));
+												this.exptUeBehav.get(3).get(i).get(2).get(j).get(0).set(7,ParserUtil.safeParseString(((EllipsoidArc) g).getIncludedAngle()));
+											}
+										}
+									}
+								}
+								if(e.getExptUeBehav().getExpectedUmts().get(i).getCivicAddresses()!=null){
+									for(int j=0;j<e.getExptUeBehav().getExpectedUmts().get(i).getCivicAddresses().size();j++){
+										CivicAddress c = e.getExptUeBehav().getExpectedUmts().get(i).getCivicAddresses().get(j);
+										if(c!=null){
+											this.exptUeBehav.get(3).get(i).get(3).get(0).set(j,new ArrayList<>(Arrays.asList(
+											c.getCountry(),
+											c.getA1(),
+											c.getA2(),
+											c.getA3(),
+											c.getA4(),
+											c.getA5(),
+											c.getA6(),
+											c.getPRD(),
+											c.getPOD(),
+											c.getSTS(),
+											c.getHNO(),
+											c.getHNS(),
+											c.getLMK(),
+											c.getLOC(),
+											c.getNAM(),
+											c.getPC(),
+											c.getBLD(),
+											c.getUNIT(),
+											c.getFLR(),
+											c.getROOM(),
+											c.getPLC(),
+											c.getPCN(),
+											c.getPOBOX(),
+											c.getADDCODE(),
+											c.getSEAT(),
+											c.getRD(),
+											c.getRDSEC(),
+											c.getRDBR(),
+											c.getRDSUBBR(),
+											c.getPRM(),
+											c.getPOM(),
+											c.getUsageRules(),
+											c.getMethod(),
+											c.getProvidedBy()
+											)));
+										}
+									}
+								}
+							}							
+						}
+					}
+				}
+				
+			}
+			if(e.getUpfInfo()!=null){
+				this.setUpfInfo(e.getUpfInfo().getUpfId(), 0);
+				if(e.getUpfInfo().getUpfAddr()!=null){
+					if(e.getUpfInfo().getUpfAddr().getIpAddr()!=null){
+						this.setUpfInfo(e.getUpfInfo().getUpfAddr().getIpAddr().getIpv4Addr(),1);
+						this.setUpfInfo(e.getUpfInfo().getUpfAddr().getIpAddr().getIpv6Addr(), 2);
+						this.setUpfInfo(e.getUpfInfo().getUpfAddr().getIpAddr().getIpv6Prefix(), 3);
+					}
+					if(e.getUpfInfo().getUpfAddr().getFqdn()!=null){
+						this.setUpfInfo(e.getUpfInfo().getUpfAddr().getFqdn(), 4);
+					}
+				}
+			}
+			this.anySlice = e.isAnySlice();
+			this.loadLevelThreshold = e.getLoadLevelThreshold();
+			if(e.getMatchingDir()!=null){
+				this.matchingDir = e.getMatchingDir().getMatchingDir();
+			}
+			this.maxTopAppUlNbr = e.getMaxTopAppUlNbr();
+			this.maxTopAppDlNbr = e.getMaxTopAppDlNbr();
+			this.repetitionPeriod = e.getRepetitionPeriod();
+			if(e.getExptAnaType()!=null){
+				this.exptAnaType = e.getExptAnaType().getExptAnaType();
+			}
+		}
+        return this;
+    }
 	
 	
 }
