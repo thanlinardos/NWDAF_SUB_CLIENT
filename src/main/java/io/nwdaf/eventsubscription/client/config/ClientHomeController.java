@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,16 +45,44 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.val;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.http.HttpClient;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.SSLContext;
+
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
+import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
+import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.core5.http.config.Registry;
+import org.apache.hc.core5.http.config.RegistryBuilder;
+import org.apache.hc.core5.ssl.SSLContextBuilder;
+
 @Controller
 public class ClientHomeController {
 	@Autowired
 	private Environment env;
-    @Autowired
     private RestTemplate restTemplate;
     private Map<Long,NnwdafEventsSubscription> currentSubs = new HashMap<Long,NnwdafEventsSubscription>();
     private Map<Long,RequestSubscriptionModel> currentSubRequests = new HashMap<Long,RequestSubscriptionModel>();
     private Map<Long,NnwdafEventsSubscriptionNotification> currentSubNotifications = new HashMap<Long,NnwdafEventsSubscriptionNotification>();
     private OffsetDateTime lastNotif = null;
+	@Value("${trust.store}")
+    private Resource trustStore;
+    @Value("${trust.store.password}")
+    private String trustStorePassword;
+
     @GetMapping(value="/client")
     public String client() {
     	return "client";
@@ -174,6 +204,7 @@ public class ClientHomeController {
         }
         
         HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(sub);
+		restTemplate = new RestTemplate(createRestTemplateFactory());
         ResponseEntity<NnwdafEventsSubscription> res = restTemplate.exchange(apiURI,HttpMethod.PUT, req, NnwdafEventsSubscription.class);
         if(res.getStatusCode().is2xxSuccessful()) {
         	System.out.println("Location:"+res.getHeaders().getFirst("Location"));
@@ -207,6 +238,7 @@ public class ClientHomeController {
         }
         
         HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(sub);
+		restTemplate = new RestTemplate(createRestTemplateFactory());
         ResponseEntity<NnwdafEventsSubscription> res = restTemplate.postForEntity(apiURI, req, NnwdafEventsSubscription.class);
 
         String id = "";
@@ -233,6 +265,7 @@ public class ClientHomeController {
 		String apiURI = env.getProperty("nnwdaf-eventsubscription.openapi.dev-url")+"/nwdaf-eventsubscription/v1/subscriptions/"+id.toString();
 		HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(null);
 		try{
+			restTemplate = new RestTemplate(createRestTemplateFactory());
 			restTemplate.delete(apiURI, req);
 		}catch(Exception e){
 			return "redirect:/client/formSuccess/"+id;
@@ -725,5 +758,26 @@ public class ClientHomeController {
 			}
 		}
 		return e;	
+	}
+
+	private ClientHttpRequestFactory createRestTemplateFactory(){
+		SSLContext sslContext;
+		try {
+			sslContext = new SSLContextBuilder()
+			  .loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray()).build();
+			SSLConnectionSocketFactory sslConFactory = new SSLConnectionSocketFactory(sslContext);
+			Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory> create()
+			.register("https", sslConFactory)
+			.register("http", new PlainConnectionSocketFactory())
+			.build();
+			BasicHttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager(socketFactoryRegistry);
+			CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
+			ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+			return requestFactory;
+		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException | CertificateException
+				| IOException e) {
+			e.printStackTrace();
+		}
+        return null;
 	}
 }

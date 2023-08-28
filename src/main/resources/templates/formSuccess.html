@@ -518,7 +518,7 @@
 					<button type="submit" name="action" th:text="Add" th:value="'addNfInstanceIds,'+${e_stat.index}">Add NfInstanceIds</button>
 					<li th:each="a,a_stat: ${e.nfInstanceIds}">
 			        <input type="text" th:field="*{eventList[__${e_stat.index}__].nfInstanceIds[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getNfInstanceIds[__${a_stat.index}__]}" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$">
-			         <button th:if="${a_stat != null}" type="submit" name="removeNfInstanceIds" 
+			         <button th:if="${a_stat != null}" type="submit" name="action" 
 		                th:value="'removeNfInstanceIds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove NfInstanceIds</button>
 		          	</li>
 		          </ul>
@@ -1759,7 +1759,7 @@
 		<input type="checkbox" th:field="*{showNotifBody}" th:value=*{showNotifBody}/>
 		<label>Show Result Body</label>
 		<input type="checkbox" th:field="*{showResult}" th:value=*{showResult}/>
-		<button type="submit" name="update" th:text="Update">Update shown fields</button>
+		<button type="submit" name="action" th:value="'update,'" th:text="Update">Update shown fields</button>
     </form>
 	
 	<div>

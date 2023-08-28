@@ -23,5 +23,15 @@
     "name": "nnwdaf-eventsubscription.init",
     "type": "java.lang.String",
     "description": "A description for 'nnwdaf-eventsubscription.init'"
+  },
+  {
+    "name": "trust.store",
+    "type": "java.lang.String",
+    "description": "A description for 'trust.store'"
+  },
+  {
+    "name": "trust.store.password",
+    "type": "java.lang.String",
+    "description": "A description for 'trust.store.password'"
   }
 ]}

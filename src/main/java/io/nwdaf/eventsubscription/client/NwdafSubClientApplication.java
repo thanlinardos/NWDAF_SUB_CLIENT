@@ -35,11 +35,6 @@ public class NwdafSubClientApplication {
 		
 		
 	}
-	
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
-	}
 
 //	@Bean
 	public CommandLineRunner run() throws JsonProcessingException{

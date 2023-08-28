@@ -7,7 +7,7 @@ import java.util.List;
 import io.nwdaf.eventsubscription.client.model.NwdafEvent.NwdafEventEnum;
 
 public class Constants {
-	public static Integer MIN_PERIOD_SECONDS = 1;
+	public static Integer MIN_PERIOD_SECONDS = 5;
 	public static Integer MAX_PERIOD_SECONDS = 600;
 	public static List<NwdafEventEnum> supportedEvents = new ArrayList<>(Arrays.asList(NwdafEventEnum.NF_LOAD));
 	//check 5.1.8-1 table (135) from 3gpp 29520-h80 and for encoding : 29571-h80 (17) table 5.2.2-3
