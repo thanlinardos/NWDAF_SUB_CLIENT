@@ -76,7 +76,7 @@ public class ClientHomeController {
     private RestTemplate restTemplate;
     private Map<Long,NnwdafEventsSubscription> currentSubs = new HashMap<Long,NnwdafEventsSubscription>();
     private Map<Long,RequestSubscriptionModel> currentSubRequests = new HashMap<Long,RequestSubscriptionModel>();
-    private Map<Long,NnwdafEventsSubscriptionNotification> currentSubNotifications = new HashMap<Long,NnwdafEventsSubscriptionNotification>();
+    private Map<String,NnwdafEventsSubscriptionNotification> currentSubNotifications = new HashMap<String,NnwdafEventsSubscriptionNotification>();
     private OffsetDateTime lastNotif = null;
 	@Value("${trust.store}")
     private Resource trustStore;
@@ -91,22 +91,25 @@ public class ClientHomeController {
     public String get(ModelMap model,@RequestParam(value="id",defaultValue="-1") Optional<Long> id){
     	RequestSubscriptionModel object;
     	NnwdafEventsSubscription result;
-    	NnwdafEventsSubscriptionNotification notification;
+    	List<NnwdafEventsSubscriptionNotification> notifications;
     	Long idVal = id.orElse(null);
     	if(idVal==null || currentSubRequests.get(-1l)==null) {
     		object = new RequestSubscriptionModel();
     		result = null;
-    		notification = null;
+    		notifications = null;
     	}
     	else if(idVal==-1) {
     		object = currentSubRequests.get(-1l);
     		result = null;
-    		notification = null;
+    		notifications = null;
     	}
     	else {
     		object = currentSubRequests.get(idVal);
     		result = currentSubs.get(idVal);
-    		notification = currentSubNotifications.get(idVal);
+    		notifications = new ArrayList<>();
+			for(int i=0;i<result.getEventSubscriptions().size();i++){
+				notifications.add(currentSubNotifications.get(idVal+","+i));
+			}
     		if(object==null) {
     			object = new RequestSubscriptionModel();
     			if(result!=null) {
@@ -126,7 +129,7 @@ public class ClientHomeController {
     	object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
         model.addAttribute("nnwdafEventsSubscription",object);
         model.put("result",result);
-        model.put("notification",notification);
+        model.put("notifications",notifications);
         model.addAttribute("serverTime", OffsetDateTime.now());
         return "form";
 
@@ -135,21 +138,24 @@ public class ClientHomeController {
     public String getSub(@PathVariable("id") Long id, ModelMap model){
     	RequestSubscriptionModel object;
     	NnwdafEventsSubscription result;
-    	NnwdafEventsSubscriptionNotification notification;
+    	List<NnwdafEventsSubscriptionNotification> notifications;
     	if(id==null || currentSubRequests.get(-1l)==null) {
     		object = new RequestSubscriptionModel();
     		result = null;
-    		notification = null;
+    		notifications = null;
     	}
     	else if(id==-1l) {
     		object = currentSubRequests.get(-1l);
     		result = null;
-    		notification = null;
+    		notifications = null;
     	}
     	else {
     		object = currentSubRequests.get(id);
     		result = currentSubs.get(id);
-    		notification = currentSubNotifications.get(id);
+			notifications = new ArrayList<>();
+			for(int i=0;i<result.getEventSubscriptions().size();i++){
+				notifications.add(currentSubNotifications.get(id+","+i));
+			}
     		if(object==null) {
     			object = new RequestSubscriptionModel();
     			if(result!=null) {
@@ -177,7 +183,7 @@ public class ClientHomeController {
         	delay=-1l;
         }
         model.put("delay", delay);
-        model.put("notification",notification);
+        model.put("notifications",notifications);
         model.addAttribute("serverTime", OffsetDateTime.now());
         return "formSuccess";
 
@@ -274,7 +280,7 @@ public class ClientHomeController {
 	}
     @PostMapping(value="/client/notify")
     public ResponseEntity<NnwdafEventsSubscriptionNotification> post(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody NnwdafEventsSubscriptionNotification notification){
-    	currentSubNotifications.put(Long.parseLong(notification.getSubscriptionId()), notification);
+    	currentSubNotifications.put(ParserUtil.safeParseLong(notification.getSubscriptionId())+","+ParserUtil.safeParseLong(notification.getNotifCorrId()), notification);
     	lastNotif = OffsetDateTime.now();
     	ResponseEntity<NnwdafEventsSubscriptionNotification> response = ResponseEntity.status(HttpStatus.OK).body(notification);
         return response;

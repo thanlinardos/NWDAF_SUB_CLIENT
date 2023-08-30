@@ -14,6 +14,13 @@ public class ParserUtil {
             return null;
         }
     }
+    public static Long safeParseLong(String str) {
+        try {
+            return Long.parseLong(str);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
     public static Float safeParseFloat(String str) {
         try {
             return Float.parseFloat(str);

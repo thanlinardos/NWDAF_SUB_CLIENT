@@ -57,7 +57,6 @@ import io.nwdaf.eventsubscription.client.model.NFType;
 import io.nwdaf.eventsubscription.client.model.NFType.NFTypeEnum;
 import io.nwdaf.eventsubscription.client.model.Ncgi;
 import io.nwdaf.eventsubscription.client.model.NetworkAreaInfo;
-import io.nwdaf.eventsubscription.client.model.NetworkAreaInfo1;
 import io.nwdaf.eventsubscription.client.model.NetworkPerfRequirement;
 import io.nwdaf.eventsubscription.client.model.NetworkPerfType;
 import io.nwdaf.eventsubscription.client.model.NetworkPerfType.NetworkPerfTypeEnum;
@@ -480,7 +479,7 @@ public class CreateSubscriptionRequestBuilder {
 		    	for(int n=0;n<object.getExptUeBehav().get(3).size();n++) {
 		    		LocationArea area = new LocationArea();
 		    		if(object.getExptUeBehav().get(3).get(n).get(0).size()>0) {
-		    			NetworkAreaInfo1 netArea = new NetworkAreaInfo1();
+		    			NetworkAreaInfo netArea = new NetworkAreaInfo();
 		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(0).get(0).size();i++) {
 		    				Ecgi ecgi = new Ecgi();
 		    				if(object.getExptUeBehav().get(3).get(n).get(0).get(0).get(i).get(0)!=null&&object.getExptUeBehav().get(3).get(n).get(0).get(0).get(i).get(1)!=null) {

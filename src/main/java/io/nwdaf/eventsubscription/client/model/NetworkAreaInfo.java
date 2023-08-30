@@ -1,6 +1,8 @@
 package io.nwdaf.eventsubscription.client.model;
 
 import java.util.Objects;
+import java.util.UUID;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
@@ -18,6 +20,11 @@ import javax.validation.constraints.*;
 
 
 public class NetworkAreaInfo   {
+
+  @JsonProperty("id")
+  @Valid
+  private UUID id = null;
+
   @JsonProperty("ecgis")
   @Valid
   private List<Ecgi> ecgis = null;
@@ -33,6 +40,19 @@ public class NetworkAreaInfo   {
   @JsonProperty("tais")
   @Valid
   private List<Tai> tais = null;
+
+  public NetworkAreaInfo id(UUID id){
+    this.id = id;
+    return this;
+  }
+
+  public UUID getId(){
+    return this.id;
+  }
+
+  public void setId(UUID id){
+    this.id=id;
+  }
 
   public NetworkAreaInfo ecgis(List<Ecgi> ecgis) {
     this.ecgis = ecgis;
