@@ -11,11 +11,9 @@ import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import ch.qos.logback.core.pattern.parser.Parser;
 import io.nwdaf.eventsubscription.client.Constants;
 import io.nwdaf.eventsubscription.client.Regex;
 import io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum;
-import io.nwdaf.eventsubscription.client.model.EventSubscription;
 import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscription;
 import io.nwdaf.eventsubscription.client.model.NotificationFlag.NotificationFlagEnum;
 import io.nwdaf.eventsubscription.client.model.NotificationMethod.NotificationMethodEnum;

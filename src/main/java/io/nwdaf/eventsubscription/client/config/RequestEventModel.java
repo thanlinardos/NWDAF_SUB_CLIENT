@@ -6,12 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.qos.logback.core.pattern.parser.Parser;
-import io.nwdaf.eventsubscription.client.Constants;
 import io.nwdaf.eventsubscription.client.model.EventSubscription;
-import io.nwdaf.eventsubscription.client.model.GADShape;
 import io.nwdaf.eventsubscription.client.model.GeographicArea;
-import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscription;
 import io.nwdaf.eventsubscription.client.model.Point;
 import io.nwdaf.eventsubscription.client.model.Polygon;
 import io.nwdaf.eventsubscription.client.model.PointAltitude;
