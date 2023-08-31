@@ -1767,20 +1767,22 @@
 		 <h3>Notifications</h3>
 		
 		 <div th:each=" a,a_stat: ${notifications}">
-			<h4>Notification - <span th:text="__${a_stat.index}__"></span></h4>
-			<div>last notification was sent <span th:text="${delay}"></span>ms ago</div>
-			<br>
-			<div th:each="n,n_stat : ${a.getEventNotifications()}">
-				<div th:if="${n.getTimeStampGen()!=null}"><span th:text="${n.getTimeStampGen()}"></span></div>
-				<hr>
-				<div th:each="i,i_stat : ${n.getNfLoadLevelInfos()}">
-					<div th:if="${i.getNfInstanceId()!=null}">nfInstanceId=<span th:text="${i.getNfInstanceId()}"></span></div>
-					<div th:if="${i.getNfSetId()!=null}">nfSetId=<span th:text="${i.getNfSetId()}"></span></div>
-					<div th:if="${i.getNfType()!=null}">nfType=<span th:text="${i.getNfType().getNfType()}"></span></div>
-					<div>nfCpuUsage=<span th:text="${i.getNfCpuUsage()}"></span></div>
-					<div>nfMemoryUsage=<span th:text="${i.getNfMemoryUsage()}"></span></div>
-					<div>nfStorageUsage=<span th:text="${i.getNfStorageUsage()}"></span></div>
-					<br>
+			<div th:if="${a != null}">
+				<h4>Notification - <span th:text="__${a_stat.index}__"></span></h4>
+				<div>last notification was sent <span th:text="${delay}"></span>ms ago</div>
+				<br>
+				<div th:each="n,n_stat : ${a.getEventNotifications()}">
+					<div th:if="${n.getTimeStampGen()!=null}"><span th:text="${n.getTimeStampGen()}"></span></div>
+					<hr>
+					<div th:each="i,i_stat : ${n.getNfLoadLevelInfos()}">
+						<div th:if="${i.getNfInstanceId()!=null}">nfInstanceId=<span th:text="${i.getNfInstanceId()}"></span></div>
+						<div th:if="${i.getNfSetId()!=null}">nfSetId=<span th:text="${i.getNfSetId()}"></span></div>
+						<div th:if="${i.getNfType()!=null}">nfType=<span th:text="${i.getNfType().getNfType()}"></span></div>
+						<div>nfCpuUsage=<span th:text="${i.getNfCpuUsage()}"></span></div>
+						<div>nfMemoryUsage=<span th:text="${i.getNfMemoryUsage()}"></span></div>
+						<div>nfStorageUsage=<span th:text="${i.getNfStorageUsage()}"></span></div>
+						<br>
+					</div>
 				</div>
 			</div>
 		 </div>

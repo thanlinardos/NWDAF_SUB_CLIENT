@@ -401,7 +401,7 @@ public class CreateSubscriptionRequestBuilder {
 			NetworkAreaInfo area = new NetworkAreaInfo();
 			for(int i=0;i<object.getNetworkArea().get(0).size();i++) {
 				Ecgi ecgi = new Ecgi();
-				if(object.getNetworkArea().get(0).get(i).get(0)!=null&&object.getNetworkArea().get(0).get(i).get(1)!=null) {
+				if(ParserUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(0))&&ParserUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(1))) {
 					ecgi.plmnId(new PlmnId().mcc(object.getNetworkArea().get(0).get(i).get(0)).mnc(object.getNetworkArea().get(0).get(i).get(1)));
 				}
 				ecgi.eutraCellId(object.getNetworkArea().get(0).get(i).get(2)).nid(object.getNetworkArea().get(0).get(i).get(3));
@@ -427,7 +427,7 @@ public class CreateSubscriptionRequestBuilder {
 																	.tngfId(object.getNetworkArea().get(2).get(i).get(5))
 																	.nid(object.getNetworkArea().get(2).get(i).get(6))
 																	.eNbId(object.getNetworkArea().get(2).get(i).get(7));
-				if(object.getNetworkArea().get(2).get(i).get(8)!=null&&object.getNetworkArea().get(2).get(i).get(9)!=null) {
+				if(object.getNetworkArea().get(2).get(i).get(8)!=null&&ParserUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(2).get(i).get(9))) {
 					gRanNodeId.gNbId(new GNbId().bitLength(ParserUtil.safeParseInteger(object.getNetworkArea().get(2).get(i).get(8))).gNBValue(object.getNetworkArea().get(2).get(i).get(9)));
 				}
 				area.addGRanNodeIdsItem(gRanNodeId);

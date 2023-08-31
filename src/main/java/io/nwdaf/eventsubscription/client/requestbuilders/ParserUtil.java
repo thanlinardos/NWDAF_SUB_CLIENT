@@ -91,4 +91,20 @@ public class ParserUtil {
             return false;
         }
     }
+    // checks if input string is neither null nor empty string ("")
+    public static Boolean checkNotNullNorEmptyString(String in){
+        if(in!=null && in!=""){
+            return true;
+        }
+        return false;
+    }
+    // converts empty string to null
+    public static String convertEmptyStringToNull(String in){
+        if(in==""){
+            return null;
+        }
+        else{
+            return in;
+        }
+    }
 }
