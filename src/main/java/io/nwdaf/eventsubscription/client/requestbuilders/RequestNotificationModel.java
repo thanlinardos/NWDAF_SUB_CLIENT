@@ -1,4 +1,4 @@
-package io.nwdaf.eventsubscription.client.config;
+package io.nwdaf.eventsubscription.client.requestbuilders;
 
 import java.util.ArrayList;
 import java.util.List;

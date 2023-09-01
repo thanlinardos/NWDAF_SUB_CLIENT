@@ -59,7 +59,7 @@
 			<div th:if="*{showNotificationMethod==true}">
 			<label>NotificationMethod</label>
 			<select th:field="*{notificationMethod}">
-	  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.NotificationMethod.NotificationMethodEnum).values()}" 
+	  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.NotificationMethod.NotificationMethodEnum).values()}" 
 	          	th:value="${type}" 
 	          	th:text="${type.toString()}">Notification Method</option>
 			</select>
@@ -86,7 +86,7 @@
 	        </div>
 	        <label>Notification Flag</label>
 	        <select th:field="*{notifFlag}">
-	  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.NotificationFlag.NotificationFlagEnum).values()}" 
+	  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.NotificationFlag.NotificationFlagEnum).values()}" 
 	          	th:value="${type}" 
 	          	th:text="${type.toString()}"></option>
 			</select>
@@ -98,7 +98,7 @@
 				<button type="submit" name="action" th:text="Add" th:value="'addPartitionCriteria,'">Add partitionCriteria</button>
 				<li th:each="p,p_stat: *{partitionCriteria}">
 		        <select th:field="*{partitionCriteria[__${p_stat.index}__]}">
-		  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.PartitioningCriteria.PartitioningCriteriaEnum).values()}" 
+		  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.PartitioningCriteria.PartitioningCriteriaEnum).values()}" 
 		          	th:value="${type}" 
 		          	th:text="${type.toString()}"></option>
 		         </select>
@@ -129,7 +129,7 @@
 					<button type="submit" name="action" th:value="'addRownfAnaEvents,'" th:text="Add">Add nfAnaEvent</button>
 					<li th:each="p,p_stat: *{nfAnaEvents}">
 			        <select th:field="*{nfAnaEvents[__${p_stat.index}__]}">
-			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.NwdafEvent.NwdafEventEnum).values()}" 
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.NwdafEvent.NwdafEventEnum).values()}" 
 			          	th:value="${type}" 
 			          	th:text="${type.toString()}"></option>
 			         </select>
@@ -149,7 +149,7 @@
 						<button type="submit" name="action" th:text="AddEvent" th:value="'addRowueAnaEventsItem,'+${p_stat.index}">AddEvent</button>
 						<li th:each="j,j_stat: ${p[1]}">
 						<select th:field="*{ueAnaEvents[__${p_stat.index}__][1][__${j_stat.index}__]}" th:value="*{getUeAnaEvents(__${p_stat.index}__,__${j_stat.index}__)}">
-				  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.NwdafEvent.NwdafEventEnum).values()}" 
+				  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.NwdafEvent.NwdafEventEnum).values()}" 
 				          	th:value="${type}" 
 				          	th:text="${type.toString()}"></option>
 				        </select>
@@ -299,20 +299,20 @@
 				<span th:text="'Event no ' + __${e_stat.index}__"></span>
 				<label>Event Type</label>
 				<select th:field="*{eventList[__${e_stat.index}__].event}">
-			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.NwdafEvent.NwdafEventEnum).values()}" 
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.NwdafEvent.NwdafEventEnum).values()}" 
 			          	th:value="${type}" 
 			          	th:text="${type.toString()}"></option>
 			    </select>
 			    <label>Notification Method</label>
 			 	<select th:field="*{eventList[__${e_stat.index}__].notificationMethod}">
-			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.NotificationMethod.NotificationMethodEnum).values()}" 
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.NotificationMethod.NotificationMethodEnum).values()}" 
 			          	th:value="${type}" 
 			          	th:text="${type.toString()}"></option>
 			    </select>
 				<div  th:if="${e.getShowMatchingDir==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('NF_LOAD') || e.getEvent().toString().equals('QOS_SUSTAINABILITY') || e.getEvent().toString().equals('USER_DATA_CONGESTION') || e.getEvent().toString().equals('NETWORK_PERFORMANCE'))}">
 				<label>Matching Direction</label>
 			 	<select th:field="*{eventList[__${e_stat.index}__].matchingDir}">
-			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum).values()}" 
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum).values()}" 
 			          	th:value="${type}" 	
 			          	th:text="${type.toString()}"></option>
 			    </select>  
@@ -335,7 +335,7 @@
 				<div th:if="${e.getShowExptAnaType() && e.getEvent()!=null && e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR')}">
 				<label>ExptAnaType</label>
 			 	<select th:field="*{eventList[__${e_stat.index}__].exptAnaType}">
-			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.ExpectedAnalyticsType.ExpectedAnalyticsTypeEnum).values()}" 
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.ExpectedAnalyticsType.ExpectedAnalyticsTypeEnum).values()}" 
 			          	th:value="${type}" 	
 			          	th:text="${type.toString()}"></option>
 			    </select>  
@@ -369,7 +369,7 @@
 				<div th:if="*{(eventList[__${e_stat.index}__].accPerSubset==null || eventList[__${e_stat.index}__].accPerSubset.size()==0)&& eventList[__${e_stat.index}__].getShowOptionals()==true }">
 				<label>Accuracy of the analytics</label>
 				<select th:field="*{eventList[__${e_stat.index}__].accuracy}">
-					<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.Accuracy.AccuracyEnum).values()}" 
+					<option th:each="type : ${T(io.nwdaf.eventsubscription.model.Accuracy.AccuracyEnum).values()}" 
 					th:value="${type}" 
 					th:text="${type.toString()}"></option>
 		  		</select>
@@ -390,7 +390,7 @@
 					<button type="submit" name="action" th:text="Add" th:value="'addAnaMeta,'+${e_stat.index}">Add anaMeta</button>
 					<li th:each="a,a_stat: ${e.anaMeta}">
 			        <select th:field="*{eventList[__${e_stat.index}__].anaMeta[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getAnaMeta[__${a_stat.index}__]}">
-			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.AnalyticsMetadata.AnalyticsMetadataEnum).values()}" 
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.AnalyticsMetadata.AnalyticsMetadataEnum).values()}" 
 			          	th:value="${type}" 
 			          	th:text="${type.toString()}"></option>
 			         </select>
@@ -411,7 +411,7 @@
 				</div>
 				<label>Τhe output strategy used for the reporting of the analytics</label>
 				<select th:field="*{eventList[__${e_stat.index}__].anaMetaInd[2]}" th:value="*{eventList[__${e_stat.index}__].getAnaMetaInd(2)}">
-					<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.OutputStrategy.OutputStrategyEnum).values()}" 
+					<option th:each="type : ${T(io.nwdaf.eventsubscription.model.OutputStrategy.OutputStrategyEnum).values()}" 
 					th:value="${type}" 
 					th:text="${type.toString()}"></option>
 		  		</select> 
@@ -433,7 +433,7 @@
 					<button type="submit" name="action" th:text="Add" th:value="'addDataStatProps,'+${e_stat.index}">Add dataStatProps</button>
 					<li th:each="a,a_stat: ${e.dataStatProps}">
 			        <select th:field="*{eventList[__${e_stat.index}__].dataStatProps[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getDataStatProps[__${a_stat.index}__]}">
-			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.DatasetStatisticalProperty.DatasetStatisticalPropertyEnum).values()}" 
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.DatasetStatisticalProperty.DatasetStatisticalPropertyEnum).values()}" 
 			          	th:value="${type}" 
 			          	th:text="${type.toString()}"></option>
 			        </select>
@@ -448,7 +448,7 @@
 					<button type="submit" name="action" th:text="Add" th:value="'addAccPerSubset,'+${e_stat.index}">Add AccPerSubset</button>
 					<li th:each="a,a_stat: ${e.accPerSubset}">
 			        <select th:field="*{eventList[__${e_stat.index}__].accPerSubset[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getAccPerSubset[__${a_stat.index}__]}">
-			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.Accuracy.AccuracyEnum).values()}" 
+			  			<option th:each="type : ${T(io.nwdaf.eventsubscription.model.Accuracy.AccuracyEnum).values()}" 
 			          	th:value="${type}" 
 			          	th:text="${type.toString()}"></option>
 			        </select>
@@ -602,7 +602,7 @@
 					<button type="submit" name="action" th:text="Add" th:value="'addNfTypes,'+${e_stat.index}">Add NfTypes</button>
 					<li th:each="a,a_stat: ${e.nfTypes}">
 					<select th:field="*{eventList[__${e_stat.index}__].nfTypes[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getNfTypes[__${a_stat.index}__]}">
-						<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.NFType.NFTypeEnum).values()}" 
+						<option th:each="type : ${T(io.nwdaf.eventsubscription.model.NFType.NFTypeEnum).values()}" 
 						th:value="${type}" 
 						th:text="${type.toString()}"></option>
 					</select>
@@ -792,7 +792,7 @@
 							<input type="text" th:field="*{eventList[__${e_stat.index}__].qosFlowRetThds[__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getQosFlowRetThds(__${a_stat.index}__,0)}" pattern="^[1-9]\d*$">
 							<label>relTimeUnit - Represents the unit for the session active time, shall be present if relFlowNum is present. </label>
 							<select th:field="*{eventList[__${e_stat.index}__].qosFlowRetThds[__${a_stat.index}__][1]}" th:value="*{eventList[__${e_stat.index}__].getQosFlowRetThds(__${a_stat.index}__,1)}">
-								<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.TimeUnit.TimeUnitEnum).values()}" 
+								<option th:each="type : ${T(io.nwdaf.eventsubscription.model.TimeUnit.TimeUnitEnum).values()}" 
 								th:value="${type.toString()}" 
 								th:text="${type.toString()}"></option>
 						    </select>
@@ -853,7 +853,7 @@
 						<li th:each="a,a_stat: ${e.getNwPerfRequs()}">
 						<label>nwPerfType - The type of the network performance.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].nwPerfRequs[__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getNwPerfRequs(__${a_stat.index}__,0)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.NetworkPerfType.NetworkPerfTypeEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.NetworkPerfType.NetworkPerfTypeEnum).values()}" 
 							th:value="${type.toString()}" 
 							th:text="${type.toString()}"></option>
 						</select>
@@ -901,7 +901,7 @@
 						<li th:each="a,a_stat: ${e.getExcepRequs()}">
 						<label>excepId - Indicating the Exception ID.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].excepRequs[__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getExcepRequs(__${a_stat.index}__,0)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.ExceptionId.ExceptionIdEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.ExceptionId.ExceptionIdEnum).values()}" 
 							th:value="${type.toString()}" 
 							th:text="${type.toString()}"></option>
 						</select>
@@ -911,7 +911,7 @@
 						<br>
 						<!-- <label>excepTrend - Measured trend.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].excepRequs[__${a_stat.index}__][2]}" th:value="*{eventList[__${e_stat.index}__].getExcepRequs(__${a_stat.index}__,2)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.ExceptionTrend.ExceptionTrendEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.ExceptionTrend.ExceptionTrendEnum).values()}" 
 							th:value="${type.toString()}" 
 							th:text="${type.toString()}"></option>
 						</select> -->
@@ -927,7 +927,7 @@
 						<button type="submit" name="action" th:text="Add" th:value="'addListOfAnaSubsets,'+${e_stat.index}">Add ListOfAnaSubsets</button>
 						<li th:each="a,a_stat: ${e.getListOfAnaSubsets()}">
 						<select th:field="*{eventList[__${e_stat.index}__].listOfAnaSubsets[__${a_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getListOfAnaSubsets(__${a_stat.index}__)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.AnalyticsSubset.AnalyticsSubsetEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.AnalyticsSubset.AnalyticsSubsetEnum).values()}" 
 							th:value="${type.toString()}" 
 							th:text="${type.toString()}"></option>
 						</select>
@@ -944,14 +944,14 @@
 						<li th:each="a,a_stat: ${e.getRedTransReqs()}">
 						<label>redTOrderCriter - Indicates the ordering criterion for the list of UE Redundant Transmission Experience Analytics information.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].redTransReqs[__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getRedTransReqs(__${a_stat.index}__,0)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.RedTransExpOrderingCriterion.RedTransExpOrderingCriterionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.RedTransExpOrderingCriterion.RedTransExpOrderingCriterionEnum).values()}" 
 							th:value="${type.toString()}" 
 							th:text="${type.toString()}"></option>
 						</select>
 						<br>
 						<label>order - Indicate the order: ascending or descending. May be present when the "redTOrderCriter" attribute is included.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].redTransReqs[__${a_stat.index}__][1]}" th:value="*{eventList[__${e_stat.index}__].getRedTransReqs(__${a_stat.index}__,1)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum).values()}" 
 							th:value="${type.toString()}" 
 							th:text="${type.toString()}"></option>
 						</select>
@@ -997,7 +997,7 @@
 					<br>
 					<label>resType - Resource type. Shall be provided for the nonstandardized and nonpreconfigured QoS characteristics. </label>
 					<select th:field="*{eventList[__${e_stat.index}__].qosRequ[3]}" th:value="*{eventList[__${e_stat.index}__].getQosRequ(3)}">
-						<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.QosResourceType.QosResourceTypeEnum).values()}" 
+						<option th:each="type : ${T(io.nwdaf.eventsubscription.model.QosResourceType.QosResourceTypeEnum).values()}" 
 						th:value="${type.toString()}" 
 						th:text="${type.toString()}"></option>
 					</select>						
@@ -1045,13 +1045,13 @@
 						<br>
 						<label>ratType - Identification of the RAT type where the subscription/request applies</label>
 						<select th:field="*{eventList[__${e_stat.index}__].ratFreqs[__${a_stat.index}__][0][3]}" th:value="*{eventList[__${e_stat.index}__].getRatFreqs(__${a_stat.index}__,3)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.RatType.RatTypeEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.RatType.RatTypeEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
 						<label>matchingDir - The matching direction may be provided alongside the service experience threshold. If omitted, the default value is CROSSED.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].ratFreqs[__${a_stat.index}__][0][4]}" th:value="*{eventList[__${e_stat.index}__].getRatFreqs(__${a_stat.index}__,4)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
@@ -1096,13 +1096,13 @@
 						</div>
 						<label>wlanOrderCriter - Indicates the ordering criterion for the list of WLAN performance information.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].WlanReqs[__${a_stat.index}__][0][0]}" th:value="*{eventList[__${e_stat.index}__].getWlanReqs(__${a_stat.index}__,0)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.WlanOrderingCriterion.WlanOrderingCriterionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.WlanOrderingCriterion.WlanOrderingCriterionEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
 						<label>order - Indicate the order: ascending or descending. May be present when the "wlanOrderCriter" attribute is included</label>
 						<select th:field="*{eventList[__${e_stat.index}__].WlanReqs[__${a_stat.index}__][0][1]}" th:value="*{eventList[__${e_stat.index}__].getWlanReqs(__${a_stat.index}__,1)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
@@ -1211,19 +1211,19 @@
 						<li th:each="i,i_stat: ${e.getDisperReqs()}">
 						<label>disperType - Indicates the required dispersion analytics type.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].DisperReqs[__${i_stat.index}__][0][0][0]}" th:value="*{eventList[__${e_stat.index}__].getDisperReqs(__${i_stat.index}__,0)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.DispersionType.DispersionTypeEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.DispersionType.DispersionTypeEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
 						<label>dispOrderCriter - Indicates the ordering criterion for the list of UE Dispersion Analytics information.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].DisperReqs[__${i_stat.index}__][0][0][1]}" th:value="*{eventList[__${e_stat.index}__].getDisperReqs(__${i_stat.index}__,1)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.DispersionOrderingCriterion.DispersionOrderingCriterionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.DispersionOrderingCriterion.DispersionOrderingCriterionEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
 						<label>matchingDir - Indicate the order: ascending or descending. May be present when the "dispOrderCriter" attribute is included.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].DisperReqs[__${i_stat.index}__][0][0][2]}" th:value="*{eventList[__${e_stat.index}__].getDisperReqs(__${i_stat.index}__,2)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
@@ -1233,7 +1233,7 @@
 						<li th:each="a,a_stat: ${e.getDisperReqsList(__${i_stat.index}__,1)}">
 						<label>disperClass - Indicates the UE dispersion mobility class.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].DisperReqs[__${i_stat.index}__][1][__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getDisperReqs(__${i_stat.index}__,1,__${a_stat.index}__,0)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.DispersionClass.DispersionClassEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.DispersionClass.DispersionClassEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>						
 						<br>
@@ -1242,7 +1242,7 @@
 						<br>
 						<label>thresMatch</label>
 						<select th:field="*{eventList[__${e_stat.index}__].DisperReqs[__${i_stat.index}__][1][__${a_stat.index}__][2]}" th:value="*{eventList[__${e_stat.index}__].getDisperReqs(__${i_stat.index}__,1,__${a_stat.index}__,2)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
@@ -1279,13 +1279,13 @@
 						<li th:each="i,i_stat: ${e.getDnPerfReqs()}">
 						<label>dnPerfOrderCriter - Indicates the preferred order criterion of a list of Network Performance analytics results</label>
 						<select th:field="*{eventList[__${e_stat.index}__].DnPerfReqs[__${i_stat.index}__][0][0][0]}" th:value="*{eventList[__${e_stat.index}__].getDnPerfReqs(__${i_stat.index}__,0)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.DnPerfOrderingCriterion.DnPerfOrderingCriterionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.DnPerfOrderingCriterion.DnPerfOrderingCriterionEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
 						<label>order - Indicate the order: ascending or descending. May be present when the "dispOrderCriter" attribute is included.</label>
 						<select th:field="*{eventList[__${e_stat.index}__].DnPerfReqs[__${i_stat.index}__][0][0][1]}" th:value="*{eventList[__${e_stat.index}__].getDnPerfReqs(__${i_stat.index}__,1)}">
-							<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum).values()}" 
+							<option th:each="type : ${T(io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum).values()}" 
 							th:value="${type.toString()}" th:text="${type.toString()}"></option>
 						</select>
 						<br>
@@ -1343,7 +1343,7 @@
 					<hr>
 					<label>StationaryIndication - Identifies whether the UE is stationary or mobile </label>
 					<select th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[0][0][0][0][0][0]}" th:value="*{eventList[__${e_stat.index}__].getExptUeBehav(0,0,0)}">
-						<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.StationaryIndication.StationaryIndicationEnum).values()}" 
+						<option th:each="type : ${T(io.nwdaf.eventsubscription.model.StationaryIndication.StationaryIndicationEnum).values()}" 
 						th:value="${type.toString()}" th:text="${type.toString()}"></option>
 					</select>
 					<br>
@@ -1355,13 +1355,13 @@
 					<br>
 					<label>scheduledCommunicationType - Identifies the type of data transmission: single packet transmission (UL or DL), dual packet transmission (UL with subsequent DL or DL with subsequent UL), multiple packets transmission</label>
 					<select th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[0][0][0][0][0][3]}" th:value="*{eventList[__${e_stat.index}__].getExptUeBehav(0,0,3)}">
-						<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.ScheduledCommunicationType.ScheduledCommunicationTypeEnum).values()}" 
+						<option th:each="type : ${T(io.nwdaf.eventsubscription.model.ScheduledCommunicationType.ScheduledCommunicationTypeEnum).values()}" 
 						th:value="${type.toString()}" th:text="${type.toString()}"></option>
 					</select>
 					<br>
 					<label>trafficProfile - Identifies the type of data transmission: single packet transmission (UL or DL), dual packet transmission (UL with subsequent DL or DL with subsequent UL), multiple packets transmission</label>
 					<select th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[0][0][0][0][0][4]}" th:value="*{eventList[__${e_stat.index}__].getExptUeBehav(0,0,4)}">
-						<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.TrafficProfile.TrafficProfileEnum).values()}" 
+						<option th:each="type : ${T(io.nwdaf.eventsubscription.model.TrafficProfile.TrafficProfileEnum).values()}" 
 						th:value="${type.toString()}" th:text="${type.toString()}"></option>
 					</select>
 					<br>
@@ -1492,7 +1492,7 @@
 						<li th:each="a,a_stat: ${e.getExptUeBehavList(__${i_stat.index}__,2)}">
 							<label>supportedGADShape - the shape of the geographical area</label>
 							<select th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[3][__${i_stat.index}__][2][__${a_stat.index}__][0][0]}" th:value="*{eventList[__${e_stat.index}__].getExptUeBehavItem(3,__${i_stat.index}__,2,__${a_stat.index}__,0,0)}">
-								<option th:each="type : ${T(io.nwdaf.eventsubscription.client.model.SupportedGADShapes.SupportedGADShapesEnum).values()}" 
+								<option th:each="type : ${T(io.nwdaf.eventsubscription.model.SupportedGADShapes.SupportedGADShapesEnum).values()}" 
 								th:value="${type.toString()}" th:text="${type.toString()}"></option>
 							</select>
 							<br>

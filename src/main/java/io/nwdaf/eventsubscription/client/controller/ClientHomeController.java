@@ -1,4 +1,4 @@
-package io.nwdaf.eventsubscription.client.config;
+package io.nwdaf.eventsubscription.client.controller;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
@@ -29,15 +29,17 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.nwdaf.eventsubscription.client.NwdafSubClientApplication;
-import io.nwdaf.eventsubscription.client.model.EventSubscription;
-import io.nwdaf.eventsubscription.client.model.GADShape;
-import io.nwdaf.eventsubscription.client.model.LocationArea;
-import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscription;
-import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscriptionNotification;
-import io.nwdaf.eventsubscription.client.model.SupportedGADShapes;
-import io.nwdaf.eventsubscription.client.model.SupportedGADShapes.SupportedGADShapesEnum;
+import io.nwdaf.eventsubscription.model.EventSubscription;
+import io.nwdaf.eventsubscription.model.GADShape;
+import io.nwdaf.eventsubscription.model.LocationArea;
+import io.nwdaf.eventsubscription.model.NnwdafEventsSubscription;
+import io.nwdaf.eventsubscription.model.NnwdafEventsSubscriptionNotification;
+import io.nwdaf.eventsubscription.model.SupportedGADShapes;
+import io.nwdaf.eventsubscription.model.SupportedGADShapes.SupportedGADShapesEnum;
 import io.nwdaf.eventsubscription.client.requestbuilders.CreateSubscriptionRequestBuilder;
-import io.nwdaf.eventsubscription.client.requestbuilders.ParserUtil;
+import io.nwdaf.eventsubscription.utilities.ParserUtil;
+import io.nwdaf.eventsubscription.client.requestbuilders.RequestEventModel;
+import io.nwdaf.eventsubscription.client.requestbuilders.RequestSubscriptionModel;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;

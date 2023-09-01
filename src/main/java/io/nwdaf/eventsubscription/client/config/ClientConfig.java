@@ -7,8 +7,11 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 
-import io.nwdaf.eventsubscription.client.model.NotificationMethod.NotificationMethodEnum;
+import io.nwdaf.eventsubscription.model.NotificationMethod.NotificationMethodEnum;
 import io.nwdaf.eventsubscription.client.requestbuilders.CreateSubscriptionRequestBuilder;
+import io.nwdaf.eventsubscription.client.requestbuilders.RequestEventModel;
+import io.nwdaf.eventsubscription.client.requestbuilders.RequestNotificationModel;
+import io.nwdaf.eventsubscription.client.requestbuilders.RequestSubscriptionModel;
 
 @Configuration
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})

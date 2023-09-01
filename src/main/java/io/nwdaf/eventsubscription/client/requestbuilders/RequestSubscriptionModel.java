@@ -1,4 +1,4 @@
-package io.nwdaf.eventsubscription.client.config;
+package io.nwdaf.eventsubscription.client.requestbuilders;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -11,13 +11,13 @@ import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.nwdaf.eventsubscription.client.Constants;
-import io.nwdaf.eventsubscription.client.Regex;
-import io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum;
-import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscription;
-import io.nwdaf.eventsubscription.client.model.NotificationFlag.NotificationFlagEnum;
-import io.nwdaf.eventsubscription.client.model.NotificationMethod.NotificationMethodEnum;
-import io.nwdaf.eventsubscription.client.requestbuilders.ParserUtil;
+import io.nwdaf.eventsubscription.utilities.Constants;
+import io.nwdaf.eventsubscription.utilities.ParserUtil;
+import io.nwdaf.eventsubscription.utilities.Regex;
+import io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum;
+import io.nwdaf.eventsubscription.model.NnwdafEventsSubscription;
+import io.nwdaf.eventsubscription.model.NotificationFlag.NotificationFlagEnum;
+import io.nwdaf.eventsubscription.model.NotificationMethod.NotificationMethodEnum;
 import lombok.Getter;
 import lombok.Setter;
 

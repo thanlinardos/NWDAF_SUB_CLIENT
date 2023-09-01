@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import io.nwdaf.eventsubscription.client.model.NnwdafEventsSubscription;
+import io.nwdaf.eventsubscription.model.NnwdafEventsSubscription;
 import io.nwdaf.eventsubscription.client.requestbuilders.CreateSubscriptionRequestBuilder;
 
 

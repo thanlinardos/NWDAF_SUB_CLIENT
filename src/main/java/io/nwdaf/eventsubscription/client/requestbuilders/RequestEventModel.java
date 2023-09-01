@@ -1,4 +1,4 @@
-package io.nwdaf.eventsubscription.client.config;
+package io.nwdaf.eventsubscription.client.requestbuilders;
 
 
 import java.time.ZonedDateTime;
@@ -6,20 +6,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import io.nwdaf.eventsubscription.client.model.EventSubscription;
-import io.nwdaf.eventsubscription.client.model.GeographicArea;
-import io.nwdaf.eventsubscription.client.model.Point;
-import io.nwdaf.eventsubscription.client.model.Polygon;
-import io.nwdaf.eventsubscription.client.model.PointAltitude;
-import io.nwdaf.eventsubscription.client.model.PointAltitudeUncertainty;
-import io.nwdaf.eventsubscription.client.model.PointUncertaintyCircle;
-import io.nwdaf.eventsubscription.client.model.PointUncertaintyEllipse;
-import io.nwdaf.eventsubscription.client.model.Accuracy.AccuracyEnum;
-import io.nwdaf.eventsubscription.client.model.CivicAddress;
-import io.nwdaf.eventsubscription.client.model.EllipsoidArc;
-import io.nwdaf.eventsubscription.client.model.ExpectedAnalyticsType.ExpectedAnalyticsTypeEnum;
-import io.nwdaf.eventsubscription.client.model.MatchingDirection.MatchingDirectionEnum;
-import io.nwdaf.eventsubscription.client.requestbuilders.ParserUtil;
+import io.nwdaf.eventsubscription.model.EventSubscription;
+import io.nwdaf.eventsubscription.model.GeographicArea;
+import io.nwdaf.eventsubscription.model.Point;
+import io.nwdaf.eventsubscription.model.Polygon;
+import io.nwdaf.eventsubscription.model.PointAltitude;
+import io.nwdaf.eventsubscription.model.PointAltitudeUncertainty;
+import io.nwdaf.eventsubscription.model.PointUncertaintyCircle;
+import io.nwdaf.eventsubscription.model.PointUncertaintyEllipse;
+import io.nwdaf.eventsubscription.model.Accuracy.AccuracyEnum;
+import io.nwdaf.eventsubscription.model.CivicAddress;
+import io.nwdaf.eventsubscription.model.EllipsoidArc;
+import io.nwdaf.eventsubscription.model.ExpectedAnalyticsType.ExpectedAnalyticsTypeEnum;
+import io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum;
+import io.nwdaf.eventsubscription.utilities.ParserUtil;
 import lombok.Getter;
 import lombok.Setter;
 
