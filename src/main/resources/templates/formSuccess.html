@@ -1778,18 +1778,19 @@
 						<div th:if="${i.getNfInstanceId()!=null}">nfInstanceId=<span th:text="${i.getNfInstanceId()}"></span></div>
 						<div th:if="${i.getNfSetId()!=null}">nfSetId=<span th:text="${i.getNfSetId()}"></span></div>
 						<div th:if="${i.getNfType()!=null}">nfType=<span th:text="${i.getNfType().getNfType()}"></span></div>
+						<div th:if="${i.getAreaOfInterestId()!=null}">areaOfInterestId=<span th:text="${i.getAreaOfInterestId()}"></span></div>
 						<div>nfCpuUsage=<span th:text="${i.getNfCpuUsage()}"></span></div>
 						<div>nfMemoryUsage=<span th:text="${i.getNfMemoryUsage()}"></span></div>
 						<div>nfStorageUsage=<span th:text="${i.getNfStorageUsage()}"></span></div>
 						<br>
 					</div>
 				</div>
+				<div th:if="${nnwdafEventsSubscription.getShowNotifBody()==true}">
+					<br>
+					<h3>Notification Body</h3>
+					<div style="white-space: pre-wrap;" th:text="${a}"></div>
+				</div>
 			</div>
-		 </div>
-		 <div th:if="${nnwdafEventsSubscription.getShowNotifBody()==true}">
-			 <br>
-			 <h3>Notification Body</h3>
-			 <div style="white-space: pre-wrap;" th:text="${notification}"></div>
 		 </div>
 	 </div>
 	<div th:if="${result != null && result.getFailEventReports()!=null}">

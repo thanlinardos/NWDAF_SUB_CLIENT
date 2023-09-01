@@ -1,6 +1,10 @@
 package io.nwdaf.eventsubscription.client.model;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Objects;
+import java.util.TimeZone;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.UUID;
@@ -17,6 +21,14 @@ import javax.validation.constraints.*;
 
 
 public class NfLoadLevelInformation   {
+
+  private Instant time;
+  
+  private OffsetDateTime timeStamp=null;
+
+  @JsonProperty("areaOfInterestId")
+  private UUID areaOfInterestId = null;
+
   @JsonProperty("nfType")
   private NFType nfType = null;
 
@@ -53,6 +65,19 @@ public class NfLoadLevelInformation   {
   @JsonProperty("confidence")
   private Integer confidence = null;
 
+  public NfLoadLevelInformation areaOfInterestId(UUID id){
+    this.areaOfInterestId = id;
+    return this;
+  }
+
+  public UUID getAreaOfInterestId(){
+    return this.areaOfInterestId;
+  }
+
+  public void setAreaOfInterestId(UUID id){
+    this.areaOfInterestId = id;
+  }
+
   public NfLoadLevelInformation nfType(NFType nfType) {
     this.nfType = nfType;
     return this;
@@ -71,6 +96,19 @@ public class NfLoadLevelInformation   {
 
   public void setNfType(NFType nfType) {
     this.nfType = nfType;
+  }
+
+  public Instant getTime() {
+	return time;
+  }
+  public void setTime(Instant time) {
+	this.time = time;
+	this.timeStamp = OffsetDateTime.ofInstant(time, TimeZone.getDefault().toZoneId());
+  }
+  public NfLoadLevelInformation time(Instant time) {
+	this.time = time;
+	this.timeStamp = OffsetDateTime.ofInstant(time, TimeZone.getDefault().toZoneId());
+    return this;
   }
 
   public NfLoadLevelInformation nfInstanceId(UUID nfInstanceId) {
@@ -324,6 +362,7 @@ public class NfLoadLevelInformation   {
     sb.append("    nfType: ").append(toIndentedString(nfType)).append("\n");
     sb.append("    nfInstanceId: ").append(toIndentedString(nfInstanceId)).append("\n");
     sb.append("    nfSetId: ").append(toIndentedString(nfSetId)).append("\n");
+    sb.append("    areaOfInterestId: ").append(toIndentedString(areaOfInterestId)).append("\n");
     sb.append("    nfStatus: ").append(toIndentedString(nfStatus)).append("\n");
     sb.append("    nfCpuUsage: ").append(toIndentedString(nfCpuUsage)).append("\n");
     sb.append("    nfMemoryUsage: ").append(toIndentedString(nfMemoryUsage)).append("\n");
@@ -346,5 +385,14 @@ public class NfLoadLevelInformation   {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  public OffsetDateTime getTimeStamp() {
+    return timeStamp;
+  }
+  
+  
+  public void setTimeStamp(OffsetDateTime timeStamp) {
+    this.timeStamp = timeStamp;
   }
 }
