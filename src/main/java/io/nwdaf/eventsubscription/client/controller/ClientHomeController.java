@@ -764,6 +764,10 @@ public class ClientHomeController {
 
 	private ClientHttpRequestFactory createRestTemplateFactory(){
 		SSLContext sslContext;
+		//if there is no trust store configured use http instead
+        if(this.trustStore == null || this.trustStorePassword == null){
+            return new HttpComponentsClientHttpRequestFactory();
+        }
 		try {
 			sslContext = new SSLContextBuilder()
 			  .loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray()).build();
