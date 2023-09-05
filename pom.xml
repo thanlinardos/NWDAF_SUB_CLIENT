@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.2</version>
+		<version>3.1.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.nwdaf</groupId>
 	<artifactId>NWDAF_SUB_CLIENT</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>NWDAF_SUB_CLIENT</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Nwdaf_EventSubscription Example Client API</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -90,7 +90,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.28</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
