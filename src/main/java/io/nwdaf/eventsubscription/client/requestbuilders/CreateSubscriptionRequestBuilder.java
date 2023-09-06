@@ -111,6 +111,7 @@ import io.nwdaf.eventsubscription.model.UncertaintyEllipse;
 import io.nwdaf.eventsubscription.model.UpfInformation;
 import io.nwdaf.eventsubscription.model.WlanOrderingCriterion;
 import io.nwdaf.eventsubscription.model.WlanOrderingCriterion.WlanOrderingCriterionEnum;
+import io.nwdaf.eventsubscription.utilities.CheckUtil;
 import io.nwdaf.eventsubscription.utilities.ParserUtil;
 import io.nwdaf.eventsubscription.model.WlanPerformanceReq;
 import io.nwdaf.eventsubscription.model.Exception;
@@ -400,7 +401,7 @@ public class CreateSubscriptionRequestBuilder {
 			NetworkAreaInfo area = new NetworkAreaInfo();
 			for(int i=0;i<object.getNetworkArea().get(0).size();i++) {
 				Ecgi ecgi = new Ecgi();
-				if(ParserUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(0))&&ParserUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(1))) {
+				if(CheckUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(0))&&CheckUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(1))) {
 					ecgi.plmnId(new PlmnId().mcc(object.getNetworkArea().get(0).get(i).get(0)).mnc(object.getNetworkArea().get(0).get(i).get(1)));
 				}
 				ecgi.eutraCellId(object.getNetworkArea().get(0).get(i).get(2)).nid(object.getNetworkArea().get(0).get(i).get(3));
@@ -426,7 +427,7 @@ public class CreateSubscriptionRequestBuilder {
 																	.tngfId(object.getNetworkArea().get(2).get(i).get(5))
 																	.nid(object.getNetworkArea().get(2).get(i).get(6))
 																	.eNbId(object.getNetworkArea().get(2).get(i).get(7));
-				if(object.getNetworkArea().get(2).get(i).get(8)!=null&&ParserUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(2).get(i).get(9))) {
+				if(object.getNetworkArea().get(2).get(i).get(8)!=null&&CheckUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(2).get(i).get(9))) {
 					gRanNodeId.gNbId(new GNbId().bitLength(ParserUtil.safeParseInteger(object.getNetworkArea().get(2).get(i).get(8))).gNBValue(object.getNetworkArea().get(2).get(i).get(9)));
 				}
 				area.addGRanNodeIdsItem(gRanNodeId);
@@ -527,14 +528,14 @@ public class CreateSubscriptionRequestBuilder {
 		    		}
 		    		if(object.getExptUeBehav().get(3).get(n).get(2).size()>0) {
 		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(2).size();i++) {
-		    				if(ParserUtil.safeParseEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"Point")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"Point")) {
 		    					Point p=new Point();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("Point")));
 				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
 				    												.lat(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(2))));
 				    			area.addGeographicAreasItem(p);
 		    				}
-		    				if(ParserUtil.safeParseEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointUncertaintyCircle")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointUncertaintyCircle")) {
 		    					PointUncertaintyCircle p=new PointUncertaintyCircle();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("PointUncertaintyCircle")));
 				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
@@ -542,7 +543,7 @@ public class CreateSubscriptionRequestBuilder {
 				    			p.uncertainty(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(3)));
 								area.addGeographicAreasItem(p);
 		    				}
-		    				if(ParserUtil.safeParseEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointUncertaintyEllipse")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointUncertaintyEllipse")) {
 		    					PointUncertaintyEllipse p=new PointUncertaintyEllipse();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("PointUncertaintyEllipse")));
 				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
@@ -553,7 +554,7 @@ public class CreateSubscriptionRequestBuilder {
 				    														.semiMinor(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(6))));
 				    			area.addGeographicAreasItem(p);
 		    				}
-		    				if(ParserUtil.safeParseEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"Polygon")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"Polygon")) {
 		    					Polygon p = new Polygon();
 		    					p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("Polygon")));
 		    					PointList pl = new PointList();
@@ -564,7 +565,7 @@ public class CreateSubscriptionRequestBuilder {
 		    					p.pointList(pl);
 		    					area.addGeographicAreasItem(p);
 		    				}
-		    				if(ParserUtil.safeParseEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointAltitude")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointAltitude")) {
 		    					PointAltitude p=new PointAltitude();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("PointAltitude")));
 				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
@@ -572,7 +573,7 @@ public class CreateSubscriptionRequestBuilder {
 				    			p.altitude(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(3)));
 				    			area.addGeographicAreasItem(p);
 		    				}
-		    				if(ParserUtil.safeParseEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointAltitudeUncertainty")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointAltitudeUncertainty")) {
 		    					PointAltitudeUncertainty p=new PointAltitudeUncertainty();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("PointAltitudeUncertainty")));
 				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
@@ -585,7 +586,7 @@ public class CreateSubscriptionRequestBuilder {
 				    			p.uncertaintyAltitude(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(8)));
 				    			area.addGeographicAreasItem(p);
 		    				}
-		    				if(ParserUtil.safeParseEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"EllipsoidArc")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"EllipsoidArc")) {
 		    					EllipsoidArc p=new EllipsoidArc();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("EllipsoidArc")));
 				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
