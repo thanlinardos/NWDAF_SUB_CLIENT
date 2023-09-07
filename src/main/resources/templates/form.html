@@ -661,6 +661,9 @@
 				<div th:if="${e.getShowNetworkArea()==true && e.getShowOptionals() && e.getEvent()!=null && (!e.getEvent().toString().equals('SM_CONGESTION')) && (!e.getEvent().toString().equals('SLICE_LOAD_LEVEL'))}">
 					NetworkArea -  Represents the Area of Interest for this event subscription 
 				  <hr>
+				  <label>id</label>
+				  <input type="text" th:field="*{eventList[__${e_stat.index}__].networkAreaId}" th:value="${e.getNetworkAreaId()}" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$">
+				  <br> 
 				  <ul>
 					Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
 					<button type="submit" name="action" th:text="Add" th:value="'addEcgis,'+${e_stat.index}">Add Ecgis</button>
@@ -1117,9 +1120,12 @@
 					<ul>
 						<button type="submit" name="action" th:text="Add" th:value="'addVisitedAreas,'+${e_stat.index}">Add VisitedAreas</button>
 						<li th:each="i,i_stat: ${e.getVisitedAreas()}">
+						<label>id</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].visitedAreaIds[__${i_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getVisitedAreaIds(__${i_stat.index}__)}" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$">
+						<br>
 						<ul>
 						Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
-						<button type="submit" name="addVisitedAreasEcgis" th:text="Add" th:value="${e_stat.index}+','+${i_stat.index}">Add Ecgis</button>
+						<button type="submit" name="action" th:text="Add" th:value="'addVisitedAreasEcgis,'+${e_stat.index}+','+${i_stat.index}">Add Ecgis</button>
 						<li th:each="a,a_stat: ${e.getVisitedAreasList(__${i_stat.index}__,0)}">
 						<label>mcc</label>
 						<input type="text" th:field="*{eventList[__${e_stat.index}__].VisitedAreas[__${i_stat.index}__][0][__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getVisitedAreas(__${i_stat.index}__,0,__${a_stat.index}__,0)}" pattern="([0-9]){3}">
@@ -1753,31 +1759,30 @@
 		</ul>
         <input type="submit" value="Send" name="createSub" />
     </form>
-	<div>
-		<div th:if="${notification != null}">
-		 <h3>Notification</h3>
-		 <div>last notification was sent <span th:text="${delay}"></span>ms ago</div>
-		 <br>
-		 <div th:each="n,n_stat : ${notification.getEventNotifications()}">
-			 <div th:if="${n.getTimeStampGen()!=null}"><span th:text="${n.getTimeStampGen()}"></span></div>
-			 <hr>
-			 <div th:each="i,i_stat : ${n.getNfLoadLevelInfos()}">
-				 <div th:if="${i.getNfInstanceId()!=null}">nfInstanceId=<span th:text="${i.getNfInstanceId()}"></span></div>
-				 <div th:if="${i.getNfSetId()!=null}">nfSetId=<span th:text="${i.getNfSetId()}"></span></div>
-				 <div th:if="${i.getNfType()!=null}">nfType=<span th:text="${i.getNfType().getNfType()}"></span></div>
-				 <div>nfCpuUsage=<span th:text="${i.getNfCpuUsage()}"></span></div>
-				 <div>nfMemoryUsage=<span th:text="${i.getNfMemoryUsage()}"></span></div>
-				 <div>nfStorageUsage=<span th:text="${i.getNfStorageUsage()}"></span></div>
-				 <br>
+	<div th:if="${notification != null}">
+		<h3>Notification</h3>
+		<div>last notification was sent <span th:text="${delay}"></span>ms ago</div>
+		<br>
+		<div th:each="n,n_stat : ${notification.getEventNotifications()}">
+			<div th:if="${n.getTimeStampGen()!=null}"><span th:text="${n.getTimeStampGen()}"></span></div>
+			<hr>
+			<div th:each="i,i_stat : ${n.getNfLoadLevelInfos()}">
+				<div th:if="${i.getNfInstanceId()!=null}">nfInstanceId=<span th:text="${i.getNfInstanceId()}"></span></div>
+				<div th:if="${i.getNfSetId()!=null}">nfSetId=<span th:text="${i.getNfSetId()}"></span></div>
+				<div th:if="${i.getNfType()!=null}">nfType=<span th:text="${i.getNfType().getNfType()}"></span></div>
+				<div>nfCpuUsage=<span th:text="${i.getNfCpuUsage()}"></span></div>
+				<div>nfMemoryUsage=<span th:text="${i.getNfMemoryUsage()}"></span></div>
+				<div>nfStorageUsage=<span th:text="${i.getNfStorageUsage()}"></span></div>
+				<br>
 			 </div>
-		 </div>
+		</div>
 		 
-		 <div th:if="${nnwdafEventsSubscription.getShowNotifBody()==true}">
+		<div th:if="${nnwdafEventsSubscription.getShowNotifBody()==true}">
 			 <br>
 			 <h3>Notification Body</h3>
 			 <div style="white-space: pre-wrap;" th:text="${notification}"></div>
-		 </div>
-	 </div>
+		</div>
+	</div>
     <div th:if="${result != null}">
         <h1>Result</h1>
             <div style="white-space: pre-wrap;" th:text="${result}"></div>

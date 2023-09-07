@@ -66,6 +66,8 @@ public class RequestEventModel {
 	private List<String> qosRequ = new ArrayList<String>(Arrays.asList(null,null,null,null,null,null));
 	private List<List<List<List<List<List<String>>>>>> exptUeBehav = new ArrayList<List<List<List<List<List<String>>>>>>();
 	private List<String> upfInfo = new ArrayList<String>(Arrays.asList(null,null,null,null,null));
+	private String networkAreaId;
+	private List<String> visitedAreaIds = new ArrayList<>();
 	//show booleans
 	private Boolean showOptionals=false,showButtons=false,showNotifMethod=true,showExtraRepReq=true,showQosRequ=true,showExcepRequs=true,showNwPerfRequs=true,showSnssaia=true,showNfTypes=true,showTgtUe=true,showLoadLevelThreshold=true,showAnySlice=true,showNsiIdInfos=true,showNsiLevelThrds=true,showListOfAnaSubsets=true,showNetworkArea=true,showSupis=true,showNfLoadLvlThds=true,showNfInstanceIds=true,showNfSetIds=true,showMatchingDir=true,showIntGroupIds=true,showBwRequs=true,showRatFreqs=true,showUpfInfo=true,showAppServerAddrs=true,showDnns=true,showLadnDnns=true,showVisitedAreas=true,showQosFlowRetThds=true,showRanUeThrouThds=true,showExptAnaType=true,showExptUeBehav=true,showGpsis=true,showCongThresholds=true,showMaxTopAppUlNbr=true,showMaxTopAppDlNbr=true,showDisperReqs=true,showRedTransReqs=true,showWlanReqs=true,showDnais=true,showDnPerfReqs=true,showAppIds=true;
 	//optionals
@@ -201,6 +203,33 @@ public class RequestEventModel {
 				}
 			}
 		}
+
+		for(int i=0;i<this.visitedAreas.size();i++){
+			while(this.visitedAreas.get(i).size()<4){
+				this.visitedAreas.get(i).add(new ArrayList<List<String>>());
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(0).size();j++){
+				while(this.visitedAreas.get(i).get(0).get(j).size()<4){
+					this.visitedAreas.get(i).get(0).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(1).size();j++){
+				while(this.visitedAreas.get(i).get(1).get(j).size()<4){
+					this.visitedAreas.get(i).get(1).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(2).size();j++){
+				while(this.visitedAreas.get(i).get(2).get(j).size()<10){
+					this.visitedAreas.get(i).get(2).get(j).add(null);
+				}
+			}
+			for(int j=0;j<this.visitedAreas.get(i).get(3).size();j++){
+				while(this.visitedAreas.get(i).get(3).get(j).size()<4){
+					this.visitedAreas.get(i).get(3).get(j).add(null);
+				}
+			}
+		}
+
 	}
 	
 	public void addAnaMeta(String item) {
@@ -1611,6 +1640,19 @@ public class RequestEventModel {
 		this.upfInfo.set(i, item);
 	}
 
+	public String getVisitedAreaIds(Integer i) {
+		return this.visitedAreaIds.get(i);
+	}
+	public void setVisitedAreaIds(String item,Integer i) {
+		this.visitedAreaIds.set(i, item);
+	}
+	public void addVisitedAreaIds(String item) {
+		this.visitedAreaIds.add(item);
+	}
+	public void removeVisitedAreaIds(Integer i) {
+		this.visitedAreaIds.remove((int) i);
+	}
+
     public RequestEventModel fromEventObject(EventSubscription e) {
 		if(e!=null){
 			if(e.getEvent()!=null){
@@ -1732,6 +1774,7 @@ public class RequestEventModel {
 			if(e.getVisitedAreas()!=null){
 				for(int i=0;i<e.getVisitedAreas().size();i++){
 					if(e.getVisitedAreas().get(i)!=null){
+						this.visitedAreaIds.add(ParserUtil.safeParseString(e.getVisitedAreas().get(i).getId()));
 						if(e.getVisitedAreas().get(i).getEcgis()!=null){
 							for(int j=0;j<e.getVisitedAreas().get(i).getEcgis().size();j++){
 								if(e.getVisitedAreas().get(i).getEcgis().get(j)!=null){
@@ -2021,6 +2064,7 @@ public class RequestEventModel {
 				}
 			}
 			if(e.getNetworkArea()!=null){
+				this.networkAreaId = ParserUtil.safeParseString(e.getNetworkArea().getId());
 				if(e.getNetworkArea().getEcgis()!=null){
 				for(int j=0;j<e.getNetworkArea().getEcgis().size();j++){
 					if(e.getNetworkArea().getEcgis().get(j)!=null){

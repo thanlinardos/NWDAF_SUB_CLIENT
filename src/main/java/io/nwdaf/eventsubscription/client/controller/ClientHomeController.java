@@ -238,7 +238,6 @@ public class ClientHomeController {
         	e.setAllLists();
         	sub = subBuilder.AddEventToSubscription(sub,e);
         }
-        
         HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(sub);
 		restTemplate = new RestTemplate(createRestTemplateFactory());
         ResponseEntity<NnwdafEventsSubscription> res = restTemplate.postForEntity(apiURI, req, NnwdafEventsSubscription.class);
@@ -595,9 +594,11 @@ public class ClientHomeController {
 				break;
 			case "addVisitedAreas":
 				e.addVisitedAreas(null);
+				e.addVisitedAreaIds(null);
 				break;
 			case "removeVisitedAreas":
 				e.removeVisitedAreas(values.get(1));
+				e.removeVisitedAreaIds(values.get(1));
 				break;
 			case "addVisitedAreasEcgis":
 				e.addVisitedAreasItem(null,values.get(1),0);

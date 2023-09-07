@@ -661,6 +661,9 @@
 				<div th:if="${e.getShowNetworkArea()==true && e.getShowOptionals() && e.getEvent()!=null && (!e.getEvent().toString().equals('SM_CONGESTION')) && (!e.getEvent().toString().equals('SLICE_LOAD_LEVEL'))}">
 					NetworkArea -  Represents the Area of Interest for this event subscription 
 				  <hr>
+				  <label>id</label>
+				  <input type="text" th:field="*{eventList[__${e_stat.index}__].networkAreaId}" th:value="${e.getNetworkAreaId()}" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$">
+				  <br> 
 				  <ul>
 					Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
 					<button type="submit" name="action" th:text="Add" th:value="'addEcgis,'+${e_stat.index}">Add Ecgis</button>
@@ -1117,6 +1120,9 @@
 					<ul>
 						<button type="submit" name="action" th:text="Add" th:value="'addVisitedAreas,'+${e_stat.index}">Add VisitedAreas</button>
 						<li th:each="i,i_stat: ${e.getVisitedAreas()}">
+						<label>id</label>
+						<input type="text" th:field="*{eventList[__${e_stat.index}__].visitedAreaIds[__${i_stat.index}__]}" th:value="*{eventList[__${e_stat.index}__].getVisitedAreaIds(__${i_stat.index}__)}" pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$">
+						<br>
 						<ul>
 						Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
 						<button type="submit" name="addVisitedAreasEcgis" th:text="Add" th:value="${e_stat.index}+','+${i_stat.index}">Add Ecgis</button>

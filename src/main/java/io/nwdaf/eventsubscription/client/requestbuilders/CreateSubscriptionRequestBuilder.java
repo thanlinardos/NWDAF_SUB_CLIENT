@@ -227,6 +227,7 @@ public class CreateSubscriptionRequestBuilder {
 		if(object.getVisitedAreas().size()>0) {
 			for(int n=0;n<object.getVisitedAreas().size();n++) {
 				NetworkAreaInfo area = new NetworkAreaInfo();
+				area.id(ParserUtil.safeParseUUID(object.getVisitedAreaIds().get(n)));
 				for(int i=0;i<object.getVisitedAreas().get(n).get(0).size();i++) {
 					Ecgi ecgi = new Ecgi();
 					if(object.getVisitedAreas().get(n).get(0).get(i).get(0)!=null&&object.getVisitedAreas().get(n).get(0).get(i).get(1)!=null) {
@@ -399,6 +400,7 @@ public class CreateSubscriptionRequestBuilder {
 		}
 		if(object.getNetworkArea().size()>0) {
 			NetworkAreaInfo area = new NetworkAreaInfo();
+			area.id(ParserUtil.safeParseUUID(object.getNetworkAreaId()));
 			for(int i=0;i<object.getNetworkArea().get(0).size();i++) {
 				Ecgi ecgi = new Ecgi();
 				if(CheckUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(0))&&CheckUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(1))) {
