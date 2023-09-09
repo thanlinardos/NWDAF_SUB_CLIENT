@@ -1781,13 +1781,26 @@
 					<div th:if="${n.getTimeStampGen()!=null}"><span th:text="${n.getTimeStampGen()}"></span></div>
 					<hr>
 					<div th:each="i,i_stat : ${n.getNfLoadLevelInfos()}">
+						<div th:if="${i.getTimeStamp()!=null}">timeStamp=<span th:text="${i.getTimeStamp()}"></span></div>
 						<div th:if="${i.getNfInstanceId()!=null}">nfInstanceId=<span th:text="${i.getNfInstanceId()}"></span></div>
 						<div th:if="${i.getNfSetId()!=null}">nfSetId=<span th:text="${i.getNfSetId()}"></span></div>
 						<div th:if="${i.getNfType()!=null}">nfType=<span th:text="${i.getNfType().getNfType()}"></span></div>
 						<div th:if="${i.getAreaOfInterestId()!=null}">areaOfInterestId=<span th:text="${i.getAreaOfInterestId()}"></span></div>
+						<div th:if="${i.getSupis()!=null}">
+							supis:
+							<br>
+							<div th:each="k,k_stat : ${i.getSupis()}">
+								<div th:if="${k!=null}">&emsp;<span th:text="${k}"></span></div>
+							</div>
+						</div>
+						<div th:if="${i.getThresholdProperty()!=null}">thresholdProperty=<span th:text="${i.getThresholdProperty()}"></span></div>
+						<div th:if="${i.getThresholdValue()!=null}">thresholdValue=<span th:text="${i.getThresholdValue()}"></span></div>
 						<div>nfCpuUsage=<span th:text="${i.getNfCpuUsage()}"></span></div>
 						<div>nfMemoryUsage=<span th:text="${i.getNfMemoryUsage()}"></span></div>
 						<div>nfStorageUsage=<span th:text="${i.getNfStorageUsage()}"></span></div>
+						<div>nfLoadLevelAverage=<span th:text="${i.getNfLoadLevelAverage()}"></span></div>
+						<div>nfLoadLevelpeak=<span th:text="${i.getNfLoadLevelpeak()}"></span></div>
+						<div>nfLoadAvgInAoi=<span th:text="${i.getNfLoadAvgInAoi()}"></span></div>
 						<br>
 					</div>
 				</div>
