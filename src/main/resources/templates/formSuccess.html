@@ -1774,7 +1774,7 @@
 		
 		 <div th:each=" a,a_stat: ${notifications}">
 			<div th:if="${a != null}">
-				<h4>Notification - <span th:text="__${a_stat.index}__"></span></h4>
+				<h3>Notification - <span th:text="__${a_stat.index}__"></span></h3>
 				<div>last notification was sent <span th:text="${delay}"></span>ms ago</div>
 				<br>
 				<div th:each="n,n_stat : ${a.getEventNotifications()}">
@@ -1801,6 +1801,143 @@
 						<div>nfLoadLevelAverage=<span th:text="${i.getNfLoadLevelAverage()}"></span></div>
 						<div>nfLoadLevelpeak=<span th:text="${i.getNfLoadLevelpeak()}"></span></div>
 						<div>nfLoadAvgInAoi=<span th:text="${i.getNfLoadAvgInAoi()}"></span></div>
+						<br>
+					</div>
+					<div th:each="i,i_stat : ${n.getUeMobs()}">
+						<h4>UeMobility - <span th:text="__${i_stat.index}__"></span></h4>
+						<div th:if="${i.getTs()!=null}">&emsp;timeStamp=<span th:text="${i.getTs()}"></span></div>
+						<div th:if="${i.getDuration()!=null}">&emsp;duration=<span th:text="${i.getDuration()}"></span></div>
+						<div th:if="${i.getLocInfos()!=null}">
+							<div th:each="k,k_stat : ${i.getLocInfos()}">
+								<div th:if="${k!=null && k.getLoc()!=null}">&emsp;User Location Information - <span th:text="__${k_stat.index}__"></span>
+									<hr>
+									<div th:if="${k.getLoc().getEutraLocation()!=null}">&emsp;eutraLocation:
+										<div th:if="${k.getLoc().getEutraLocation().getAgeOfLocationInformation()!=null}">
+											&emsp;&emsp;ageOfLocationInformation:<span th:text="${k.getLoc().getEutraLocation().getAgeOfLocationInformation()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getEutraLocation().getUeLocationTimestamp()!=null}">
+											&emsp;&emsp;ueLocationTimestamp:<span th:text="${k.getLoc().getEutraLocation().getUeLocationTimestamp()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getEutraLocation().getTai()!=null && !k.getLoc().getEutraLocation().isIgnoreTai()}">
+											&emsp;&emsp;tai:<span th:text="${k.getLoc().getEutraLocation().getTai()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getEutraLocation().getEcgi()!=null && !k.getLoc().getEutraLocation().isIgnoreEcgi()}">
+											&emsp;&emsp;ecgi:<span th:text="${k.getLoc().getEutraLocation().getEcgi()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getEutraLocation().getGlobalNgenbId()!=null}">
+											&emsp;&emsp;globalNgenbId:<span th:text="${k.getLoc().getEutraLocation().getGlobalNgenbId()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getEutraLocation().getGlobalENbId()!=null}">
+											&emsp;&emsp;globalENbId:<span th:text="${k.getLoc().getEutraLocation().getGlobalENbId()}"></span>
+										</div>
+										<br>
+									</div>
+									<div th:if="${k.getLoc().getNrLocation()!=null}">&emsp;nrLocation:
+										<div th:if="${k.getLoc().getNrLocation().getAgeOfLocationInformation()!=null}">
+											&emsp;&emsp;ageOfLocationInformation:<span th:text="${k.getLoc().getNrLocation().getAgeOfLocationInformation()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getNrLocation().getUeLocationTimestamp()!=null}">
+											&emsp;&emsp;ueLocationTimestamp:<span th:text="${k.getLoc().getNrLocation().getUeLocationTimestamp()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getNrLocation().getTai()!=null && !k.getLoc().getNrLocation().isIgnoreTai()}">
+											&emsp;&emsp;tai:<span th:text="${k.getLoc().getNrLocation().getTai()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getNrLocation().getNcgi()!=null && !k.getLoc().getNrLocation().isIgnoreNcgi()}">
+											&emsp;&emsp;ncgi:<span th:text="${k.getLoc().getNrLocation().getNcgi()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getNrLocation().getGlobalGnbId()!=null}">
+											&emsp;&emsp;globalGnbId:<span th:text="${k.getLoc().getNrLocation().getGlobalGnbId()}"></span>
+										</div>
+										<br>
+									</div>
+									<div th:if="${k.getLoc().getN3gaLocation()!=null}">&emsp;n3gaLocation:
+										<div th:if="${k.getLoc().getN3gaLocation().getTai()!=null}">
+											&emsp;&emsp;n3gppTai:<span th:text="${k.getLoc().getN3gaLocation().getTai()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getN3gaLocation().getN3IwfId()!=null}">
+											&emsp;&emsp;n3IwfId:<span th:text="${k.getLoc().getN3gaLocation().getN3IwfId()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getN3gaLocation().getTnapId()!=null}">
+											&emsp;&emsp;tnapId:<span th:text="${k.getLoc().getN3gaLocation().getTnapId()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getN3gaLocation().getTwapId()!=null}">
+											&emsp;&emsp;twapId:<span th:text="${k.getLoc().getN3gaLocation().getTwapId()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getN3gaLocation().getHfcNodeId()!=null}">
+											&emsp;&emsp;hfcNodeId:<span th:text="${k.getLoc().getN3gaLocation().getHfcNodeId()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getN3gaLocation().getGli()!=null}">
+											&emsp;&emsp;gli:<span th:text="${k.getLoc().getN3gaLocation().getGli()}"></span>
+										</div>
+										<br>
+										<div th:if="${k.getLoc().getN3gaLocation().getGci()!=null}">
+											&emsp;&emsp;gci:<span th:text="${k.getLoc().getN3gaLocation().getGci()}"></span>
+										</div>
+										<br>
+									</div>
+									<div th:if="${k.getLoc().getUtraLocation()!=null}">&emsp;utraLocation:
+										<div th:if="${k.getLoc().getUtraLocation().getCgi()!=null}">
+											&emsp;&emsp;cgi:<span th:text="${k.getLoc().getUtraLocation().getCgi()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getUtraLocation().getSai()!=null}">
+											&emsp;&emsp;sai:<span th:text="${k.getLoc().getUtraLocation().getSai()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getUtraLocation().getLai()!=null}">
+											&emsp;&emsp;lai:<span th:text="${k.getLoc().getUtraLocation().getLai()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getUtraLocation().getRai()!=null}">
+											&emsp;&emsp;rai:<span th:text="${k.getLoc().getUtraLocation().getRai()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getUtraLocation().getAgeOfLocationInformation()!=null}">
+											&emsp;&emsp;ageOfLocationInformation:<span th:text="${k.getLoc().getUtraLocation().getAgeOfLocationInformation()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getUtraLocation().getUeLocationTimestamp()!=null}">
+											&emsp;&emsp;ueLocationTimestamp:<span th:text="${k.getLoc().getUtraLocation().getUeLocationTimestamp()}"></span>
+										</div>
+									</div>
+									<div th:if="${k.getLoc().getGeraLocation()!=null}">&emsp;geraLocation:
+										<div th:if="${k.getLoc().getGeraLocation().getCgi()!=null}">
+											&emsp;&emsp;cgi:<span th:text="${k.getLoc().getGeraLocation().getCgi()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getGeraLocation().getSai()!=null}">
+											&emsp;&emsp;sai:<span th:text="${k.getLoc().getGeraLocation().getSai()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getGeraLocation().getLai()!=null}">
+											&emsp;&emsp;lai:<span th:text="${k.getLoc().getGeraLocation().getLai()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getGeraLocation().getRai()!=null}">
+											&emsp;&emsp;rai:<span th:text="${k.getLoc().getGeraLocation().getRai()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getGeraLocation().getVlrNumber()!=null}">
+											&emsp;&emsp;vlrNumber:<span th:text="${k.getLoc().getGeraLocation().getVlrNumber()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getGeraLocation().getMscNumber()!=null}">
+											&emsp;&emsp;mscNumber:<span th:text="${k.getLoc().getGeraLocation().getMscNumber()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getGeraLocation().getAgeOfLocationInformation()!=null}">
+											&emsp;&emsp;ageOfLocationInformation:<span th:text="${k.getLoc().getGeraLocation().getAgeOfLocationInformation()}"></span>
+										</div>
+										<div th:if="${k.getLoc().getGeraLocation().getUeLocationTimestamp()!=null}">
+											&emsp;&emsp;ueLocationTimestamp:<span th:text="${k.getLoc().getGeraLocation().getUeLocationTimestamp()}"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 						<br>
 					</div>
 				</div>
