@@ -1952,7 +1952,7 @@
 	<div th:if="${result != null && result.getFailEventReports()!=null}">
 		<h3>Failed to get analytics for the following events:</h3>
 		<ul>
-			<li th:each=" i,i_stat: ${nnwdafEventsSubscription.getFailEventReportsEvents()}">
+			<li th:each="i,i_stat: ${nnwdafEventsSubscription.getFailEventReportsEvents()}">
 			<div>Event Type: <span th:text="${i}"></span></div>
 			<div>Failure Code: <span th:text="${nnwdafEventsSubscription.getFailEventReportsCodes().get(i_stat.index)}"></span></div>
 			</li>

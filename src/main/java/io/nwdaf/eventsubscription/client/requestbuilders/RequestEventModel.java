@@ -23,6 +23,8 @@ import io.nwdaf.eventsubscription.utilities.ParserUtil;
 import lombok.Getter;
 import lombok.Setter;
 
+// The flattened representation of the EventSubscription object that contains only HTML compatible types and (multidimensional) arrays
+// 
 @Getter @Setter
 public class RequestEventModel {
 	private String event;
@@ -68,9 +70,9 @@ public class RequestEventModel {
 	private List<String> upfInfo = new ArrayList<String>(Arrays.asList(null,null,null,null,null));
 	private String networkAreaId;
 	private List<String> visitedAreaIds = new ArrayList<>();
-	//show booleans
+	// show booleans (used for toggling view of form fields)
 	private Boolean showOptionals=false,showButtons=false,showNotifMethod=true,showExtraRepReq=true,showQosRequ=true,showExcepRequs=true,showNwPerfRequs=true,showSnssaia=true,showNfTypes=true,showTgtUe=true,showLoadLevelThreshold=true,showAnySlice=true,showNsiIdInfos=true,showNsiLevelThrds=true,showListOfAnaSubsets=true,showNetworkArea=true,showSupis=true,showNfLoadLvlThds=true,showNfInstanceIds=true,showNfSetIds=true,showMatchingDir=true,showIntGroupIds=true,showBwRequs=true,showRatFreqs=true,showUpfInfo=true,showAppServerAddrs=true,showDnns=true,showLadnDnns=true,showVisitedAreas=true,showQosFlowRetThds=true,showRanUeThrouThds=true,showExptAnaType=true,showExptUeBehav=true,showGpsis=true,showCongThresholds=true,showMaxTopAppUlNbr=true,showMaxTopAppDlNbr=true,showDisperReqs=true,showRedTransReqs=true,showWlanReqs=true,showDnais=true,showDnPerfReqs=true,showAppIds=true;
-	//optionals
+	// optionals (maps to top level properties of the EventSubscription object that are optional)
 	private Integer maxObjectNbr;
 	private Integer maxSupiNbr;
 	private String startTs;
@@ -79,7 +81,7 @@ public class RequestEventModel {
 	private String timeAnaNeeded;
 	private Integer offsetPeriod;
 
-	//args
+	// args (may be non optional depending on other fields)
 	private Boolean anyUE;
 	private Boolean anySlice;
 	private Integer loadLevelThreshold;
@@ -89,7 +91,9 @@ public class RequestEventModel {
 	private Integer repetitionPeriod;
 	private ExpectedAnalyticsTypeEnum exptAnaType;
 	
-
+	// Set the values of optionals & args lists and initialize lists with 3 or more dimensions with null because 
+	// when the bottom level list has only null values, then the parent element list is deleted by thymeleaf on html parsing.
+	// This should be run before the controller responds with the html view for every request
 	public void setAllLists() {
 		initExptUeBehav();
 		for(int i=0;i<this.nfLoadLvlThds.size();i++){

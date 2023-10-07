@@ -15,7 +15,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,41 +28,19 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.nwdaf.eventsubscription.client.NwdafSubClientApplication;
-import io.nwdaf.eventsubscription.model.EventSubscription;
-import io.nwdaf.eventsubscription.model.GADShape;
-import io.nwdaf.eventsubscription.model.LocationArea;
+import io.nwdaf.eventsubscription.client.config.RestTemplateFactoryConfig;
 import io.nwdaf.eventsubscription.model.NnwdafEventsSubscription;
 import io.nwdaf.eventsubscription.model.NnwdafEventsSubscriptionNotification;
-import io.nwdaf.eventsubscription.model.SupportedGADShapes;
-import io.nwdaf.eventsubscription.model.SupportedGADShapes.SupportedGADShapesEnum;
 import io.nwdaf.eventsubscription.client.requestbuilders.CreateSubscriptionRequestBuilder;
 import io.nwdaf.eventsubscription.utilities.ParserUtil;
+import io.nwdaf.eventsubscription.utilities.OtherUtil;
 import io.nwdaf.eventsubscription.client.requestbuilders.RequestEventModel;
 import io.nwdaf.eventsubscription.client.requestbuilders.RequestSubscriptionModel;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-
 import org.springframework.core.io.Resource;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-
-import javax.net.ssl.SSLContext;
-
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.client5.http.impl.io.BasicHttpClientConnectionManager;
-import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
-import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
-import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
-import org.apache.hc.core5.http.config.Registry;
-import org.apache.hc.core5.http.config.RegistryBuilder;
-import org.apache.hc.core5.ssl.SSLContextBuilder;
 
 @Controller
 public class ClientHomeController {
@@ -78,6 +55,12 @@ public class ClientHomeController {
     private Resource trustStore;
     @Value("${trust.store.password}")
     private String trustStorePassword;
+
+	public ClientHomeController(){
+		RestTemplateFactoryConfig.setTrustStore(trustStore);
+		RestTemplateFactoryConfig.setTrustStorePassword(trustStorePassword);
+		restTemplate = new RestTemplate(RestTemplateFactoryConfig.createRestTemplateFactory());
+	}
 
     @GetMapping(value="/client")
     public String client() {
@@ -206,19 +189,24 @@ public class ClientHomeController {
         }
         
         HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(sub);
-		restTemplate = new RestTemplate(createRestTemplateFactory());
         ResponseEntity<NnwdafEventsSubscription> res = restTemplate.exchange(apiURI,HttpMethod.PUT, req, NnwdafEventsSubscription.class);
         if(res.getStatusCode().is2xxSuccessful()) {
-        	System.out.println("Location:"+res.getHeaders().getFirst("Location"));
-            String[] arr = res.getHeaders().getFirst("Location").split("/");
-			RequestSubscriptionModel newReq = new RequestSubscriptionModel().fromSubObject(res.getBody());
-            newReq.setId(Long.parseLong(arr[arr.length-1]));
-            NwdafSubClientApplication.getLogger().info(res.getBody().toString());
-        	currentSubRequests.put(newReq.getId(),newReq);
-        	currentSubRequests.put(-1l,newReq);
-        	currentSubs.put(newReq.getId(), res.getBody());
-        	map.addAttribute("location",res.getHeaders().getFirst("Location"));
-        	map.put("result",res.getBody());
+			String locationHeader = res.getHeaders().getFirst("Location");
+			NnwdafEventsSubscription body = res.getBody();
+			if(locationHeader!=null){
+				System.out.println("Location:"+locationHeader);
+				String[] arr = locationHeader.split("/");
+				RequestSubscriptionModel newReq = new RequestSubscriptionModel().fromSubObject(body);
+				newReq.setId(Long.parseLong(arr[arr.length-1]));
+				if(body!=null){
+					NwdafSubClientApplication.getLogger().info(body.toString());
+				}
+				currentSubRequests.put(newReq.getId(),newReq);
+				currentSubRequests.put(-1l,newReq);
+				currentSubs.put(newReq.getId(), body);
+				map.addAttribute("location",locationHeader);
+				map.put("result",body);
+			}
         }
         
         map.addAttribute("nnwdafEventsSubscription",object);
@@ -239,22 +227,24 @@ public class ClientHomeController {
         	sub = subBuilder.AddEventToSubscription(sub,e);
         }
         HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(sub);
-		restTemplate = new RestTemplate(createRestTemplateFactory());
         ResponseEntity<NnwdafEventsSubscription> res = restTemplate.postForEntity(apiURI, req, NnwdafEventsSubscription.class);
 
         String id = "";
         if(res.getStatusCode().is2xxSuccessful()) {
-        	System.out.println("Location:"+res.getHeaders().getFirst("Location"));
-            String[] arr = res.getHeaders().getFirst("Location").split("/");
-            id = arr[arr.length-1];
-            object.setId(Long.parseLong(arr[arr.length-1]));
-			NnwdafEventsSubscription subRes = setupShapes(res.getBody());
-            NwdafSubClientApplication.getLogger().info(subRes.toString());
-        	currentSubRequests.put(object.getId(),object);
-        	currentSubRequests.put(-1l,object);
-        	currentSubs.put(object.getId(), subRes);
-        	map.addAttribute("location",res.getHeaders().getFirst("Location"));
-        	map.put("result",subRes.toString());
+			String locationHeader = res.getHeaders().getFirst("Location");
+			if(locationHeader!=null){
+				System.out.println("Location:"+locationHeader);
+				String[] arr = locationHeader.split("/");
+				id = arr[arr.length-1];
+				object.setId(Long.parseLong(arr[arr.length-1]));
+				NnwdafEventsSubscription subRes = OtherUtil.setupShapes(res.getBody());
+				NwdafSubClientApplication.getLogger().info(subRes.toString());
+				currentSubRequests.put(object.getId(),object);
+				currentSubRequests.put(-1l,object);
+				currentSubs.put(object.getId(), subRes);
+				map.addAttribute("location",locationHeader);
+				map.put("result",subRes.toString());
+			}
         }
         
         map.addAttribute("nnwdafEventsSubscription",object);
@@ -266,7 +256,6 @@ public class ClientHomeController {
 		String apiURI = env.getProperty("nnwdaf-eventsubscription.openapi.dev-url")+"/nwdaf-eventsubscription/v1/subscriptions/"+id.toString();
 		HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(null);
 		try{
-			restTemplate = new RestTemplate(createRestTemplateFactory());
 			restTemplate.delete(apiURI, req);
 		}catch(Exception e){
 			return "redirect:/client/formSuccess/"+id;
@@ -305,10 +294,10 @@ public class ClientHomeController {
 		}
 		String command = actionList[0];
 		buttonActionMapper(object, command, values);
-    	initFormActionUpdate(object,map,id);
+    	initFormAction(object,map,Optional.of(id));
         return "redirect:/client/formSuccess/"+id.toString();
     }
-
+	// initialize form before every view render
 	private void initFormAction(RequestSubscriptionModel object,ModelMap map,Optional<Long> id){
 		object.setAllLists();
 		object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
@@ -319,20 +308,13 @@ public class ClientHomeController {
     	map.addAttribute("nnwdafEventsSubscription",object);
     	map.addAttribute("serverTime", OffsetDateTime.now());
 	}
-	private void initFormActionUpdate(RequestSubscriptionModel object,ModelMap map,Long id){
-		object.setAllLists();
-		object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
-    	currentSubRequests.put(-1l,object);
-    	if(id!=-1l) {
-    		currentSubRequests.put(id,object);
-    	}
-    	map.addAttribute("nnwdafEventsSubscription",object);
-    	map.addAttribute("serverTime", OffsetDateTime.now());
-	}
 	private void buttonActionMapper(RequestSubscriptionModel object, String command, List<Integer> values){
 		RequestEventModel e = null;
 		if(object.getEventList().size()>0 && values.size()>0){
 			e = object.getEventList().get(values.get(0));
+		}
+		else{
+			e = new RequestEventModel();
 		}
 		switch(command){
 			case "addPartitionCriteria":
@@ -715,76 +697,5 @@ public class ClientHomeController {
 				break;
 		}
     	
-	}
-	private NnwdafEventsSubscription setupShapes(NnwdafEventsSubscription s){
-		if(s!=null){
-			if(s.getEventSubscriptions()!=null){
-				for(int i=0;i<s.getEventSubscriptions().size();i++){
-					s.getEventSubscriptions().set(i,setShapes(s.getEventSubscriptions().get(i)));
-				}
-			}
-		}
-		return s;
-	}
-	private EventSubscription setShapes(EventSubscription e){
-		if(e.getExptUeBehav()!=null){
-			if(e.getExptUeBehav().getExpectedUmts()!=null){
-				for(int j=0;j<e.getExptUeBehav().getExpectedUmts().size();j++){
-					LocationArea area = e.getExptUeBehav().getExpectedUmts().get(j);
-					if(area.getGeographicAreas()!=null){
-						for(int k=0;k<area.getGeographicAreas().size();k++){
-    						String shapeType = area.getGeographicAreas().get(k).getType();
-							if(shapeType.equals("Point")){
-								((GADShape)area.getGeographicAreas().get(k)).setShape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.Point));
-							}
-							else if(shapeType.equals("PointAltitude")){
-								((GADShape)area.getGeographicAreas().get(k)).setShape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.PointAltitude));
-							}
-							else if(shapeType.equals("PointAltitudeUncertainty")){
-								((GADShape)area.getGeographicAreas().get(k)).setShape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.PointAltitudeUncertainty));
-							}
-							else if(shapeType.equals("PointUncertaintyCircle")){
-								((GADShape)area.getGeographicAreas().get(k)).setShape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.PointUncertaintyCircle));
-							}
-							else if(shapeType.equals("PointUncertaintyEllipse")){
-								((GADShape)area.getGeographicAreas().get(k)).setShape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.PointUncertaintyEllipse));
-							}
-							else if(shapeType.equals("Polygon")){
-								((GADShape)area.getGeographicAreas().get(k)).setShape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.Polygon));
-							}
-							else if(shapeType.equals("EllipsoidArc")){
-								((GADShape)area.getGeographicAreas().get(k)).setShape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.EllipsoidArc));
-							}
-						}
-					}
-				}
-			}
-		}
-		return e;	
-	}
-
-	private ClientHttpRequestFactory createRestTemplateFactory(){
-		SSLContext sslContext;
-		//if there is no trust store configured use http instead
-        if(this.trustStore == null || this.trustStorePassword == null){
-            return new HttpComponentsClientHttpRequestFactory();
-        }
-		try {
-			sslContext = new SSLContextBuilder()
-			  .loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray()).build();
-			SSLConnectionSocketFactory sslConFactory = new SSLConnectionSocketFactory(sslContext);
-			Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory> create()
-			.register("https", sslConFactory)
-			.register("http", new PlainConnectionSocketFactory())
-			.build();
-			BasicHttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager(socketFactoryRegistry);
-			CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
-			ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
-			return requestFactory;
-		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException | CertificateException
-				| IOException e) {
-			e.printStackTrace();
-		}
-        return null;
 	}
 }

@@ -16,8 +16,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.nwdaf.eventsubscription.model.NnwdafEventsSubscription;
 import io.nwdaf.eventsubscription.client.requestbuilders.CreateSubscriptionRequestBuilder;
 
-
-
 @SpringBootApplication
 public class NwdafSubClientApplication {
 	
@@ -43,7 +41,10 @@ public class NwdafSubClientApplication {
 			ResponseEntity<NnwdafEventsSubscription> res = restTemplate.postForEntity(
 					apiRoot+"/nwdaf-eventsubscription/v1/subscriptions",req, NnwdafEventsSubscription.class);
 			System.out.println("Location:"+res.getHeaders().getFirst("Location"));
-			log.info(res.getBody().toString());
+			NnwdafEventsSubscription body = res.getBody();
+			if(body!=null){
+				log.info(body.toString());
+			}
 		};
 	}
 	
