@@ -51,12 +51,9 @@ public class ClientHomeController {
     private Map<Long,RequestSubscriptionModel> currentSubRequests = new HashMap<Long,RequestSubscriptionModel>();
     private Map<String,NnwdafEventsSubscriptionNotification> currentSubNotifications = new HashMap<String,NnwdafEventsSubscriptionNotification>();
     private OffsetDateTime lastNotif = null;
-	@Value("${trust.store}")
-    private Resource trustStore;
-    @Value("${trust.store.password}")
-    private String trustStorePassword;
+	
 
-	public ClientHomeController(){
+	public ClientHomeController(@Value("${trust.store}") Resource trustStore, @Value("${trust.store.password}") String trustStorePassword){
 		RestTemplateFactoryConfig.setTrustStore(trustStore);
 		RestTemplateFactoryConfig.setTrustStorePassword(trustStorePassword);
 		restTemplate = new RestTemplate(RestTemplateFactoryConfig.createRestTemplateFactory());

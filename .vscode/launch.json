@@ -1,0 +1,19 @@
+{
+    "configurations": [
+    {
+        "type": "java",
+        "name": "Launch NwdafSubClientApplication",
+        "request": "launch",
+        "mainClass": "io.nwdaf.eventsubscription.client.NwdafSubClientApplication",
+        "args": "debug=false,server.port=8080"
+    },
+    {
+        "type": "java",
+        "name": "Debug NwdafSubClientApplication",
+        "request": "launch",
+        "mainClass": "io.nwdaf.eventsubscription.client.NwdafSubClientApplication",
+        "args": "debug=false,server.port=8080",
+        "console": "internalConsole"
+    }
+    ]
+}
