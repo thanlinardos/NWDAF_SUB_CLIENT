@@ -1,19 +1,22 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
     "configurations": [
-    {
-        "type": "java",
-        "name": "Launch NwdafSubClientApplication",
-        "request": "launch",
-        "mainClass": "io.nwdaf.eventsubscription.client.NwdafSubClientApplication",
-        "args": "debug=false,server.port=8080"
-    },
-    {
-        "type": "java",
-        "name": "Debug NwdafSubClientApplication",
-        "request": "launch",
-        "mainClass": "io.nwdaf.eventsubscription.client.NwdafSubClientApplication",
-        "args": "debug=false,server.port=8080",
-        "console": "internalConsole"
-    }
+        {
+            "type": "java",
+            "name": "Debug (Attach)",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 5007
+        },
+        {
+            "type": "java",
+            "name": "NwdafSubClientApplication",
+            "request": "launch",
+            "mainClass": "io.nwdaf.eventsubscription.client.NwdafSubClientApplication",
+            "projectName": "NWDAF_SUB_CLIENT"
+        }
     ]
 }
