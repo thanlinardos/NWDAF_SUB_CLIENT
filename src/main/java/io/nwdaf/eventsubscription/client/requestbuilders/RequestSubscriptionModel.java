@@ -5,6 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import org.springframework.data.annotation.Id;
@@ -80,7 +81,7 @@ public class RequestSubscriptionModel implements Serializable{
 		if(maxReportNbr!=null) {
 			this.optionals.set(2, String.valueOf(maxReportNbr));
 		}
-		if(monDur!=null && monDur!="") {
+		if(monDur!=null && !monDur.isEmpty()) {
 			monDur = monDur + ZonedDateTime.now().getOffset().getId();
 			this.optionals.set(3,monDur);
 		}
@@ -159,22 +160,22 @@ public class RequestSubscriptionModel implements Serializable{
 	public void addUeAnaEvents(List<List<String>> item) {
 		if(item==null) {
 			item = new ArrayList<List<String>>(Arrays.asList(new ArrayList<String>(),new ArrayList<String>()));
-			if(item.get(0).size()==0) {
+			if(item.get(0).isEmpty()) {
 				item.get(0).add(null);
 			}
 			for(int i=0;i<this.ueAnaEvents.size();i++) {
-				if(this.ueAnaEvents.get(i).get(0).get(0)=="") {
+				if(Objects.equals(this.ueAnaEvents.get(i).get(0).get(0), "")) {
 					this.ueAnaEvents.get(i).get(0).set(0,null);
 				}
 				if(this.ueAnaEvents.get(i).size()<2) {
 					this.ueAnaEvents.get(i).add(new ArrayList<String>());
 				}
 				for(int j=0;j<this.ueAnaEvents.get(i).get(1).size();j++) {
-					if(this.ueAnaEvents.get(i).get(1).get(j)=="") {
+					if(Objects.equals(this.ueAnaEvents.get(i).get(1).get(j), "")) {
 						this.ueAnaEvents.get(i).get(1).set(j,null);
 					}
 				}
-				if(this.ueAnaEvents.get(i).get(1).size()==0) {
+				if(this.ueAnaEvents.get(i).get(1).isEmpty()) {
 					this.ueAnaEvents.get(i).get(1).add(null);
 				}
 			}
@@ -223,8 +224,8 @@ public class RequestSubscriptionModel implements Serializable{
 	}
 
 	public void addTaiList(List<String> item) {
-		if(item==null || item.size()==0) {
-			item = new ArrayList<String>();
+		if(item==null || item.isEmpty()) {
+			item = new ArrayList<>();
 			item.add(null);
 			item.add(null);
 			item.add(null);

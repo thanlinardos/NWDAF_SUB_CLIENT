@@ -49,7 +49,7 @@
 			</div>
 		</div>
 		<br>
-        <div th:if="*{showEvtReq}==true">
+        <div th:if="*{showEvtReq==true}">
 			Event Reporting Information that applies for each event
 			<hr>
 			<div>
@@ -107,7 +107,7 @@
 	          	</li>
 	        </ul>
         </div>
-        <div th:if="*{showPrevSub}==true">
+        <div th:if="*{showPrevSub==true}">
 			Previous Analytics Subscription Info
 			<hr>
 			<div>
@@ -162,7 +162,7 @@
 		          	</li>
 		        </ul>
 		</div>
-		<div th:if="*{showConsNfInfo}==true">
+		<div th:if="*{showConsNfInfo==true}">
 			Analytics Consumer Information
 			<hr>
 			<div>
@@ -1762,9 +1762,9 @@
 		<input type="submit" name = "deleteSub" value="DeleteSub">
 		<br>
 		<label>Show Notification Body</label>
-		<input type="checkbox" th:field="*{showNotifBody}" th:value=*{showNotifBody}/>
+		<input type="checkbox" th:field="*{showNotifBody}" th:value="*{showNotifBody}"/>
 		<label>Show Result Body</label>
-		<input type="checkbox" th:field="*{showResult}" th:value=*{showResult}/>
+		<input type="checkbox" th:field="*{showResult}" th:value="*{showResult}"/>
 		<button type="submit" name="action" th:value="'update,'" th:text="Update">Update shown fields</button>
     </form>
 	
@@ -1806,6 +1806,8 @@
 					<div th:each="i,i_stat : ${n.getUeMobs()}">
 						<h4>UeMobility - <span th:text="__${i_stat.index}__"></span></h4>
 						<div th:if="${i.getTs()!=null}">&emsp;timeStamp=<span th:text="${i.getTs()}"></span></div>
+						<div th:if="${i.getSupi()!=null}">&emsp;supi=<span th:text="${i.getSupi()}"></span></div>
+						<div th:if="${i.getIntGroupId()!=null}">&emsp;intGroupId=<span th:text="${i.getIntGroupId()}"></span></div>
 						<div th:if="${i.getDuration()!=null}">&emsp;duration=<span th:text="${i.getDuration()}"></span></div>
 						<div th:if="${i.getLocInfos()!=null}">
 							<div th:each="k,k_stat : ${i.getLocInfos()}">
@@ -1860,8 +1862,8 @@
 										<br>
 									</div>
 									<div th:if="${k.getLoc().getN3gaLocation()!=null}">&emsp;n3gaLocation:
-										<div th:if="${k.getLoc().getN3gaLocation().getTai()!=null}">
-											&emsp;&emsp;n3gppTai:<span th:text="${k.getLoc().getN3gaLocation().getTai()}"></span>
+										<div th:if="${k.getLoc().getN3gaLocation().getN3gppTai()!=null}">
+											&emsp;&emsp;n3gppTai:<span th:text="${k.getLoc().getN3gaLocation().getN3gppTai()}"></span>
 										</div>
 										<br>
 										<div th:if="${k.getLoc().getN3gaLocation().getN3IwfId()!=null}">
@@ -1974,5 +1976,6 @@
 		  }
 		  window.onload = beginrefresh;
 	 </script> -->
+	</div>
 </body>
 </html>
