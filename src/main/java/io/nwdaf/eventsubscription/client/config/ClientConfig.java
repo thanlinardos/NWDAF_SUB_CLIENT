@@ -18,8 +18,5 @@ import io.nwdaf.eventsubscription.client.requestbuilders.RequestSubscriptionMode
 //@EnableWebMvc
 @RegisterReflectionForBinding({RequestSubscriptionModel.class,RequestNotificationModel.class,RequestEventModel.class,CreateSubscriptionRequestBuilder.class,NotificationMethodEnum.class})
 public class ClientConfig{
-//	@Override
-//	public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/client").setViewName("client");
-//    }
+
 }

@@ -1,37 +1,43 @@
-{"properties": [
-  {
-    "name": "nnwdaf-eventsubscription.openapi.dev_url",
-    "type": "java.lang.String",
-    "description": "A description for 'nnwdaf-eventsubscription.openapi.dev_url'"
-  },
-  {
-    "name": "nnwdaf-eventsubscription.openapi.prod_url",
-    "type": "java.lang.String",
-    "description": "A description for 'nnwdaf-eventsubscription.openapi.prod_url'"
-  },
-  {
-    "name": "nnwdaf-eventsubscription.client.dev_url",
-    "type": "java.lang.String",
-    "description": "A description for 'nnwdaf-eventsubscription.client.dev_url'"
-  },
-  {
-    "name": "nnwdaf-eventsubscription.client.prod_url",
-    "type": "java.lang.String",
-    "description": "A description for 'nnwdaf-eventsubscription.client.prod_url'"
-  },
-  {
-    "name": "nnwdaf-eventsubscription.init",
-    "type": "java.lang.String",
-    "description": "A description for 'nnwdaf-eventsubscription.init'"
-  },
-  {
-    "name": "trust.store",
-    "type": "java.lang.String",
-    "description": "A description for 'trust.store'"
-  },
-  {
-    "name": "trust.store.password",
-    "type": "java.lang.String",
-    "description": "A description for 'trust.store.password'"
+{
+  "properties": [
+    {
+      "name": "nnwdaf-eventsubscription.openapi.dev_url",
+      "type": "java.lang.String",
+      "description": "A description for 'nnwdaf-eventsubscription.openapi.dev_url'"
+    },
+    {
+      "name": "nnwdaf-eventsubscription.openapi.prod_url",
+      "type": "java.lang.String",
+      "description": "A description for 'nnwdaf-eventsubscription.openapi.prod_url'"
+    },
+    {
+      "name": "nnwdaf-eventsubscription.client.dev_url",
+      "type": "java.lang.String",
+      "description": "A description for 'nnwdaf-eventsubscription.client.dev_url'"
+    },
+    {
+      "name": "nnwdaf-eventsubscription.client.prod_url",
+      "type": "java.lang.String",
+      "description": "A description for 'nnwdaf-eventsubscription.client.prod_url'"
+    },
+    {
+      "name": "nnwdaf-eventsubscription.init",
+      "type": "java.lang.String",
+      "description": "A description for 'nnwdaf-eventsubscription.init'"
+    },
+    {
+      "name": "trust.store",
+      "type": "java.lang.String",
+      "description": "A description for 'trust.store'"
+    },
+    {
+      "name": "trust.store.password",
+      "type": "java.lang.String",
+      "description": "A description for 'trust.store.password'"
+    },
+    {
+      "name": "spring.thread-executor",
+      "type": "java.lang.String",
+      "description": "Description for spring.thread-executor."
   }
 ]}
