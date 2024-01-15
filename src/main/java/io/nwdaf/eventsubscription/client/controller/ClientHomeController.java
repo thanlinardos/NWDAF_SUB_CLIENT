@@ -1,10 +1,11 @@
 package io.nwdaf.eventsubscription.client.controller;
 
+import java.lang.Exception;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import io.nwdaf.eventsubscription.model.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -25,8 +26,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.nwdaf.eventsubscription.client.NwdafSubClientApplication;
 import io.nwdaf.eventsubscription.client.config.RestTemplateFactoryConfig;
-import io.nwdaf.eventsubscription.model.NnwdafEventsSubscription;
-import io.nwdaf.eventsubscription.model.NnwdafEventsSubscriptionNotification;
 import io.nwdaf.eventsubscription.client.requestbuilders.CreateSubscriptionRequestBuilder;
 import io.nwdaf.eventsubscription.utilities.ParserUtil;
 import io.nwdaf.eventsubscription.utilities.OtherUtil;
@@ -38,6 +37,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.springframework.core.io.Resource;
 
+import static io.nwdaf.eventsubscription.utilities.OtherUtil.fillNotificationWithGeographicalInfo;
 import static io.nwdaf.eventsubscription.utilities.ParserUtil.safeParseLong;
 
 @Controller
@@ -82,19 +82,17 @@ public class ClientHomeController {
             notifications = new ArrayList<>();
             for (int i = 0; i < result.getEventSubscriptions().size(); i++) {
                 notifications.add(currentSubNotifications.get(idVal + "," + i));
+                fillNotificationWithGeographicalInfo(notifications.get(i));
             }
             if (object == null) {
                 object = new RequestSubscriptionModel();
-                if (result != null) {
-                    object.setId(idVal);
-                    object.setNotificationMethod(result.getEvtReq().getNotifMethod().getNotifMethod());
-                    object.setRepPeriod(result.getEvtReq().getRepPeriod());
-                    for (int i = 0; i < result.getEventSubscriptions().size(); i++) {
-                        RequestEventModel e = new RequestEventModel();
-                        e.setEvent(result.getEventSubscriptions().get(i).getEvent().getEvent().toString());
-                        object.addEventList(e);
-                    }
-
+                object.setId(idVal);
+                object.setNotificationMethod(result.getEvtReq().getNotifMethod().getNotifMethod());
+                object.setRepPeriod(result.getEvtReq().getRepPeriod());
+                for (int i = 0; i < result.getEventSubscriptions().size(); i++) {
+                    RequestEventModel e = new RequestEventModel();
+                    e.setEvent(result.getEventSubscriptions().get(i).getEvent().getEvent().toString());
+                    object.addEventList(e);
                 }
 
             }
@@ -126,20 +124,19 @@ public class ClientHomeController {
             result = currentSubs.get(id);
             notifications = new ArrayList<>();
             for (int i = 0; i < result.getEventSubscriptions().size(); i++) {
-                notifications.add(currentSubNotifications.get(id + "," + i));
+                NnwdafEventsSubscriptionNotification notification = currentSubNotifications.get(id + "," + i);
+                fillNotificationWithGeographicalInfo(notification);
+                notifications.add(notification);
             }
             if (object == null) {
                 object = new RequestSubscriptionModel();
-                if (result != null) {
-                    object.setId(id);
-                    object.setNotificationMethod(result.getEvtReq().getNotifMethod().getNotifMethod());
-                    object.setRepPeriod(result.getEvtReq().getRepPeriod());
-                    for (int i = 0; i < result.getEventSubscriptions().size(); i++) {
-                        RequestEventModel e = new RequestEventModel();
-                        e.setEvent(result.getEventSubscriptions().get(i).getEvent().getEvent().toString());
-                        object.addEventList(e);
-                    }
-
+                object.setId(id);
+                object.setNotificationMethod(result.getEvtReq().getNotifMethod().getNotifMethod());
+                object.setRepPeriod(result.getEvtReq().getRepPeriod());
+                for (int i = 0; i < result.getEventSubscriptions().size(); i++) {
+                    RequestEventModel e = new RequestEventModel();
+                    e.setEvent(result.getEventSubscriptions().get(i).getEvent().getEvent().toString());
+                    object.addEventList(e);
                 }
 
             }
@@ -261,8 +258,7 @@ public class ClientHomeController {
     public ResponseEntity<NnwdafEventsSubscriptionNotification> post(@Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody NnwdafEventsSubscriptionNotification notification) {
         currentSubNotifications.put(safeParseLong(notification.getSubscriptionId()) + "," + safeParseLong(notification.getNotifCorrId()), notification);
         lastNotif = OffsetDateTime.now();
-        return ResponseEntity.status(HttpStatus.OK).body(notification);
-
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @RequestMapping(value = "/client/form")

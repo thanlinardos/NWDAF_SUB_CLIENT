@@ -81,7 +81,9 @@
         <input class="form-check-input" type="checkbox" th:field="*{showConsNfInfo}" th:value="*{showConsNfInfo}"/>
         <label class="form-check-label">Show Supported Features</label>
         <input class="form-check-input" type="checkbox" th:field="*{showFeatures}" th:value="*{showFeatures}"/>
-        <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:value="'update,'" th:text="Update">Update shown fields</button>
+        <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:value="'update,'" th:text="Update">
+            Update shown fields
+        </button>
     </div>
     <br>
     <div class="form-group">
@@ -153,7 +155,8 @@
         Partitioning Criteria for partitioning the impacted UEs before performing sampling
         <hr>
         <ul>
-            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addPartitionCriteria,'">Add partitionCriteria
+            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                    th:value="'addPartitionCriteria,'">Add partitionCriteria
             </button>
             <li th:each="p,p_stat: *{partitionCriteria}">
                 <select class="form-select mb-2" th:field="*{partitionCriteria[__${p_stat.index}__]}">
@@ -161,7 +164,7 @@
                             th:value="${type}"
                             th:text="${type.toString()}"></option>
                 </select>
-                <button class="btn btn-secondary mb-2  mt-2"  th:if="${p_stat != null}" type="submit" name="action"
+                <button class="btn btn-secondary mb-2  mt-2" th:if="${p_stat != null}" type="submit" name="action"
                         th:value="'removePartitionCriteria,'+${p_stat.index}" th:text="Remove">Remove
                 </button>
             </li>
@@ -189,14 +192,16 @@
         List of analytics types for which NF related analytics contexts can be retrieved
         <hr>
         <ul>
-            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:value="'addRownfAnaEvents,'" th:text="Add">Add nfAnaEvent</button>
+            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:value="'addRownfAnaEvents,'"
+                    th:text="Add">Add nfAnaEvent
+            </button>
             <li th:each="p,p_stat: *{nfAnaEvents}">
                 <select class="form-select" th:field="*{nfAnaEvents[__${p_stat.index}__]}">
                     <option th:each="type : ${T(io.nwdaf.eventsubscription.model.NwdafEvent.NwdafEventEnum).values()}"
                             th:value="${type}"
                             th:text="${type.toString()}"></option>
                 </select>
-                <button class="btn btn-secondary mb-2  mt-2"  th:if="${p_stat != null}" type="submit" name="action"
+                <button class="btn btn-secondary mb-2  mt-2" th:if="${p_stat != null}" type="submit" name="action"
                         th:value="'removeRownfAnaEvents,'+${p_stat.index}" th:text="Remove">Remove
                 </button>
             </li>
@@ -205,14 +210,16 @@
         List of UE Analytics Events
         <hr>
         <ul>
-            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:value="'addRowueAnaEvents,'" th:text="Add">Add UE Ana Events</button>
+            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:value="'addRowueAnaEvents,'"
+                    th:text="Add">Add UE Ana Events
+            </button>
             <li th:each="p,p_stat: *{ueAnaEvents}">
                 <label class="form-label">SUPI:</label>
                 <input class="form-control" th:field="*{ueAnaEvents[__${p_stat.index}__][0][0]}"
                        value="${getUeAnaEvents(__${p_stat.index}__)}"
                        pattern="^(imsi-[0-9]{5,15}|nai-.+|gci-.+|gli-.+|.+)$"/>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="AddEvent"
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="AddEvent"
                             th:value="'addRowueAnaEventsItem,'+${p_stat.index}">AddEvent
                     </button>
                     <li th:each="j,j_stat: ${p[1]}">
@@ -223,13 +230,14 @@
                                     th:value="${type}"
                                     th:text="${type.toString()}"></option>
                         </select>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${j_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${j_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeRowueAnaEventsItem,'+${p_stat.index}+','+${j_stat.index}"
                                 th:text="RemoveEvent">RemoveEvent
                         </button>
                     </li>
                 </ul>
-                <button class="btn btn-secondary mb-2  mt-2"  th:if="${p_stat != null}" type="submit" name="action"
+                <button class="btn btn-secondary mb-2  mt-2" th:if="${p_stat != null}" type="submit" name="action"
                         th:value="'removeRowueAnaEvents,'+${p_stat.index}" th:text="Remove">Remove
                 </button>
             </li>
@@ -253,20 +261,22 @@
         List of Tracking Area Identities (TAIs)
         <hr>
         <ul>
-            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:value="'addRowtaiList,'" th:text="Add">Add TAI</button>
+            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:value="'addRowtaiList,'"
+                    th:text="Add">Add TAI
+            </button>
             <li th:each="p,p_stat: *{taiList}">
 
                 <ul>
                     <li th:each="j,j_stat: ${p}">
                         <div class="form-group">
-                        <label class="form-label" th:text="*{taiAttributes[__${j_stat.index}__]}"></label>
-                        <input class="form-control" th:field="*{taiList[__${p_stat.index}__][__${j_stat.index}__]}"
-                               th:value="*{getTaiList(__${p_stat.index}__,__${j_stat.index}__)}"
-                               th:pattern="*{taiPatterns[__${j_stat.index}__]}"/>
+                            <label class="form-label" th:text="*{taiAttributes[__${j_stat.index}__]}"></label>
+                            <input class="form-control" th:field="*{taiList[__${p_stat.index}__][__${j_stat.index}__]}"
+                                   th:value="*{getTaiList(__${p_stat.index}__,__${j_stat.index}__)}"
+                                   th:pattern="*{taiPatterns[__${j_stat.index}__]}"/>
                         </div>
                     </li>
                 </ul>
-                <button class="btn btn-secondary mb-2  mt-2"  th:if="${p_stat != null}" type="submit" name="action"
+                <button class="btn btn-secondary mb-2  mt-2" th:if="${p_stat != null}" type="submit" name="action"
                         th:value="'removeRowtaiList,'+${p_stat.index}" th:text="Remove">Remove
                 </button>
             </li>
@@ -277,7 +287,9 @@
     <h3>Events to Subscribe to</h3>
 
     <ul>
-        <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:value="'addEventRow,'" th:text="AddEvent">AddEvent</button>
+        <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:value="'addEventRow,'"
+                th:text="AddEvent">AddEvent
+        </button>
         <li th:each="e,e_stat:*{eventList}">
             <label class="form-check-label">Show Optionals</label>
             <input class="form-check-input" type="checkbox" th:field="*{eventList[__${e_stat.index}__].showOptionals}"
@@ -457,26 +469,29 @@
                            th:value=${e.getShowQosRequ()}/>
                 </div>
             </div>
-            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:value="'update,'" th:text="Update">Update shown fields</button>
+            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:value="'update,'"
+                    th:text="Update">Update shown fields
+            </button>
             <hr>
             <span th:text="'Event no ' + __${e_stat.index}__"></span>
             <div class="form-group">
-            <label class="form-label">Event Type</label>
-            <select class="form-select" th:field="*{eventList[__${e_stat.index}__].event}">
-                <option th:each="type : ${T(io.nwdaf.eventsubscription.model.NwdafEvent.NwdafEventEnum).values()}"
-                        th:value="${type}"
-                        th:text="${type.toString()}"></option>
-            </select>
+                <label class="form-label">Event Type</label>
+                <select class="form-select" th:field="*{eventList[__${e_stat.index}__].event}">
+                    <option th:each="type : ${T(io.nwdaf.eventsubscription.model.NwdafEvent.NwdafEventEnum).values()}"
+                            th:value="${type}"
+                            th:text="${type.toString()}"></option>
+                </select>
             </div>
             <div class="form-group">
-            <label class="form-label">Notification Method</label>
-            <select class="form-select" th:field="*{eventList[__${e_stat.index}__].notificationMethod}">
-                <option th:each="type : ${T(io.nwdaf.eventsubscription.model.NotificationMethod.NotificationMethodEnum).values()}"
-                        th:value="${type}"
-                        th:text="${type.toString()}"></option>
-            </select>
+                <label class="form-label">Notification Method</label>
+                <select class="form-select" th:field="*{eventList[__${e_stat.index}__].notificationMethod}">
+                    <option th:each="type : ${T(io.nwdaf.eventsubscription.model.NotificationMethod.NotificationMethodEnum).values()}"
+                            th:value="${type}"
+                            th:text="${type.toString()}"></option>
+                </select>
             </div>
-            <div class="form-group" th:if="${e.getShowMatchingDir==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('NF_LOAD') || e.getEvent().toString().equals('QOS_SUSTAINABILITY') || e.getEvent().toString().equals('USER_DATA_CONGESTION') || e.getEvent().toString().equals('NETWORK_PERFORMANCE'))}">
+            <div class="form-group"
+                 th:if="${e.getShowMatchingDir==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('NF_LOAD') || e.getEvent().toString().equals('QOS_SUSTAINABILITY') || e.getEvent().toString().equals('USER_DATA_CONGESTION') || e.getEvent().toString().equals('NETWORK_PERFORMANCE'))}">
                 <label class="form-label">Matching Direction</label>
                 <select class="form-select" th:field="*{eventList[__${e_stat.index}__].matchingDir}">
                     <option th:each="type : ${T(io.nwdaf.eventsubscription.model.MatchingDirection.MatchingDirectionEnum).values()}"
@@ -484,25 +499,29 @@
                             th:text="${type.toString()}"></option>
                 </select>
             </div>
-            <div class="form-group" th:if="*{(notificationMethod!=null && notificationMethod.toString().equals('PERIODIC'))||(notificationMethod==null && eventList[__${e_stat.index}__].notificationMethod!=null && eventList[__${e_stat.index}__].notificationMethod.toString().equals('PERIODIC'))}">
+            <div class="form-group"
+                 th:if="*{(notificationMethod!=null && notificationMethod.toString().equals('PERIODIC'))||(notificationMethod==null && eventList[__${e_stat.index}__].notificationMethod!=null && eventList[__${e_stat.index}__].notificationMethod.toString().equals('PERIODIC'))}">
                 <label class="form-label">Repetition Period</label>
                 <input class="form-control" type="number" th:field="*{eventList[__${e_stat.index}__].repetitionPeriod}"
                        th:value="${e.getRepetitionPeriod()}"/>
                 <br>
             </div>
-            <div class="form-group" th:if="${e.getShowMaxTopAppUlNbr()==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('USER_DATA_CONGESTION'))}">
+            <div class="form-group"
+                 th:if="${e.getShowMaxTopAppUlNbr()==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('USER_DATA_CONGESTION'))}">
                 <label class="form-label">MaxTopAppUlNbr</label>
                 <input class="form-control" type="number" th:field="*{eventList[__${e_stat.index}__].maxTopAppUlNbr}"
                        th:value="${e.getMaxTopAppUlNbr()}"/>
                 <br>
             </div>
-            <div class="form-group" th:if="${e.getShowMaxTopAppDlNbr()==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('USER_DATA_CONGESTION'))}">
+            <div class="form-group"
+                 th:if="${e.getShowMaxTopAppDlNbr()==true && e.getShowOptionals()==true && e.getEvent()!=null && e.getEvent()!=null && (e.getEvent().toString().equals('USER_DATA_CONGESTION'))}">
                 <label class="form-label">MaxTopAppDlNbr</label>
                 <input class="form-control" type="number" th:field="*{eventList[__${e_stat.index}__].maxTopAppDlNbr}"
                        th:value="${e.getMaxTopAppDlNbr()}"/>
                 <br>
             </div>
-            <div class="form-group" th:if="${e.getShowExptAnaType() && e.getEvent()!=null && e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR')}">
+            <div class="form-group"
+                 th:if="${e.getShowExptAnaType() && e.getEvent()!=null && e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR')}">
                 <label class="form-label">ExptAnaType</label>
                 <select class="form-select" th:field="*{eventList[__${e_stat.index}__].exptAnaType}">
                     <option th:each="type : ${T(io.nwdaf.eventsubscription.model.ExpectedAnalyticsType.ExpectedAnalyticsTypeEnum).values()}"
@@ -542,7 +561,8 @@
                                th:value="${e.getEndTs()}"/>
                     </div>
                 </div>
-                <div class="form-group" th:if="*{(eventList[__${e_stat.index}__].accPerSubset==null || eventList[__${e_stat.index}__].accPerSubset.size()==0)&& eventList[__${e_stat.index}__].getShowOptionals()==true }">
+                <div class="form-group"
+                     th:if="*{(eventList[__${e_stat.index}__].accPerSubset==null || eventList[__${e_stat.index}__].accPerSubset.size()==0)&& eventList[__${e_stat.index}__].getShowOptionals()==true }">
                     <label class="form-label">Accuracy of the analytics</label>
                     <select class="form-select" th:field="*{eventList[__${e_stat.index}__].accuracy}">
                         <option th:each="type : ${T(io.nwdaf.eventsubscription.model.Accuracy.AccuracyEnum).values()}"
@@ -566,7 +586,8 @@
                     AnaMeta - Indication of which analytics metadata is requested to be delivered with the notification
                     <hr>
                     <ul>
-                        <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addAnaMeta,'+${e_stat.index}">Add
+                        <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                                th:value="'addAnaMeta,'+${e_stat.index}">Add
                             anaMeta
                         </button>
                         <li th:each="a,a_stat: ${e.anaMeta}">
@@ -577,7 +598,8 @@
                                         th:value="${type}"
                                         th:text="${type.toString()}"></option>
                             </select>
-                            <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                            <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                    name="action"
                                     th:value="'removeAnaMeta,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                                 Remove
                             </button>
@@ -602,19 +624,20 @@
                                th:value="*{eventList[__${e_stat.index}__].getAnaMetaInd[1]}"/>
                     </div>
                     <div class="form-group">
-                    <label class="form-label">Τhe output strategy used for the reporting of the analytics</label>
-                    <select class="form-select" th:field="*{eventList[__${e_stat.index}__].anaMetaInd[2]}"
-                            th:value="*{eventList[__${e_stat.index}__].getAnaMetaInd(2)}">
-                        <option th:each="type : ${T(io.nwdaf.eventsubscription.model.OutputStrategy.OutputStrategyEnum).values()}"
-                                th:value="${type}"
-                                th:text="${type.toString()}"></option>
-                    </select>
+                        <label class="form-label">Τhe output strategy used for the reporting of the analytics</label>
+                        <select class="form-select" th:field="*{eventList[__${e_stat.index}__].anaMetaInd[2]}"
+                                th:value="*{eventList[__${e_stat.index}__].getAnaMetaInd(2)}">
+                            <option th:each="type : ${T(io.nwdaf.eventsubscription.model.OutputStrategy.OutputStrategyEnum).values()}"
+                                    th:value="${type}"
+                                    th:text="${type.toString()}"></option>
+                        </select>
                     </div>
                     <br>
                     AggrNwdafIds - Identifiers of NWDAF instances used when aggregating multiple analytics subscriptions
                     <hr>
                     <ul>
-                        <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addAggrNwdafIds,'+${e_stat.index}">
+                        <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                                th:value="'addAggrNwdafIds,'+${e_stat.index}">
                             Add AggrNwdafIds
                         </button>
                         <li th:each="a,a_stat: ${e.aggrNwdafIds}">
@@ -622,7 +645,8 @@
                                    th:field="*{eventList[__${e_stat.index}__].aggrNwdafIds[__${a_stat.index}__]}"
                                    th:value="*{eventList[__${e_stat.index}__].getAggrNwdafIds(__${a_stat.index}__)}"
                                    pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$">
-                            <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                            <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                    name="action"
                                     th:value="'removeAggrNwdafIds,'+${e_stat.index}+','+${a_stat.index}"
                                     th:text="Remove">Remove
                             </button>
@@ -633,7 +657,7 @@
                     analytics
                     <hr>
                     <ul>
-                        <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                        <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                 th:value="'addDataStatProps,'+${e_stat.index}">Add dataStatProps
                         </button>
                         <li th:each="a,a_stat: ${e.dataStatProps}">
@@ -644,7 +668,8 @@
                                         th:value="${type}"
                                         th:text="${type.toString()}"></option>
                             </select>
-                            <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                            <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                    name="action"
                                     th:value="'removeDataStatProps,'+${e_stat.index}+','+${a_stat.index}"
                                     th:text="Remove">Remove
                             </button>
@@ -654,7 +679,8 @@
                     AccPerSubset - Each element indicates the preferred accuracy level per analytics subset.
                     <hr>
                     <ul>
-                        <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addAccPerSubset,'+${e_stat.index}">
+                        <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                                th:value="'addAccPerSubset,'+${e_stat.index}">
                             Add AccPerSubset
                         </button>
                         <li th:each="a,a_stat: ${e.accPerSubset}">
@@ -665,7 +691,8 @@
                                         th:value="${type}"
                                         th:text="${type.toString()}"></option>
                             </select>
-                            <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                            <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                    name="action"
                                     th:value="'removeAccPerSubset,'+${e_stat.index}+','+${a_stat.index}"
                                     th:text="Remove">Remove
                             </button>
@@ -688,7 +715,7 @@
                 SUPIs of the target UEs for the analytics
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action"
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action"
                             th:if="${e.getEvent().toString().equals('SERVICE_EXPERIENCE')||e.getEvent().toString().equals('DISPERSION')||!e.getEvent().toString().equals('SM_CONGESTION')||(e.supis==null)||(e.supis.size()==0)}"
                             th:text="Add" th:value="'addSupis,'+${e_stat.index}">Add Supis
                     </button>
@@ -697,7 +724,8 @@
                                th:field="*{eventList[__${e_stat.index}__].supis[__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getSupis[__${a_stat.index}__]}"
                                pattern="^(imsi-[0-9]{5,15}|nai-.+|gci-.+|gli-.+|.+)$">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeSupis,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             Supis
                         </button>
@@ -710,7 +738,7 @@
                 Gpsis of the target UEs for the analytics
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action"
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action"
                             th:if="${e.getEvent().toString().equals('SERVICE_EXPERIENCE')||e.getEvent().toString().equals('DISPERSION')||!e.getEvent().toString().equals('SM_CONGESTION')||(e.gpsis==null)||(e.gpsis.size()==0)}"
                             th:text="Add" th:value="'addGpsis,'+${e_stat.index}">Add Gpsis
                     </button>
@@ -719,7 +747,8 @@
                                th:field="*{eventList[__${e_stat.index}__].Gpsis[__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getGpsis[__${a_stat.index}__]}"
                                pattern="^(msisdn-[0-9]{5,15}|extid-.+@.+|.+)$">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeGpsis,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             Gpsis
                         </button>
@@ -732,7 +761,7 @@
                 IntGroupIds - Each element represents an internal group identifier and identifies a group of UEs
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action"
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action"
                             th:if="${e.getEvent().toString().equals('SERVICE_EXPERIENCE')||e.getEvent().toString().equals('DISPERSION')||!e.getEvent().toString().equals('SM_CONGESTION')||(e.intGroupIds==null)||(e.intGroupIds.size()==0)}"
                             th:text="Add" th:value="'addIntGroupIds,'+${e_stat.index}">Add IntGroupIds
                     </button>
@@ -741,7 +770,8 @@
                                th:field="*{eventList[__${e_stat.index}__].intGroupIds[__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getIntGroupIds[__${a_stat.index}__]}"
                                pattern="^[A-Fa-f0-9]{8}-[0-9]{3}-[0-9]{2,3}-([A-Fa-f0-9][A-Fa-f0-9]){1,10}$">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeIntGroupIds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove IntGroupIds
                         </button>
@@ -754,7 +784,8 @@
                 NfInstanceIds - Each element represents the UUID of an nf instance to provide analytics for
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addNfInstanceIds,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addNfInstanceIds,'+${e_stat.index}">Add
                         NfInstanceIds
                     </button>
                     <li th:each="a,a_stat: ${e.nfInstanceIds}">
@@ -762,7 +793,8 @@
                                th:field="*{eventList[__${e_stat.index}__].nfInstanceIds[__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getNfInstanceIds[__${a_stat.index}__]}"
                                pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeNfInstanceIds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove NfInstanceIds
                         </button>
@@ -775,7 +807,8 @@
                 NfSetIds - Each element represents a set identifier and identifies a group of NFs
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addNfSetIds,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addNfSetIds,'+${e_stat.index}">Add
                         NfSetIds
                     </button>
                     <li th:each="a,a_stat: ${e.nfSetIds}">
@@ -784,7 +817,8 @@
                                th:value="*{eventList[__${e_stat.index}__].getNfSetIds[__${a_stat.index}__]}"
                                pattern="(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.mnc([0-9]){3}\.mcc([0-9]){3})|(set[A-Za-z0-9\-]+[A-Za-z0-9]\.[A-Za-z]+set\.5gc\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3})"
                                title="for PLMN: set<NFSetId>.<NF>set.5gc.mnc<3digits>.mcc<3digits> for SNPN: ...5gc.nid<11-hexdigits>.mnc...">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeNfSetIds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             NfSetIds
                         </button>
@@ -797,14 +831,16 @@
                 AppIds - Each element the identifier of an application
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addAppIds,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addAppIds,'+${e_stat.index}">Add
                         AppIds
                     </button>
                     <li th:each="a,a_stat: ${e.appIds}">
                         <input class="form-control" type="text"
                                th:field="*{eventList[__${e_stat.index}__].appIds[__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getAppIds[__${a_stat.index}__]}">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeAppIds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             AppIds
                         </button>
@@ -818,7 +854,8 @@
                 Operator Id
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addDnns,'+${e_stat.index}">Add Dnns
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addDnns,'+${e_stat.index}">Add Dnns
                     </button>
                     <li th:each="a,a_stat: ${e.dnns}">
                         <input class="form-control" type="text"
@@ -826,7 +863,8 @@
                                th:value="*{eventList[__${e_stat.index}__].getDnns[__${a_stat.index}__]}"
                                pattern="\.nid([A-Za-z0-9]){11}\.mnc([0-9]){3}\.mcc([0-9]){3}\.gprs"
                                title=".nid<NID>.mnc<MNC>.mcc<MCC>.gprs">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="removeDnns"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="removeDnns"
                                 th:value="'removeDnns,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             Dnns
                         </button>
@@ -839,13 +877,15 @@
                 Dnais - Data network access identifiers
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addDnais,'+${e_stat.index}">Add Dnais
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addDnais,'+${e_stat.index}">Add Dnais
                     </button>
                     <li th:each="a,a_stat: ${e.dnais}">
                         <input class="form-control" type="text"
                                th:field="*{eventList[__${e_stat.index}__].dnais[__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getDnais[__${a_stat.index}__]}">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeDnais,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             Dnais
                         </button>
@@ -858,14 +898,16 @@
                 LadnDnns - Each element represents the id of LADN DNN to indicate the LADN service area as the AOI
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addLadnDnns,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addLadnDnns,'+${e_stat.index}">Add
                         LadnDnns
                     </button>
                     <li th:each="a,a_stat: ${e.ladnDnns}">
                         <input class="form-control" type="text"
                                th:field="*{eventList[__${e_stat.index}__].ladnDnns[__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getLadnDnns[__${a_stat.index}__]}">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeLadnDnns,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             LadnDnns
                         </button>
@@ -879,7 +921,8 @@
                 account for resource usage for the output analytics when event is NSI_LOAD_LEVEL)
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addNfTypes,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addNfTypes,'+${e_stat.index}">Add
                         NfTypes
                     </button>
                     <li th:each="a,a_stat: ${e.nfTypes}">
@@ -890,7 +933,8 @@
                                     th:value="${type}"
                                     th:text="${type.toString()}"></option>
                         </select>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeNfTypes,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             NfTypes
                         </button>
@@ -903,7 +947,8 @@
                 reached nwdaf starts reporting)
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addNfLoadLvlThds,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addNfLoadLvlThds,'+${e_stat.index}">Add
                         NfLoadLvlThds
                     </button>
                     <li th:each="a,a_stat: ${e.nfLoadLvlThds}">
@@ -911,30 +956,32 @@
                         <input class="form-control"  type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][0]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,0)}">
                         <br> -->
                         <div class="form-group">
-                        <label class="form-label">NfLoadLevel - Value of NF Load that triggers notification (average of
-                            the other provided
-                            metrics)</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][1]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,1)}">
+                            <label class="form-label">NfLoadLevel - Value of NF Load that triggers notification (average
+                                of
+                                the other provided
+                                metrics)</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][1]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,1)}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">NfCpuUsage - Value of NF CPU Usage that triggers notification </label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][2]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,2)}">
+                            <label class="form-label">NfCpuUsage - Value of NF CPU Usage that triggers
+                                notification </label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][2]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,2)}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">NfMemoryUsage - Average usage of memory </label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][3]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,3)}">
+                            <label class="form-label">NfMemoryUsage - Average usage of memory </label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][3]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,3)}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">NfStorageUsage - Average usage of storage</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][4]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,4)}">
+                            <label class="form-label">NfStorageUsage - Average usage of storage</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][4]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,4)}">
                         </div>
                         <!-- <label class="form-label" >AvgTrafficRate - Threshold level of average traffic rate</label>
                         <input class="form-control"  type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][5]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,5)}">
@@ -954,7 +1001,8 @@
                         <label class="form-label" >SvcExpLevel - Service Experience MOS value</label>
                         <input class="form-control"  type="text" th:field="*{eventList[__${e_stat.index}__].nfLoadLvlThds[__${a_stat.index}__][10]}" th:value="*{eventList[__${e_stat.index}__].getNfLoadLvlThds(__${a_stat.index}__,10)}">
                         <br> -->
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeNfLoadLvlThds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove NfLoadLvlThds
                         </button>
@@ -967,47 +1015,49 @@
                 NetworkArea - Represents the Area of Interest for this event subscription
                 <hr>
                 <div class="form-group">
-                <label class="form-label">id</label>
-                <input class="form-control" type="text" th:field="*{eventList[__${e_stat.index}__].networkAreaId}"
-                       th:value="${e.getNetworkAreaId()}"
-                       pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$">
+                    <label class="form-label">id</label>
+                    <input class="form-control" type="text" th:field="*{eventList[__${e_stat.index}__].networkAreaId}"
+                           th:value="${e.getNetworkAreaId()}"
+                           pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89aAbB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$">
                 </div>
                 <br>
                 <ul>
                     Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be present
                     if the Area of Interest subscribed is a list of EUTRAN cell Ids.
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addEcgis,'+${e_stat.index}">Add Ecgis
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addEcgis,'+${e_stat.index}">Add Ecgis
                     </button>
                     <li th:each="a,a_stat: ${e.getNetworkAreaList(0)}">
                         <div class="form-group">
-                        <label class="form-label">mcc</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][0]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,0)}"
-                               pattern="([0-9]){3}">
+                            <label class="form-label">mcc</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][0]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,0)}"
+                                   pattern="([0-9]){3}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">mnc</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][1]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,1)}"
-                               pattern="([0-9]){3}">
+                            <label class="form-label">mnc</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][1]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,1)}"
+                                   pattern="([0-9]){3}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">eutraCellId</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][2]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,2)}"
-                               pattern="^[A-Fa-f0-9]{7}$">
+                            <label class="form-label">eutraCellId</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][2]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,2)}"
+                                   pattern="^[A-Fa-f0-9]{7}$">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">nid</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][3]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,3)}"
-                               pattern="([A-Za-z0-9]){11}">
+                            <label class="form-label">nid</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[0][__${a_stat.index}__][3]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(0,__${a_stat.index}__,3)}"
+                                   pattern="([A-Za-z0-9]){11}">
                         </div>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeEcgis,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             Ecgis
                         </button>
@@ -1017,38 +1067,40 @@
                 <ul>
                     Ncgis - Represents the list of NR cell Ids that constitutes the area. This IE shall be present if
                     the Area of Interest subscribed is a list of NR cell Ids.
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addNcgis,'+${e_stat.index}">Add Ncgis
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addNcgis,'+${e_stat.index}">Add Ncgis
                     </button>
                     <li th:each="a,a_stat: ${e.getNetworkAreaList(1)}">
                         <div class="form-group">
-                        <label class="form-label">mcc</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][0]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,0)}"
-                               pattern="([0-9]){3}">
+                            <label class="form-label">mcc</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][0]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,0)}"
+                                   pattern="([0-9]){3}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">mnc</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][1]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,1)}"
-                               pattern="([0-9]){3}">
+                            <label class="form-label">mnc</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][1]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,1)}"
+                                   pattern="([0-9]){3}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">nrCellId</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][2]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,2)}"
-                               pattern="^[A-Fa-f0-9]{9}$">
+                            <label class="form-label">nrCellId</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][2]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,2)}"
+                                   pattern="^[A-Fa-f0-9]{9}$">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">nid</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][3]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,3)}"
-                               pattern="([A-Za-z0-9]){11}">
+                            <label class="form-label">nid</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[1][__${a_stat.index}__][3]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(1,__${a_stat.index}__,3)}"
+                                   pattern="([A-Za-z0-9]){11}">
                         </div>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'addNcgis,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove Ncgis
                         </button>
                     </li>
@@ -1057,81 +1109,83 @@
                 <ul>
                     GRanNodeIds - Represents the list of NG RAN node identifiers that constitutes the area. This IE
                     shall be present if the Area of Interest subscribed is a list of NG RAN node identifiers.
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addGRanNodeIds,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addGRanNodeIds,'+${e_stat.index}">Add
                         GRanNodeIds
                     </button>
                     <li th:each="a,a_stat: ${e.getNetworkAreaList(2)}">
                         <div class="form-group">
-                        <label class="form-label">mcc</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][0]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,0)}"
-                               pattern="([0-9]){3}">
+                            <label class="form-label">mcc</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][0]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,0)}"
+                                   pattern="([0-9]){3}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">mnc</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][1]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,1)}"
-                               pattern="([0-9]){3}">
+                            <label class="form-label">mnc</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][1]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,1)}"
+                                   pattern="([0-9]){3}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">n3IwfId</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][2]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,2)}"
-                               pattern="^[A-Fa-f0-9]+$">
+                            <label class="form-label">n3IwfId</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][2]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,2)}"
+                                   pattern="^[A-Fa-f0-9]+$">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">ngeNbId</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][3]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,3)}"
-                               pattern="^(MacroNGeNB-[A-Fa-f0-9]{5}|LMacroNGeNB-[A-Fa-f0-9]{6}|SMacroNGeNB-[A-Fa-f0-9]{5})$">
+                            <label class="form-label">ngeNbId</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][3]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,3)}"
+                                   pattern="^(MacroNGeNB-[A-Fa-f0-9]{5}|LMacroNGeNB-[A-Fa-f0-9]{6}|SMacroNGeNB-[A-Fa-f0-9]{5})$">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">wagfId</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][4]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,4)}"
-                               pattern="^[A-Fa-f0-9]+$">
+                            <label class="form-label">wagfId</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][4]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,4)}"
+                                   pattern="^[A-Fa-f0-9]+$">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">tngfId</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][5]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,5)}"
-                               pattern="^[A-Fa-f0-9]+$">
+                            <label class="form-label">tngfId</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][5]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,5)}"
+                                   pattern="^[A-Fa-f0-9]+$">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">nid</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][6]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,6)}"
-                               pattern="([A-Za-z0-9]){11}">
+                            <label class="form-label">nid</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][6]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,6)}"
+                                   pattern="([A-Za-z0-9]){11}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">eNbId</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][7]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,7)}"
-                               pattern="^(MacroeNB-[A-Fa-f0-9]{5}|LMacroeNB-[A-Fa-f0-9]{6}|SMacroeNB-[A-Fa-f0-9]{5}|HomeeNB-[A-Fa-f0-9]{7})$">
+                            <label class="form-label">eNbId</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][7]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,7)}"
+                                   pattern="^(MacroeNB-[A-Fa-f0-9]{5}|LMacroeNB-[A-Fa-f0-9]{6}|SMacroeNB-[A-Fa-f0-9]{5}|HomeeNB-[A-Fa-f0-9]{7})$">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">gNbId-bitLength</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][8]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,8)}"
-                               pattern="2[2-9]|3[0-2]">
+                            <label class="form-label">gNbId-bitLength</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][8]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,8)}"
+                                   pattern="2[2-9]|3[0-2]">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">gNBValue</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][9]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,9)}"
-                               pattern="^[A-Fa-f0-9]{6,8}$">
+                            <label class="form-label">gNBValue</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[2][__${a_stat.index}__][9]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(2,__${a_stat.index}__,9)}"
+                                   pattern="^[A-Fa-f0-9]{6,8}$">
                         </div>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeGRanNodeIds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove GRanNodeIds
                         </button>
@@ -1140,38 +1194,40 @@
                 <br>
                 <ul>
                     Tais - List of Tracking Area Ids
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addTais,'+${e_stat.index}">Add Tais
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addTais,'+${e_stat.index}">Add Tais
                     </button>
                     <li th:each="a,a_stat: ${e.getNetworkAreaList(3)}">
                         <div class="form-group">
-                        <label class="form-label">mcc</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][0]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,0)}"
-                               pattern="([0-9]){3}">
+                            <label class="form-label">mcc</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][0]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,0)}"
+                                   pattern="([0-9]){3}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">mnc</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][1]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,1)}"
-                               pattern="([0-9]){3}">
+                            <label class="form-label">mnc</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][1]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,1)}"
+                                   pattern="([0-9]){3}">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">tac</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][2]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,2)}"
-                               pattern="(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)">
+                            <label class="form-label">tac</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][2]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,2)}"
+                                   pattern="(^[A-Fa-f0-9]{4}$)|(^[A-Fa-f0-9]{6}$)">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">nid</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][3]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,3)}"
-                               pattern="([A-Za-z0-9]){11}">
+                            <label class="form-label">nid</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].networkArea[3][__${a_stat.index}__][3]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNetworkArea(3,__${a_stat.index}__,3)}"
+                                   pattern="([A-Za-z0-9]){11}">
                         </div>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeTais,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             Tais
                         </button>
@@ -1185,51 +1241,57 @@
                 for each S-NSSAI.
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addNsiIdInfos,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addNsiIdInfos,'+${e_stat.index}">Add
                         NsiIdInfos
                     </button>
                     <li th:each="a,a_stat: ${e.getNsiIdInfos()}">
                         <div class="form-group">
-                        <label class="form-label">sst(0-255) - indicates the expected Network Slice behaviour in terms
-                            of features and
-                            services</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].nsiIdInfos[__${a_stat.index}__][0][0]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNsiIdInfos(__${a_stat.index}__,0)}"
-                               pattern="^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$">
+                            <label class="form-label">sst(0-255) - indicates the expected Network Slice behaviour in
+                                terms
+                                of features and
+                                services</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].nsiIdInfos[__${a_stat.index}__][0][0]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNsiIdInfos(__${a_stat.index}__,0)}"
+                                   pattern="^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$">
                         </div>
                         <br>
                         <div class="form-group">
-                        <label class="form-label">sd(6 hex digits) - This is an optional parameter that complements the
-                            Slice/Service
-                            type(s) to allow to differentiate amongst multiple Network Slices of the same Slice/Service
-                            type. This IE shall be absent if no SD value is associated with the SST.</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].nsiIdInfos[__${a_stat.index}__][0][1]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNsiIdInfos(__${a_stat.index}__,1)}"
-                               pattern="^[A-Fa-f0-9]{6}$">
+                            <label class="form-label">sd(6 hex digits) - This is an optional parameter that complements
+                                the
+                                Slice/Service
+                                type(s) to allow to differentiate amongst multiple Network Slices of the same
+                                Slice/Service
+                                type. This IE shall be absent if no SD value is associated with the SST.</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].nsiIdInfos[__${a_stat.index}__][0][1]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNsiIdInfos(__${a_stat.index}__,1)}"
+                                   pattern="^[A-Fa-f0-9]{6}$">
                         </div>
                         <br>
                         List of nsi ids
                         <ul>
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addNsiId,'+${e_stat.index}+','+${a_stat.index}">Add NsiId
                             </button>
                             <li th:each="i,i_stat: ${e.getNsiIdInfosList(__${a_stat.index}__)}">
                                 <div class="form-group">
-                                <label class="form-label">nsi id</label>
-                                <input class="form-control" type="text"
-                                       th:field="*{eventList[__${e_stat.index}__].nsiIdInfos[__${a_stat.index}__][1][__${i_stat.index}__]}"
-                                       th:value="*{eventList[__${e_stat.index}__].getNsiIdInfosItem(__${a_stat.index}__,__${i_stat.index}__)}">
+                                    <label class="form-label">nsi id</label>
+                                    <input class="form-control" type="text"
+                                           th:field="*{eventList[__${e_stat.index}__].nsiIdInfos[__${a_stat.index}__][1][__${i_stat.index}__]}"
+                                           th:value="*{eventList[__${e_stat.index}__].getNsiIdInfosItem(__${a_stat.index}__,__${i_stat.index}__)}">
                                 </div>
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="removeNsiId"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="removeNsiId"
                                         th:value="${e_stat.index}+','+${a_stat.index}+','+${i_stat.index}"
                                         th:text="Remove">Remove NsiId
                                 </button>
                             </li>
                         </ul>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeNsiIdInfos,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove NsiIdInfos
                         </button>
@@ -1240,14 +1302,16 @@
                 NsiLevelThrds - Identifies the load threshold for each S-NSSAI or S-NSSAI and the optionally associated
                 network slice instance identified by the "nsiIds" attribute
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addNsiLevelThrds,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addNsiLevelThrds,'+${e_stat.index}">Add
                         NsiLevelThrds
                     </button>
                     <li th:each="a,a_stat: ${e.getNsiLevelThrds()}">
                         <input class="form-control" type="number"
                                th:field="*{eventList[__${e_stat.index}__].nsiLevelThrds[__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getNsiLevelThrds(__${a_stat.index}__)}">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeNsiLevelThrds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove NsiLevelThrds
                         </button>
@@ -1258,40 +1322,44 @@
                 QosFlowRetThds - Represents the QoS flow retainability thresholds. Shall be supplied for the 5QI ("5qi"
                 in "qosRequ") or resource type ("resType" in "qosRequ") of GBR resource type
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addQosFlowRetThds,'+${e_stat.index}">
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addQosFlowRetThds,'+${e_stat.index}">
                         Add QosFlowRetThds
                     </button>
                     <li th:each="a,a_stat: ${e.getQosFlowRetThds()}">
                         <div class="form-group">
-                        <label class="form-label">relFlowNum - Represents the number of abnormally released QoS
-                            flows.</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].qosFlowRetThds[__${a_stat.index}__][0]}"
-                               th:value="*{eventList[__${e_stat.index}__].getQosFlowRetThds(__${a_stat.index}__,0)}"
-                               pattern="^[1-9]\d*$">
+                            <label class="form-label">relFlowNum - Represents the number of abnormally released QoS
+                                flows.</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].qosFlowRetThds[__${a_stat.index}__][0]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getQosFlowRetThds(__${a_stat.index}__,0)}"
+                                   pattern="^[1-9]\d*$">
                         </div>
                         <div class="form-group">
-                        <label class="form-label">relTimeUnit - Represents the unit for the session active time, shall
-                            be present if
-                            relFlowNum is present. </label>
-                        <select class="form-select"
-                                th:field="*{eventList[__${e_stat.index}__].qosFlowRetThds[__${a_stat.index}__][1]}"
-                                th:value="*{eventList[__${e_stat.index}__].getQosFlowRetThds(__${a_stat.index}__,1)}">
-                            <option th:each="type : ${T(io.nwdaf.eventsubscription.model.TimeUnit.TimeUnitEnum).values()}"
-                                    th:value="${type.toString()}"
-                                    th:text="${type.toString()}"></option>
-                        </select>
+                            <label class="form-label">relTimeUnit - Represents the unit for the session active time,
+                                shall
+                                be present if
+                                relFlowNum is present. </label>
+                            <select class="form-select"
+                                    th:field="*{eventList[__${e_stat.index}__].qosFlowRetThds[__${a_stat.index}__][1]}"
+                                    th:value="*{eventList[__${e_stat.index}__].getQosFlowRetThds(__${a_stat.index}__,1)}">
+                                <option th:each="type : ${T(io.nwdaf.eventsubscription.model.TimeUnit.TimeUnitEnum).values()}"
+                                        th:value="${type.toString()}"
+                                        th:text="${type.toString()}"></option>
+                            </select>
                         </div>
                         <div class="form-group">
-                        <label class="form-label">relFlowRatio(0-100) - Represents the ratio of abnormally released QoS
-                            flows to the total
-                            released QoS flows, expressed in percentage.</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].qosFlowRetThds[__${a_stat.index}__][2]}"
-                               th:value="*{eventList[__${e_stat.index}__].getQosFlowRetThds(__${a_stat.index}__,2)}"
-                               pattern="^(?:100|[1-9]\d|\d)$">
+                            <label class="form-label">relFlowRatio(0-100) - Represents the ratio of abnormally released
+                                QoS
+                                flows to the total
+                                released QoS flows, expressed in percentage.</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].qosFlowRetThds[__${a_stat.index}__][2]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getQosFlowRetThds(__${a_stat.index}__,2)}"
+                                   pattern="^(?:100|[1-9]\d|\d)$">
                         </div>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeQosFlowRetThds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove QosFlowRetThds
                         </button>
@@ -1302,7 +1370,8 @@
                 RanUeThrouThds - Represents the RAN UE throughput thresholds. Shall be supplied for the 5QI ("5qi" in
                 "qosRequ") or resource type ("resType" in "qosRequ") of non-GBR resource type.
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addRanUeThrouThds,'+${e_stat.index}">
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addRanUeThrouThds,'+${e_stat.index}">
                         Add RanUeThrouThds
                     </button>
                     <li th:each="a,a_stat: ${e.getRanUeThrouThds()}">
@@ -1310,7 +1379,8 @@
                                th:field="*{eventList[__${e_stat.index}__].ranUeThrouThds[__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getRanUeThrouThds(__${a_stat.index}__)}"
                                pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$">
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeRanUeThrouThds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove RanUeThrouThds
                         </button>
@@ -1320,33 +1390,38 @@
             <div th:if="${e.getShowSnssaia()==true && e.getEvent()!=null && (!e.getEvent().toString().equals('NETWORK_PERFORMANCE')) && (!e.getEvent().toString().equals('UE_MOBILITY')) && (!e.getEvent().toString().equals('NSI_LOAD_LEVEL')) && (!e.getEvent().toString().equals('SERVICE_EXPERIENCE'))}">
                 Snssaia - Identification(s) of network slice to which the subscription applies.
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addSnssaia,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addSnssaia,'+${e_stat.index}">Add
                         Snssaia
                     </button>
                     <li th:each="a,a_stat: ${e.getSnssaia()}">
                         <div class="form-group">
-                        <label class="form-label">sst(0-255) - indicates the expected Network Slice behaviour in terms
-                            of features and
-                            services</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].snssaia[__${a_stat.index}__][0]}"
-                               th:value="*{eventList[__${e_stat.index}__].getSnssaia(__${a_stat.index}__,0)}"
-                               pattern="^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$">
+                            <label class="form-label">sst(0-255) - indicates the expected Network Slice behaviour in
+                                terms
+                                of features and
+                                services</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].snssaia[__${a_stat.index}__][0]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getSnssaia(__${a_stat.index}__,0)}"
+                                   pattern="^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$">
                         </div>
                         <br>
                         <div class="form-group">
-                        <label class="form-label">sd(6 hex digits) - This is an optional parameter that complements the
-                            Slice/Service
-                            type(s) to allow to differentiate amongst multiple Network Slices of the same Slice/Service
-                            type. This IE shall be absent if no SD value is associated with the SST.</label>
-                        <br>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].snssaia[__${a_stat.index}__][1]}"
-                               th:value="*{eventList[__${e_stat.index}__].getSnssaia(__${a_stat.index}__,1)}"
-                               pattern="^[A-Fa-f0-9]{6}$">
+                            <label class="form-label">sd(6 hex digits) - This is an optional parameter that complements
+                                the
+                                Slice/Service
+                                type(s) to allow to differentiate amongst multiple Network Slices of the same
+                                Slice/Service
+                                type. This IE shall be absent if no SD value is associated with the SST.</label>
+                            <br>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].snssaia[__${a_stat.index}__][1]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getSnssaia(__${a_stat.index}__,1)}"
+                                   pattern="^[A-Fa-f0-9]{6}$">
                         </div>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeSnssaia,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             Snssaia
                         </button>
@@ -1356,17 +1431,19 @@
             <div th:if="${e.getShowCongThresholds() && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('USER_DATA_CONGESTION') && ((nnwdafEventsSubscription.getNotificationMethod()==null && e.getNotificationMethod()==null) || (nnwdafEventsSubscription.getNotificationMethod()==null && e.getNotificationMethod()!=null && e.getNotificationMethod().equals('THRESHOLD')) || (nnwdafEventsSubscription.getNotificationMethod()!=null && nnwdafEventsSubscription.getNotificationMethod().equals('THRESHOLD')))}">
                 CongThresholds - Represents the congestion threshold levels.
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addCongThresholds,'+${e_stat.index}">
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addCongThresholds,'+${e_stat.index}">
                         Add CongThresholds
                     </button>
                     <li th:each="a,a_stat: ${e.getCongThresholds()}">
                         <div class="form-group">
-                        <label class="form-label">CongLevel - Value of Congestion that triggers notification</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].congThresholds[__${a_stat.index}__][0]}"
-                               th:value="*{eventList[__${e_stat.index}__].getCongThresholds(__${a_stat.index}__,0)}">
+                            <label class="form-label">CongLevel - Value of Congestion that triggers notification</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].congThresholds[__${a_stat.index}__][0]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getCongThresholds(__${a_stat.index}__,0)}">
                         </div>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeCongThresholds,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove CongThresholds
                         </button>
@@ -1376,38 +1453,41 @@
             <div th:if="${e.getShowNwPerfRequs() && e.getEvent()!=null && e.getEvent().toString().equals('NETWORK_PERFORMANCE') && e.getAppIds()!=null && e.getShowAppIds()}">
                 NwPerfRequs - Represents the network performance requirements.
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addNwPerfRequs,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addNwPerfRequs,'+${e_stat.index}">Add
                         NwPerfRequs
                     </button>
                     <li th:each="a,a_stat: ${e.getNwPerfRequs()}">
                         <div class="form-group">
-                        <label class="form-label">nwPerfType - The type of the network performance.</label>
-                        <select class="form-select"
-                                th:field="*{eventList[__${e_stat.index}__].nwPerfRequs[__${a_stat.index}__][0]}"
-                                th:value="*{eventList[__${e_stat.index}__].getNwPerfRequs(__${a_stat.index}__,0)}">
-                            <option th:each="type : ${T(io.nwdaf.eventsubscription.model.NetworkPerfType.NetworkPerfTypeEnum).values()}"
-                                    th:value="${type.toString()}"
-                                    th:text="${type.toString()}"></option>
-                        </select>
+                            <label class="form-label">nwPerfType - The type of the network performance.</label>
+                            <select class="form-select"
+                                    th:field="*{eventList[__${e_stat.index}__].nwPerfRequs[__${a_stat.index}__][0]}"
+                                    th:value="*{eventList[__${e_stat.index}__].getNwPerfRequs(__${a_stat.index}__,0)}">
+                                <option th:each="type : ${T(io.nwdaf.eventsubscription.model.NetworkPerfType.NetworkPerfTypeEnum).values()}"
+                                        th:value="${type.toString()}"
+                                        th:text="${type.toString()}"></option>
+                            </select>
                         </div>
                         <br>
                         <div class="form-group">
-                        <label class="form-label">relativeRatio - The relative ratio expressed in percentage. </label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].nwPerfRequs[__${a_stat.index}__][1]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNwPerfRequs(__${a_stat.index}__,1)}"
-                               pattern="^(?:100|[1-9]\d|\d)$">
+                            <label class="form-label">relativeRatio - The relative ratio expressed in
+                                percentage. </label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].nwPerfRequs[__${a_stat.index}__][1]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNwPerfRequs(__${a_stat.index}__,1)}"
+                                   pattern="^(?:100|[1-9]\d|\d)$">
                         </div>
                         <br>
                         <div class="form-group">
-                        <label class="form-label">absoluteNum - The absolute number.</label>
-                        <input class="form-control" type="text"
-                               th:field="*{eventList[__${e_stat.index}__].nwPerfRequs[__${a_stat.index}__][2]}"
-                               th:value="*{eventList[__${e_stat.index}__].getNwPerfRequs(__${a_stat.index}__,2)}"
-                               pattern="^(?:0|[1-9]\d*)$">
+                            <label class="form-label">absoluteNum - The absolute number.</label>
+                            <input class="form-control" type="text"
+                                   th:field="*{eventList[__${e_stat.index}__].nwPerfRequs[__${a_stat.index}__][2]}"
+                                   th:value="*{eventList[__${e_stat.index}__].getNwPerfRequs(__${a_stat.index}__,2)}"
+                                   pattern="^(?:0|[1-9]\d*)$">
                         </div>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove NwPerfRequs
                         </button>
                     </li>
@@ -1416,7 +1496,8 @@
             <div th:if="${e.getShowBwRequs() && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('SERVICE_EXPERIENCE')}">
                 BwRequs - Represents the bandwidth requirement for each application.
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addBwRequs,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addBwRequs,'+${e_stat.index}">Add
                         BwRequs
                     </button>
                     <li th:each="a,a_stat: ${e.getBwRequs()}">
@@ -1449,7 +1530,8 @@
                                th:value="*{eventList[__${e_stat.index}__].getBwRequs(__${a_stat.index}__,4)}"
                                pattern="^\d+(\.\d+)?(bps|Kbps|Mbps|Gbps|Tbps)$">
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeBwRequs,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             BwRequs
                         </button>
@@ -1459,7 +1541,8 @@
             <div th:if="${e.getShowExcepRequs() && e.getEvent()!=null && e.getEvent().toString().equals('ABNORMAL_BEHAVIOUR') && e.getExptAnaType()==null && (!e.getShowExptAnaType()) }">
                 ExcepRequs - Represents a list of Exception Ids with associated thresholds.
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addExcepRequs,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addExcepRequs,'+${e_stat.index}">Add
                         ExcepRequs
                     </button>
                     <li th:each="a,a_stat: ${e.getExcepRequs()}">
@@ -1485,7 +1568,8 @@
                             th:text="${type.toString()}"></option>
                         </select> -->
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeExcepRequs,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove ExcepRequs
                         </button>
@@ -1495,7 +1579,8 @@
             <div th:if="${e.getShowListOfAnaSubsets() && e.getShowOptionals()}">
                 ListOfAnaSubsets - The list of analytics subsets can be used to indicate the content of the analytics.
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addListOfAnaSubsets,'+${e_stat.index}">
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addListOfAnaSubsets,'+${e_stat.index}">
                         Add ListOfAnaSubsets
                     </button>
                     <li th:each="a,a_stat: ${e.getListOfAnaSubsets()}">
@@ -1507,7 +1592,8 @@
                                     th:text="${type.toString()}"></option>
                         </select>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeListOfAnaSubsets,'+${e_stat.index}+','+${a_stat.index}"
                                 th:text="Remove">Remove ListOfAnaSubsets
                         </button>
@@ -1517,7 +1603,8 @@
             <div th:if="${e.getShowRedTransReqs() && e.getShowOptionals() && e.getEvent()!=null && e.getEvent().toString().equals('RED_TRANS_EXP')}">
                 RedTransReqs - Represents the redundant transmission experience analytics requirements.
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addRedTransReqs,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addRedTransReqs,'+${e_stat.index}">Add
                         RedTransReqs
                     </button>
                     <li th:each="a,a_stat: ${e.getRedTransReqs()}">
@@ -1543,7 +1630,8 @@
                                     th:text="${type.toString()}"></option>
                         </select>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeRedTransReqs,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove RedTransReqs
                         </button>
@@ -1554,7 +1642,8 @@
                 AppServerAddrs - Each element represents the Application Server Instance (IP address/FQDN of the
                 Application Server) - Required for analytics of edge application over UP path.
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addAppServerAddrs,'+${e_stat.index}">
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addAppServerAddrs,'+${e_stat.index}">
                         Add AppServerAddrs
                     </button>
                     <li th:each="a,a_stat: ${e.getAppServerAddrs()}">
@@ -1582,7 +1671,8 @@
                                th:value="*{eventList[__${e_stat.index}__].getAppServerAddrs(__${a_stat.index}__,3)}"
                                pattern="^([0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?\.)+[A-Zaz]{2,63}\.?$">
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeAppServerAddrs,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">
                             Remove AppServerAddrs
                         </button>
@@ -1668,7 +1758,7 @@
                 subscriptiont applies.
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action"
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action"
                             th:if="*{!((eventList[__${e_stat.index}__].getRatFreqs()!=null) && (eventList[__${e_stat.index}__].getRatFreqs().size()==1) && (eventList[__${e_stat.index}__].getRatFreqs(0,0)!=null && eventList[__${e_stat.index}__].getRatFreqs(0,0).equalsIgnoreCase('TRUE')) && (eventList[__${e_stat.index}__].getRatFreqs(0,1)!=null && eventList[__${e_stat.index}__].getRatFreqs(0,1).equalsIgnoreCase('TRUE')))}"
                             th:text="Add" th:value="'addRatFreqs,'+${e_stat.index}">Add RatFreqs
                     </button>
@@ -1720,7 +1810,8 @@
                                th:value="*{eventList[__${e_stat.index}__].getRatFreqsItem(__${a_stat.index}__,10)}"
                                pattern="^[1-5]{1}$">
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeRatFreqs,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             RatFreqs
                         </button>
@@ -1731,7 +1822,8 @@
                 WlanReqs - Represents other WLAN performance analytics requirements.
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addWlanReqs,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addWlanReqs,'+${e_stat.index}">Add
                         WlanReqs
                     </button>
                     <li th:each="a,a_stat: ${e.getWlanReqs()}">
@@ -1739,7 +1831,7 @@
                             SsIds - SSIDs of WLAN access points (Service set identifiers).
                             <br>
                             <ul>
-                                <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="addSsIds" th:text="Add"
+                                <button class="btn btn-secondary mb-2  mt-2" type="submit" name="addSsIds" th:text="Add"
                                         th:value="${e_stat.index}+','+${a_stat.index}">Add SsIds
                                 </button>
                                 <li th:each="i,i_stat: ${e.getWlanReqsList(__${a_stat.index}__)}">
@@ -1747,7 +1839,8 @@
                                            th:field="*{eventList[__${e_stat.index}__].WlanReqs[__${a_stat.index}__][1][__${i_stat.index}__]}"
                                            th:value="*{eventList[__${e_stat.index}__].getWlanReqsItem(__${a_stat.index}__,__${i_stat.index}__)}"
                                            pattern="^(?:[\s\S]{0,32})$">
-                                    <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                    <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                            name="action"
                                             th:value="'removeSsIds,'+${e_stat.index}+','+__${a_stat.index}__+','+${i_stat.index}"
                                             th:text="Remove">Remove SsIds
                                     </button>
@@ -1758,7 +1851,7 @@
                             BssIds - BSSIDs of WLAN access points (Basic service set identifiers).
                             <br>
                             <ul>
-                                <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                                <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                         th:value="'addBssIds,'+${e_stat.index}+','+${a_stat.index}">Add BssIds
                                 </button>
                                 <li th:each="i,i_stat: ${e.getWlanReqsList2(__${a_stat.index}__)}">
@@ -1766,7 +1859,8 @@
                                            th:field="*{eventList[__${e_stat.index}__].WlanReqs[__${a_stat.index}__][2][__${i_stat.index}__]}"
                                            th:value="*{eventList[__${e_stat.index}__].getWlanReqsItem2(__${a_stat.index}__,__${i_stat.index}__)}"
                                            pattern="^(?i)([0-9a-f]{2}[:-]){5}[0-9a-f]{2}$">
-                                    <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                    <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                            name="action"
                                             th:value="'removeBssIds,'+${e_stat.index}+','+__${a_stat.index}__+','+${i_stat.index}"
                                             th:text="Remove">Remove BssIds
                                     </button>
@@ -1794,7 +1888,8 @@
                                     th:value="${type.toString()}" th:text="${type.toString()}"></option>
                         </select>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeWlanReqs,'+${e_stat.index}+','+${a_stat.index}" th:text="Remove">Remove
                             WlanReqs
                         </button>
@@ -1806,7 +1901,8 @@
                 of the Visited Area(s) of Interest - Only for statistics (past target period , no predictions)
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addVisitedAreas,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addVisitedAreas,'+${e_stat.index}">Add
                         VisitedAreas
                     </button>
                     <li th:each="i,i_stat: ${e.getVisitedAreas()}">
@@ -1819,7 +1915,8 @@
                         <ul>
                             Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be
                             present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="addVisitedAreasEcgis" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="addVisitedAreasEcgis"
+                                    th:text="Add"
                                     th:value="${e_stat.index}+','+${i_stat.index}">Add Ecgis
                             </button>
                             <li th:each="a,a_stat: ${e.getVisitedAreasList(__${i_stat.index}__,0)}">
@@ -1843,7 +1940,8 @@
                                        th:field="*{eventList[__${e_stat.index}__].VisitedAreas[__${i_stat.index}__][0][__${a_stat.index}__][3]}"
                                        th:value="*{eventList[__${e_stat.index}__].getVisitedAreas(__${i_stat.index}__,0,__${a_stat.index}__,3)}"
                                        pattern="([A-Za-z0-9]){11}">
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeVisitedAreasEcgis,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove Ecgis
                                 </button>
@@ -1853,7 +1951,7 @@
                         <ul>
                             Ncgis - Represents the list of NR cell Ids that constitutes the area. This IE shall be
                             present if the Area of Interest subscribed is a list of NR cell Ids.
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addVisitedAreasNcgis,'+${e_stat.index}+','+${i_stat.index}">Add Ncgis
                             </button>
                             <li th:each="a,a_stat: ${e.getVisitedAreasList(__${i_stat.index}__,1)}">
@@ -1877,7 +1975,8 @@
                                        th:field="*{eventList[__${e_stat.index}__].VisitedAreas[__${i_stat.index}__][1][__${a_stat.index}__][3]}"
                                        th:value="*{eventList[__${e_stat.index}__].getVisitedAreas(__${i_stat.index}__,1,__${a_stat.index}__,3)}"
                                        pattern="([A-Za-z0-9]){11}">
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeVisitedAreasNcgis,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove Ncgis
                                 </button>
@@ -1887,7 +1986,7 @@
                         <ul>
                             GRanNodeIds - Represents the list of NG RAN node identifiers that constitutes the area. This
                             IE shall be present if the Area of Interest subscribed is a list of NG RAN node identifiers.
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addVisitedAreasGRanNodeIds,'+${e_stat.index}+','+${i_stat.index}">Add
                                 GRanNodeIds
                             </button>
@@ -1942,7 +2041,8 @@
                                        th:field="*{eventList[__${e_stat.index}__].VisitedAreas[__${i_stat.index}__][2][__${a_stat.index}__][9]}"
                                        th:value="*{eventList[__${e_stat.index}__].getVisitedAreas(__${i_stat.index}__,2,__${a_stat.index}__,9)}"
                                        pattern="^[A-Fa-f0-9]{6,8}$">
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeVisitedAreasGRanNodeIds,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove GRanNodeIds
                                 </button>
@@ -1951,7 +2051,7 @@
                         <br>
                         <ul>
                             Tais - List of Tracking Area Ids
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addVisitedAreasTais,'+${e_stat.index}+','+${i_stat.index}">Add Tais
                             </button>
                             <li th:each="a,a_stat: ${e.getVisitedAreasList(__${i_stat.index}__,3)}">
@@ -1975,7 +2075,8 @@
                                        th:field="*{eventList[__${e_stat.index}__].VisitedAreas[__${i_stat.index}__][3][__${a_stat.index}__][3]}"
                                        th:value="*{eventList[__${e_stat.index}__].getVisitedAreas(__${i_stat.index}__,3,__${a_stat.index}__,3)}"
                                        pattern="([A-Za-z0-9]){11}">
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeVisitedAreasTais,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove Tais
                                 </button>
@@ -1983,7 +2084,8 @@
                         </ul>
                         <br>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${i_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${i_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeVisitedAreas,'+${e_stat.index}+','+${i_stat.index}" th:text="Remove">
                             Remove VisitedAreas
                         </button>
@@ -1994,7 +2096,8 @@
                 DisperReqs - Represents the dispersion analytics requirements.
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addDisperReqs,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addDisperReqs,'+${e_stat.index}">Add
                         DisperReqs
                     </button>
                     <li th:each="i,i_stat: ${e.getDisperReqs()}">
@@ -2029,7 +2132,7 @@
                         <ul>
                             ClassCriters - Indicates the dispersion mobility class criterion for fixed, camper and/or
                             traveller UE, and/or the top-heavy UE dispersion class criterion.
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addDisperReqsClassCriters,'+${e_stat.index}+','+${i_stat.index}">Add
                                 ClassCriters
                             </button>
@@ -2059,7 +2162,8 @@
                                             th:value="${type.toString()}" th:text="${type.toString()}"></option>
                                 </select>
                                 <br>
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeDisperReqsClassCriters,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove ClassCriters
                                 </button>
@@ -2069,7 +2173,7 @@
                         <ul>
                             RankCriters - Indicates the usage ranking criterion between the high, medium and low usage
                             UE.
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addDisperReqsRankCriters,'+${e_stat.index}+','+${i_stat.index}">Add
                                 RankCriters
                             </button>
@@ -2088,14 +2192,16 @@
                                        th:value="*{eventList[__${e_stat.index}__].getDisperReqs(__${i_stat.index}__,2,__${a_stat.index}__,1)}"
                                        pattern="\b(?:[1-9]|[1-9][0-9]|100)\b">
                                 <br>
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeDisperReqsRankCriters,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove RankCriters
                                 </button>
                             </li>
                         </ul>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${i_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${i_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeDisperReqs,'+${e_stat.index}+','+${i_stat.index}" th:text="Remove">
                             Remove DisperReqs
                         </button>
@@ -2106,7 +2212,8 @@
                 DnPerfReqs - Represents the DN performance analytics requirements.
                 <hr>
                 <ul>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add" th:value="'addDnPerfReqs,'+${e_stat.index}">Add
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
+                            th:value="'addDnPerfReqs,'+${e_stat.index}">Add
                         DnPerfReqs
                     </button>
                     <li th:each="i,i_stat: ${e.getDnPerfReqs()}">
@@ -2133,7 +2240,7 @@
                         <ul>
                             ReportThresholds - Each of the element represents the reporting threshold of an analytics
                             subset.
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addDnPerfReqsReportThresholds,'+${e_stat.index}+','+${i_stat.index}">Add
                                 ReportThresholds
                             </button>
@@ -2192,14 +2299,16 @@
                                 <input class="form-control"  type="text" th:field="*{eventList[__${e_stat.index}__].DnPerfReqs[__${i_stat.index}__][1][__${a_stat.index}__][10]}" th:value="*{eventList[__${e_stat.index}__].getDnPerfReqs(__${i_stat.index}__,1,__${a_stat.index}__,10)}">
                                 <br> -->
                                 <br>
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeDnPerfReqsReportThresholds,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove ReportThresholds
                                 </button>
                             </li>
                         </ul>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${i_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${i_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeDnPerfReqs,'+${e_stat.index}+','+${i_stat.index}" th:text="Remove">
                             Remove DnPerfReqs
                         </button>
@@ -2261,7 +2370,7 @@
                 communication
                 <ul>
                     DaysOfWeek - Identifies the day(s) of the week. If absent, it indicates every day of the week.
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                             th:value="'addExptUeBehavScheduledCommunicationTimeDaysOfWeek,'+${e_stat.index}">Add
                         ExptUeBehavScheduledCommunicationTimeDaysOfWeek
                     </button>
@@ -2270,7 +2379,8 @@
                                th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[1][0][0][0][0][__${a_stat.index}__]}"
                                th:value="*{eventList[__${e_stat.index}__].getExptUeBehavItem(1,0,0,0,0,__${a_stat.index}__)}"
                                pattern="[1-7]"></input>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeExptUeBehavScheduledCommunicationTimeDaysOfWeek,'+${e_stat.index}+','+${a_stat.index}"
                                 th:text="Remove">Remove ExptUeBehavScheduledCommunicationTimeDaysOfWeek
                         </button>
@@ -2314,7 +2424,7 @@
                     is only applicable in 5G. The first instance of the attribute represents the start of the location,
                     and the last one represents the stop of the location
                     <hr>
-                    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                             th:value="'addExptUeBehavExpectedUmts,'+${e_stat.index}">Add ExptUeBehavExpectedUmts
                     </button>
                     <li th:each="i,i_stat: ${e.getExptUeBehavListUmts(3)}">
@@ -2337,7 +2447,7 @@
                         <ul>
                             Ecgis - Represents the list of EUTRAN cell Ids that constitutes the area. This IE shall be
                             present if the Area of Interest subscribed is a list of EUTRAN cell Ids.
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addExptUeBehavEcgis,'+${e_stat.index}+','+${i_stat.index}">Add Ecgis
                             </button>
                             <li th:each="a,a_stat: ${e.getExptUeBehavList(__${i_stat.index}__,0,0)}">
@@ -2361,7 +2471,8 @@
                                        th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[3][__${i_stat.index}__][0][0][__${a_stat.index}__][3]}"
                                        th:value="*{eventList[__${e_stat.index}__].getExptUeBehavItem(3,__${i_stat.index}__,0,0,__${a_stat.index}__,3)}"
                                        pattern="([A-Za-z0-9]){11}">
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeExptUeBehavEcgis,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove Ecgis
                                 </button>
@@ -2371,7 +2482,7 @@
                         <ul>
                             Ncgis - Represents the list of NR cell Ids that constitutes the area. This IE shall be
                             present if the Area of Interest subscribed is a list of NR cell Ids.
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addExptUeBehavNcgis,'+${e_stat.index}+','+${i_stat.index}">Add Ncgis
                             </button>
                             <li th:each="a,a_stat: ${e.getExptUeBehavList(__${i_stat.index}__,0,1)}">
@@ -2395,7 +2506,8 @@
                                        th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[3][__${i_stat.index}__][0][1][__${a_stat.index}__][3]}"
                                        th:value="*{eventList[__${e_stat.index}__].getExptUeBehavItem(3,__${i_stat.index}__,0,1,__${a_stat.index}__,3)}"
                                        pattern="([A-Za-z0-9]){11}">
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeExptUeBehavNcgis,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove Ncgis
                                 </button>
@@ -2405,7 +2517,7 @@
                         <ul>
                             GRanNodeIds - Represents the list of NG RAN node identifiers that constitutes the area. This
                             IE shall be present if the Area of Interest subscribed is a list of NG RAN node identifiers.
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addExptUeBehavGRanNodeIds,'+${e_stat.index}+','+${i_stat.index}">Add
                                 GRanNodeIds
                             </button>
@@ -2460,7 +2572,8 @@
                                        th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[3][__${i_stat.index}__][0][2][__${a_stat.index}__][9]}"
                                        th:value="*{eventList[__${e_stat.index}__].getExptUeBehavItem(3,__${i_stat.index}__,0,2,__${a_stat.index}__,9)}"
                                        pattern="^[A-Fa-f0-9]{6,8}$">
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeExptUeBehavGRanNodeIds,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove GRanNodeIds
                                 </button>
@@ -2469,7 +2582,7 @@
                         <br>
                         <ul>
                             Tais - List of Tracking Area Ids
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addExptUeBehavTais,'+${e_stat.index}+','+${i_stat.index}">Add Tais
                             </button>
                             <li th:each="a,a_stat: ${e.getExptUeBehavList(__${i_stat.index}__,0,3)}">
@@ -2493,7 +2606,8 @@
                                        th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[3][__${i_stat.index}__][0][3][__${a_stat.index}__][3]}"
                                        th:value="*{eventList[__${e_stat.index}__].getExptUeBehavItem(3,__${i_stat.index}__,0,3,__${a_stat.index}__,3)}"
                                        pattern="([A-Za-z0-9]){11}">
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeExptUeBehavTais,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove Tais
                                 </button>
@@ -2501,7 +2615,7 @@
                         </ul>
                         GeographicalAreas - Identifies a list of geographic areas of the user where the UE is located.
                         <ul>
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addExptUeBehavGeographicalAreas,'+${e_stat.index}+','+${i_stat.index}">
                                 Add GeographicalAreas
                             </button>
@@ -2599,7 +2713,8 @@
                                 <div th:if="*{eventList[__${e_stat.index}__].getExptUeBehavItem(3,__${i_stat.index}__,2,__${a_stat.index}__,0,0)!=null && eventList[__${e_stat.index}__].getExptUeBehavItem(3,__${i_stat.index}__,2,__${a_stat.index}__,0,0).equals('POLYGON')}">
                                     Polygon - Geographical area consisting of a list of points (between 3 to 15 points).
                                     <ul>
-                                        <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                                        <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action"
+                                                th:text="Add"
                                                 th:value="'addExptUeBehavGeographicalAreasPolygon,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}">
                                             Add GeographicalAreasPolygon
                                         </button>
@@ -2616,7 +2731,8 @@
                                                    th:value="*{eventList[__${e_stat.index}__].getExptUeBehavItem(3,__${i_stat.index}__,2,__${a_stat.index}__,2,__${j_stat.index}__)}"
                                                    pattern="^-?((90(\.0{1,6})?)|((([0-8]\d|\d{1,1})(\.\d{1,6})?)))$">
                                             <br>
-                                            <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                            <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}"
+                                                    type="submit" name="action"
                                                     th:value="'removeExptUeBehavGeographicalAreasPolygon,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}+','+${j_stat.index}"
                                                     th:text="Remove">Remove GeographicalAreasPolygon
                                             </button>
@@ -2744,7 +2860,8 @@
                                     <br>
                                     <br>
                                 </div>
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeExptUeBehavGeographicalAreas,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove GeographicalAreas
                                 </button>
@@ -2753,7 +2870,7 @@
                         <br>
                         CivicAddresses - Identifies a list of civic addresses of the user where the UE is located.
                         <ul>
-                            <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:text="Add"
+                            <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:text="Add"
                                     th:value="'addExptUeBehavCivicAddresses,'+${e_stat.index}+','+${i_stat.index}">Add
                                 CivicAddresses
                             </button>
@@ -2936,14 +3053,16 @@
                                        th:field="*{eventList[__${e_stat.index}__].ExptUeBehav[3][__${i_stat.index}__][3][0][__${a_stat.index}__][33]}"
                                        th:value="*{eventList[__${e_stat.index}__].getExptUeBehavItem(3,__${i_stat.index}__,3,0,__${a_stat.index}__,33)}">
 
-                                <button class="btn btn-secondary mb-2  mt-2"  th:if="${a_stat != null}" type="submit" name="action"
+                                <button class="btn btn-secondary mb-2  mt-2" th:if="${a_stat != null}" type="submit"
+                                        name="action"
                                         th:value="'removeExptUeBehavCivicAddresses,'+${e_stat.index}+','+${i_stat.index}+','+${a_stat.index}"
                                         th:text="Remove">Remove CivicAddresses
                                 </button>
                             </li>
                         </ul>
                         <br>
-                        <button class="btn btn-secondary mb-2  mt-2"  th:if="${i_stat != null}" type="submit" name="action"
+                        <button class="btn btn-secondary mb-2  mt-2" th:if="${i_stat != null}" type="submit"
+                                name="action"
                                 th:value="'removeExptUeBehavExpectedUmts,'+${e_stat.index}+','+${i_stat.index}"
                                 th:text="Remove">Remove ExptUeBehavExpectedUmts
                         </button>
@@ -2951,7 +3070,7 @@
                 </ul>
                 <br>
             </div>
-            <button class="btn btn-secondary mb-2  mt-2 mb-4"  th:if="${e_stat != null}" type="submit" name="action"
+            <button class="btn btn-secondary mb-2  mt-2 mb-4" th:if="${e_stat != null}" type="submit" name="action"
                     th:value="'removeEventRow,'+${e_stat.index}" th:text="RemoveEvent">Remove Event
             </button>
         </li>
@@ -2964,7 +3083,9 @@
     <input class="form-check-input" type="checkbox" th:field="*{showNotifBody}" th:value="*{showNotifBody}"/>
     <label class="form-label">Show Result Body</label>
     <input class="form-check-input" type="checkbox" th:field="*{showResult}" th:value="*{showResult}"/>
-    <button class="btn btn-secondary mb-2  mt-2"  type="submit" name="action" th:value="'update,'" th:text="Update">Update shown fields</button>
+    <button class="btn btn-secondary mb-2  mt-2" type="submit" name="action" th:value="'update,'" th:text="Update">
+        Update shown fields
+    </button>
 </form>
 
 <div>
@@ -3078,6 +3199,11 @@
                                             &emsp;&emsp;globalGnbId:<span
                                                 th:text="${k.getLoc().getNrLocation().getGlobalGnbId()}"></span>
                                         </div>
+                                        <div th:if="${k.getLoc().getNrLocation().getGeographicalInformation()!=null}">
+                                            &emsp;&emsp;GeographicalInformation:<span
+                                                th:text="${k.getLoc().getNrLocation().getGeographicalInformation()}"></span>
+                                            <span th:text="${k.getLoc().getNrLocation().getPointUncertaintyCircle()}"></span>
+                                        </div>
                                         <br>
                                     </div>
                                     <div th:if="${k.getLoc().getN3gaLocation()!=null}">&emsp;n3gaLocation:
@@ -3114,6 +3240,14 @@
                                         <div th:if="${k.getLoc().getN3gaLocation().getGci()!=null}">
                                             &emsp;&emsp;gci:<span
                                                 th:text="${k.getLoc().getN3gaLocation().getGci()}"></span>
+                                        </div>
+                                        <div th:if="${k.getLoc().getN3gaLocation().getUeIpv4Addr()!=null}">
+                                            &emsp;&emsp;UeIpv4Addr:<span
+                                                th:text="${k.getLoc().getN3gaLocation().getUeIpv4Addr()}"></span>
+                                        </div>
+                                        <div th:if="${k.getLoc().getN3gaLocation().getUeIpv6Addr()!=null}">
+                                            &emsp;&emsp;UeIpv6Addr:<span
+                                                th:text="${k.getLoc().getN3gaLocation().getUeIpv6Addr()}"></span>
                                         </div>
                                         <br>
                                     </div>
