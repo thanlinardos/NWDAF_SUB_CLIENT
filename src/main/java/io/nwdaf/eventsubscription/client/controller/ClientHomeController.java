@@ -6,6 +6,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import io.nwdaf.eventsubscription.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -48,6 +50,7 @@ public class ClientHomeController {
     private final Map<Long, RequestSubscriptionModel> currentSubRequests = new HashMap<Long, RequestSubscriptionModel>();
     private final Map<String, NnwdafEventsSubscriptionNotification> currentSubNotifications = new HashMap<String, NnwdafEventsSubscriptionNotification>();
     private OffsetDateTime lastNotif = null;
+    private final Logger logger = LoggerFactory.getLogger(ClientHomeController.class);
 
 
     public ClientHomeController(@Value("${trust.store}") Resource trustStore, @Value("${trust.store.password}") String trustStorePassword, Environment env) {
@@ -125,8 +128,9 @@ public class ClientHomeController {
             notifications = new ArrayList<>();
             for (int i = 0; i < result.getEventSubscriptions().size(); i++) {
                 NnwdafEventsSubscriptionNotification notification = currentSubNotifications.get(id + "," + i);
-                fillNotificationWithGeographicalInfo(notification);
-                notifications.add(notification);
+                if(notification != null) {
+                    notifications.add(notification);
+                }
             }
             if (object == null) {
                 object = new RequestSubscriptionModel();

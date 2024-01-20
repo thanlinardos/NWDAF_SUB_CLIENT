@@ -116,6 +116,8 @@ import io.nwdaf.eventsubscription.utilities.ParserUtil;
 import io.nwdaf.eventsubscription.model.WlanPerformanceReq;
 import io.nwdaf.eventsubscription.model.Exception;
 
+import static io.nwdaf.eventsubscription.utilities.ParserUtil.safeParseDouble;
+
 
 public class CreateSubscriptionRequestBuilder {
 	
@@ -138,7 +140,7 @@ public class CreateSubscriptionRequestBuilder {
 			eventSub.matchingDir(new MatchingDirection().matchingDir(object.getMatchingDir()));
 		}
 		EventReportingRequirement extraRepReq = new EventReportingRequirement();
-		if(object.getOptionals().size()>0) {
+		if(!object.getOptionals().isEmpty()) {
 			extraRepReq.maxObjectNbr(ParserUtil.safeParseInteger(object.getOptionals().get(0)));
 			extraRepReq.maxSupiNbr(ParserUtil.safeParseInteger(object.getOptionals().get(1)));
 			extraRepReq.startTs(ParserUtil.safeParseOffsetDateTime(object.getOptionals().get(2)));
@@ -147,14 +149,14 @@ public class CreateSubscriptionRequestBuilder {
 			extraRepReq.timeAnaNeeded(ParserUtil.safeParseOffsetDateTime(object.getOptionals().get(5)));
 			extraRepReq.offsetPeriod(ParserUtil.safeParseInteger(object.getOptionals().get(6)));
 		}
-		if(object.getAnaMeta().size()>0) {
+		if(!object.getAnaMeta().isEmpty()) {
 			List<AnalyticsMetadata> l = new ArrayList<AnalyticsMetadata>();
 			for(int i =0;i<object.getAnaMeta().size();i++) {
 				l.add(new AnalyticsMetadata().anaMeta(AnalyticsMetadataEnum.fromValue(object.getAnaMeta().get(i))));
 			}
 			extraRepReq.anaMeta(l);
 		}
-		if(object.getAnaMetaInd().size()>0) {
+		if(!object.getAnaMetaInd().isEmpty()) {
 			AnalyticsMetadataIndication anametaind = new AnalyticsMetadataIndication();
 			TimeWindow tw = new TimeWindow();
 			tw.startTime(ParserUtil.safeParseOffsetDateTime(object.getAnaMetaInd().get(0) + ZonedDateTime.now().getOffset().getId()));
@@ -163,7 +165,7 @@ public class CreateSubscriptionRequestBuilder {
 				anametaind.dataWindow(tw);
 			}
 			
-			if(object.getDataStatProps().size()>0) {
+			if(!object.getDataStatProps().isEmpty()) {
 				for(int i=0;i<object.getDataStatProps().size();i++) {
 					anametaind.addDataStatPropsItem(new DatasetStatisticalProperty().dataStatProps(DatasetStatisticalPropertyEnum.fromValue(object.getDataStatProps().get(i))));
 				}
@@ -176,64 +178,64 @@ public class CreateSubscriptionRequestBuilder {
 			}
 			extraRepReq.anaMetaInd(anametaind);
 		}
-		if(object.getAccPerSubset().size()>0) {
+		if(!object.getAccPerSubset().isEmpty()) {
 			for(int i=0;i<object.getAccPerSubset().size();i++) {
 				extraRepReq.addAccPerSubsetItem(new Accuracy().accuracy(AccuracyEnum.fromValue(object.getAccPerSubset().get(i))));
 			}
 		}
-		if(object.getOptionals().size()>0 || object.getAnaMeta().size()>0 || object.getAnaMetaInd().size()>0 || object.getAccPerSubset().size()>0) {
+		if(!object.getOptionals().isEmpty() || !object.getAnaMeta().isEmpty() || !object.getAnaMetaInd().isEmpty() || !object.getAccPerSubset().isEmpty()) {
 			eventSub.extraReportReq(extraRepReq);
 		}
 		TargetUeInformation tgtUe = new TargetUeInformation();
-		if(object.getSupis().size()>0||object.getIntGroupIds().size()>0||object.getGpsis().size()>0) {
+		if(!object.getSupis().isEmpty() || !object.getIntGroupIds().isEmpty() || !object.getGpsis().isEmpty()) {
 			tgtUe.supis(object.getSupis()).intGroupIds(object.getIntGroupIds()).gpsis(object.getGpsis());
 		}
 
-		tgtUe.anyUe(ParserUtil.safeParseBoolean(object.getArgs().get(0)));
-		if(object.getSupis().size()>0||object.getIntGroupIds().size()>0||object.getArgs().get(0)!=null||object.getGpsis().size()>0) {
+		tgtUe.anyUe(ParserUtil.safeParseBoolean(object.getArgs().getFirst()));
+		if(!object.getSupis().isEmpty() || !object.getIntGroupIds().isEmpty() ||object.getArgs().getFirst()!=null|| !object.getGpsis().isEmpty()) {
 			eventSub.tgtUe(tgtUe);
 		}
-		if(object.getNfInstanceIds().size()>0) {
+		if(!object.getNfInstanceIds().isEmpty()) {
 			for(int i=0;i<object.getNfInstanceIds().size();i++) {
 				eventSub.addNfInstanceIdsItem(ParserUtil.safeParseUUID(object.getNfInstanceIds().get(i)));
 			}
 		}
-		if(object.getNfSetIds().size()>0) {
+		if(!object.getNfSetIds().isEmpty()) {
 			eventSub.nfSetIds(object.getNfSetIds());
 		}
-		if(object.getAppIds().size()>0) {
+		if(!object.getAppIds().isEmpty()) {
 			eventSub.appIds(object.getAppIds());
 		}
-		if(object.getDnns().size()>0) {
+		if(!object.getDnns().isEmpty()) {
 			eventSub.dnns(object.getDnns());
 		}
-		if(object.getDnais().size()>0) {
+		if(!object.getDnais().isEmpty()) {
 			eventSub.dnais(object.getDnais());
 		}
-		if(object.getLadnDnns().size()>0) {
+		if(!object.getLadnDnns().isEmpty()) {
 			eventSub.ladnDnns(object.getLadnDnns());
 		}
-		if(object.getNfTypes().size()>0) {
+		if(!object.getNfTypes().isEmpty()) {
 			for(int i=0;i<object.getNfTypes().size();i++) {
 				eventSub.addNfTypesItem(new NFType().nfType(NFTypeEnum.fromValue(object.getNfTypes().get(i))));
 			}
 		}
-		if(object.getNfLoadLvlThds().size()>0) {
+		if(!object.getNfLoadLvlThds().isEmpty()) {
 			for(int i=0;i<object.getNfLoadLvlThds().size();i++) {
 				eventSub.addNfLoadLvlThdsItem(new ThresholdLevel().congLevel(ParserUtil.safeParseInteger(object.getNfLoadLvlThds().get(i).get(0))).nfLoadLevel(ParserUtil.safeParseInteger(object.getNfLoadLvlThds().get(i).get(1))).nfCpuUsage(ParserUtil.safeParseInteger(object.getNfLoadLvlThds().get(i).get(2))).nfMemoryUsage(ParserUtil.safeParseInteger(object.getNfLoadLvlThds().get(i).get(3))).nfStorageUsage(ParserUtil.safeParseInteger(object.getNfLoadLvlThds().get(i).get(4))).avgTrafficRate(object.getNfLoadLvlThds().get(i).get(5)).maxTrafficRate(object.getNfLoadLvlThds().get(i).get(6)).avgPacketDelay(ParserUtil.safeParseInteger(object.getNfLoadLvlThds().get(i).get(7))).maxPacketDelay(ParserUtil.safeParseInteger(object.getNfLoadLvlThds().get(i).get(8))).avgPacketLossRate(ParserUtil.safeParseInteger(object.getNfLoadLvlThds().get(i).get(9))).svcExpLevel(ParserUtil.safeParseFloat(object.getNfLoadLvlThds().get(i).get(10))));
 			}
 			
 		}
-		if(object.getVisitedAreas().size()>0) {
+		if(!object.getVisitedAreas().isEmpty()) {
 			for(int n=0;n<object.getVisitedAreas().size();n++) {
 				NetworkAreaInfo area = new NetworkAreaInfo();
 				area.id(ParserUtil.safeParseUUID(object.getVisitedAreaIds().get(n)));
 				for(int i=0;i<object.getVisitedAreas().get(n).get(0).size();i++) {
 					Ecgi ecgi = new Ecgi();
-					if(object.getVisitedAreas().get(n).get(0).get(i).get(0)!=null&&object.getVisitedAreas().get(n).get(0).get(i).get(1)!=null) {
-						ecgi.plmnId(new PlmnId().mcc(object.getVisitedAreas().get(n).get(0).get(i).get(0)).mnc(object.getVisitedAreas().get(n).get(0).get(i).get(1)));
+					if(object.getVisitedAreas().get(n).getFirst().get(i).get(0)!=null&&object.getVisitedAreas().get(n).getFirst().get(i).get(1)!=null) {
+						ecgi.plmnId(new PlmnId().mcc(object.getVisitedAreas().get(n).getFirst().get(i).get(0)).mnc(object.getVisitedAreas().get(n).getFirst().get(i).get(1)));
 					}
-					ecgi.eutraCellId(object.getVisitedAreas().get(n).get(0).get(i).get(2)).nid(object.getVisitedAreas().get(n).get(0).get(i).get(3));
+					ecgi.eutraCellId(object.getVisitedAreas().get(n).getFirst().get(i).get(2)).nid(object.getVisitedAreas().get(n).getFirst().get(i).get(3));
 					area.addEcgisItem(ecgi);
 				}
 				
@@ -273,7 +275,7 @@ public class CreateSubscriptionRequestBuilder {
 				eventSub.addVisitedAreasItem(area);
 			}
 		}
-		if(object.getNsiIdInfos().size()>0) {
+		if(!object.getNsiIdInfos().isEmpty()) {
 			for(int n=0;n<object.getNsiIdInfos().size();n++) {
 				NsiIdInfo nsiIdInfo = new NsiIdInfo();
 				nsiIdInfo.snssai(new Snssai().sst(ParserUtil.safeParseInteger(object.getNsiIdInfos().get(n).get(0).get(0))).sd(object.getNsiIdInfos().get(n).get(0).get(1)));
@@ -281,43 +283,43 @@ public class CreateSubscriptionRequestBuilder {
 				eventSub.addNsiIdInfosItem(nsiIdInfo);
 			}
 		}
-		if(object.getNsiLevelThrds().size()>0) {
+		if(!object.getNsiLevelThrds().isEmpty()) {
 			eventSub.nsiLevelThrds(object.getNsiLevelThrds());
 		}
-		if(object.getQosFlowRetThds().size()>0) {
+		if(!object.getQosFlowRetThds().isEmpty()) {
 			for(int i=0;i<object.getQosFlowRetThds().size();i++) {
 				if(object.getQosFlowRetThds().get(i).get(0)!=null&&object.getQosFlowRetThds().get(i).get(1)!=null&&object.getQosFlowRetThds().get(i).get(2)!=null) {
 					eventSub.addQosFlowRetThdsItem(new RetainabilityThreshold().relFlowNum(ParserUtil.safeParseInteger(object.getQosFlowRetThds().get(i).get(0))).relFlowRatio(ParserUtil.safeParseInteger(object.getQosFlowRetThds().get(i).get(1))).relTimeUnit(new TimeUnit().relTimeUnit(TimeUnitEnum.fromValue(object.getQosFlowRetThds().get(i).get(2)))));
 				}
 			}
 		}
-		if(object.getRanUeThrouThds().size()>0) {
+		if(!object.getRanUeThrouThds().isEmpty()) {
 			eventSub.ranUeThrouThds(object.getRanUeThrouThds());
 		}
-		if(object.getSnssaia().size()>0) {
+		if(!object.getSnssaia().isEmpty()) {
 			for(int i=0;i<object.getSnssaia().size();i++) {
 				eventSub.addSnssaiaItem(new Snssai().sst(ParserUtil.safeParseInteger(object.getSnssaia().get(i).get(0))).sd(object.getSnssaia().get(i).get(1)));
 			}
 		}
-		if(object.getCongThresholds().size()>0) {
+		if(!object.getCongThresholds().isEmpty()) {
 			for(int i=0;i<object.getCongThresholds().size();i++) {
 				eventSub.addCongThresholdsItem(new ThresholdLevel().congLevel(ParserUtil.safeParseInteger(object.getCongThresholds().get(i).get(0))).nfLoadLevel(ParserUtil.safeParseInteger(object.getCongThresholds().get(i).get(1))).nfCpuUsage(ParserUtil.safeParseInteger(object.getCongThresholds().get(i).get(2))).nfMemoryUsage(ParserUtil.safeParseInteger(object.getCongThresholds().get(i).get(3))).nfStorageUsage(ParserUtil.safeParseInteger(object.getCongThresholds().get(i).get(4))).avgTrafficRate(object.getCongThresholds().get(i).get(5)).maxTrafficRate(object.getCongThresholds().get(i).get(6)).avgPacketDelay(ParserUtil.safeParseInteger(object.getCongThresholds().get(i).get(7))).maxPacketDelay(ParserUtil.safeParseInteger(object.getCongThresholds().get(i).get(8))).avgPacketLossRate(ParserUtil.safeParseInteger(object.getCongThresholds().get(i).get(9))).svcExpLevel(ParserUtil.safeParseFloat(object.getCongThresholds().get(i).get(10))));
 			}
 			
 		}
-		if(object.getNwPerfRequs().size()>0) {
+		if(!object.getNwPerfRequs().isEmpty()) {
 			for(int i=0;i<object.getNwPerfRequs().size();i++) {
 				if(object.getNwPerfRequs().get(i).get(0)!=null&&object.getNwPerfRequs().get(i).get(1)!=null&&object.getNwPerfRequs().get(i).get(2)!=null) {
 					eventSub.addNwPerfRequsItem(new NetworkPerfRequirement().nwPerfType(new NetworkPerfType().nwPerfType(NetworkPerfTypeEnum.fromValue(object.getNwPerfRequs().get(i).get(0)))).relativeRatio(ParserUtil.safeParseInteger(object.getNwPerfRequs().get(i).get(1))).absoluteNum(ParserUtil.safeParseInteger(object.getNwPerfRequs().get(i).get(2))));
 				}
 			}
 		}
-		if(object.getBwRequs().size()>0) {
+		if(!object.getBwRequs().isEmpty()) {
 			for(int i=0;i<object.getBwRequs().size();i++) {
 				eventSub.addBwRequsItem(new BwRequirement().appId(object.getBwRequs().get(i).get(0)).marBwDl(object.getBwRequs().get(i).get(1)).marBwUl(object.getBwRequs().get(i).get(2)).mirBwDl(object.getBwRequs().get(i).get(3)).mirBwUl(object.getBwRequs().get(i).get(4)));
 			}
 		}
-		if(object.getExcepRequs().size()>0) {
+		if(!object.getExcepRequs().isEmpty()) {
 			for(int i=0;i<object.getExcepRequs().size();i++) {
 				if(object.getExcepRequs().get(i).get(0)!=null&&object.getExcepRequs().get(i).get(1)!=null&&object.getExcepRequs().get(i).get(2)!=null) {
 					eventSub.addExcepRequsItem(new Exception().excepId(new ExceptionId().excepId(ExceptionIdEnum.fromValue(object.getExcepRequs().get(i).get(0))))
@@ -326,31 +328,31 @@ public class CreateSubscriptionRequestBuilder {
 				}
 			}
 		}
-		if(object.getRatFreqs().size()>0) {
+		if(!object.getRatFreqs().isEmpty()) {
 			for(int i=0;i<object.getRatFreqs().size();i++) {
 				RatFreqInformation ratFreq = new RatFreqInformation();
-					ratFreq.allFreq(ParserUtil.safeParseBoolean(object.getRatFreqs().get(i).get(0).get(0)));
-					ratFreq.allRat(ParserUtil.safeParseBoolean(object.getRatFreqs().get(i).get(0).get(1)));
-					ratFreq.freq(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).get(0).get(2)));
+					ratFreq.allFreq(ParserUtil.safeParseBoolean(object.getRatFreqs().get(i).getFirst().get(0)));
+					ratFreq.allRat(ParserUtil.safeParseBoolean(object.getRatFreqs().get(i).getFirst().get(1)));
+					ratFreq.freq(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).getFirst().get(2)));
 					ratFreq.ratType(new RatType().ratType(RatTypeEnum.fromValue(object.getRatFreqs().get(i).get(0).get(3))));
 					ratFreq.matchingDir(new MatchingDirection().matchingDir(MatchingDirectionEnum.fromValue(object.getRatFreqs().get(i).get(0).get(4))));
-				if(object.getRatFreqs().get(i).get(1).size()>0) {
+				if(!object.getRatFreqs().get(i).get(1).isEmpty()) {
 					ratFreq.svcExpThreshold(new ThresholdLevel().congLevel(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).get(1).get(0))).nfLoadLevel(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).get(1).get(1))).nfCpuUsage(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).get(1).get(2))).nfMemoryUsage(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).get(1).get(3))).nfStorageUsage(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).get(1).get(4))).avgTrafficRate(object.getRatFreqs().get(i).get(1).get(5)).maxTrafficRate(object.getRatFreqs().get(i).get(1).get(6)).avgPacketDelay(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).get(1).get(7))).maxPacketDelay(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).get(1).get(8))).avgPacketLossRate(ParserUtil.safeParseInteger(object.getRatFreqs().get(i).get(1).get(9))).svcExpLevel(ParserUtil.safeParseFloat(object.getRatFreqs().get(i).get(1).get(10))));
 				}
 				eventSub.addRatFreqsItem(ratFreq);
 			}
 		}
-		if(object.getListOfAnaSubsets().size()>0) {
+		if(!object.getListOfAnaSubsets().isEmpty()) {
 			for(int i=0;i<object.getListOfAnaSubsets().size();i++) {
 				eventSub.addListOfAnaSubsetsItem(new AnalyticsSubset().anaSubset(AnalyticsSubsetEnum.fromValue(object.getListOfAnaSubsets().get(i))));
 			}
 		}
-		if(object.getDisperReqs().size()>0) {
+		if(!object.getDisperReqs().isEmpty()) {
 			for(int n=0;n<object.getDisperReqs().size();n++) {
 				DispersionRequirement disperReq = new DispersionRequirement();
-					disperReq.disperType(new DispersionType().disperType(DispersionTypeEnum.fromValue(object.getDisperReqs().get(n).get(0).get(0).get(0))));
-					disperReq.dispOrderCriter(new DispersionOrderingCriterion().dispOrderCriter(DispersionOrderingCriterionEnum.fromValue(object.getDisperReqs().get(n).get(0).get(0).get(1))));
-					disperReq.order(new MatchingDirection().matchingDir(MatchingDirectionEnum.fromValue(object.getDisperReqs().get(n).get(0).get(0).get(2))));
+					disperReq.disperType(new DispersionType().disperType(DispersionTypeEnum.fromValue(object.getDisperReqs().get(n).getFirst().getFirst().getFirst())));
+					disperReq.dispOrderCriter(new DispersionOrderingCriterion().dispOrderCriter(DispersionOrderingCriterionEnum.fromValue(object.getDisperReqs().get(n).get(0).getFirst().get(1))));
+					disperReq.order(new MatchingDirection().matchingDir(MatchingDirectionEnum.fromValue(object.getDisperReqs().get(n).get(0).getFirst().get(2))));
 				for(int i=0;i<object.getDisperReqs().get(n).get(1).size();i++) {
 					disperReq.addClassCritersItem(new ClassCriterion().disperClass(new DispersionClass().disperClass(DispersionClassEnum.fromValue(object.getDisperReqs().get(n).get(1).get(i).get(0))))
 																	.classThreshold(ParserUtil.safeParseInteger(object.getDisperReqs().get(n).get(1).get(i).get(1)))
@@ -363,7 +365,7 @@ public class CreateSubscriptionRequestBuilder {
 				eventSub.addDisperReqsItem(disperReq);
 			}
 		}
-		if(object.getRedTransReqs().size()>0) {
+		if(!object.getRedTransReqs().isEmpty()) {
 			for(int  i=0;i<object.getRedTransReqs().size();i++) {
 				if(object.getRedTransReqs().get(i).get(0)!=null&&object.getRedTransReqs().get(i).get(1)!=null) {
 					eventSub.addRedTransReqsItem(new RedundantTransmissionExpReq().redTOrderCriter(new RedTransExpOrderingCriterion().redTOrderCriter(RedTransExpOrderingCriterionEnum.fromValue(object.getRedTransReqs().get(i).get(0))))
@@ -371,7 +373,7 @@ public class CreateSubscriptionRequestBuilder {
 				}
 			}
 		}
-		if(object.getWlanReqs().size()>0) {
+		if(!object.getWlanReqs().isEmpty()) {
 			for(int n=0;n<object.getWlanReqs().size();n++) {
 				WlanPerformanceReq wlanReq = new WlanPerformanceReq();
 					wlanReq.wlanOrderCriter(new WlanOrderingCriterion().wlanOrderCriter(WlanOrderingCriterionEnum.fromValue(object.getWlanReqs().get(n).get(0).get(0))));
@@ -381,32 +383,32 @@ public class CreateSubscriptionRequestBuilder {
 				eventSub.addWlanReqsItem(wlanReq);
 			}
 		}
-		if(object.getAppServerAddrs().size()>0) {
+		if(!object.getAppServerAddrs().isEmpty()) {
 			for(int i=0;i<object.getAppServerAddrs().size();i++) {
 				eventSub.addAppServerAddrsItem(new AddrFqdn().ipAddr(new IpAddr().ipv4Addr(object.getAppServerAddrs().get(i).get(0)).ipv6Addr(object.getAppServerAddrs().get(i).get(1)).ipv6Prefix(object.getAppServerAddrs().get(i).get(2)))
 															.fqdn(object.getAppServerAddrs().get(i).get(3)));
 			}
 		}
-		if(object.getDnPerfReqs().size()>0) {
+		if(!object.getDnPerfReqs().isEmpty()) {
 			for(int n=0;n<object.getDnPerfReqs().size();n++) {
 				DnPerformanceReq dnPerfReq = new DnPerformanceReq();
-					dnPerfReq.dnPerfOrderCriter(new DnPerfOrderingCriterion().dnPerfOrderCriter(DnPerfOrderingCriterionEnum.fromValue(object.getDnPerfReqs().get(n).get(0).get(0).get(0))));
-					dnPerfReq.order(new MatchingDirection().matchingDir(MatchingDirectionEnum.fromValue(object.getDnPerfReqs().get(n).get(0).get(0).get(1))));
+					dnPerfReq.dnPerfOrderCriter(new DnPerfOrderingCriterion().dnPerfOrderCriter(DnPerfOrderingCriterionEnum.fromValue(object.getDnPerfReqs().get(n).get(0).getFirst().get(0))));
+					dnPerfReq.order(new MatchingDirection().matchingDir(MatchingDirectionEnum.fromValue(object.getDnPerfReqs().get(n).get(0).getFirst().get(1))));
 				for(int i=0;i<object.getDnPerfReqs().get(n).get(1).size();i++) {
 					dnPerfReq.addReportThresholdsItem(new ThresholdLevel().congLevel(ParserUtil.safeParseInteger(object.getDnPerfReqs().get(n).get(1).get(i).get(0))).nfLoadLevel(ParserUtil.safeParseInteger(object.getDnPerfReqs().get(n).get(1).get(i).get(1))).nfCpuUsage(ParserUtil.safeParseInteger(object.getDnPerfReqs().get(n).get(1).get(i).get(2))).nfMemoryUsage(ParserUtil.safeParseInteger(object.getDnPerfReqs().get(n).get(1).get(i).get(3))).nfStorageUsage(ParserUtil.safeParseInteger(object.getDnPerfReqs().get(n).get(1).get(i).get(4))).avgTrafficRate(object.getDnPerfReqs().get(n).get(1).get(i).get(5)).maxTrafficRate(object.getDnPerfReqs().get(n).get(1).get(i).get(6)).avgPacketDelay(ParserUtil.safeParseInteger(object.getDnPerfReqs().get(n).get(1).get(i).get(7))).maxPacketDelay(ParserUtil.safeParseInteger(object.getDnPerfReqs().get(n).get(1).get(i).get(8))).avgPacketLossRate(ParserUtil.safeParseInteger(object.getDnPerfReqs().get(n).get(1).get(i).get(9))).svcExpLevel(ParserUtil.safeParseFloat(object.getDnPerfReqs().get(n).get(1).get(i).get(10))));
 				}
 				eventSub.addDnPerfReqsItem(dnPerfReq);
 			}
 		}
-		if(object.getNetworkArea().size()>0) {
+		if(!object.getNetworkArea().isEmpty()) {
 			NetworkAreaInfo area = new NetworkAreaInfo();
 			area.id(ParserUtil.safeParseUUID(object.getNetworkAreaId()));
 			for(int i=0;i<object.getNetworkArea().get(0).size();i++) {
 				Ecgi ecgi = new Ecgi();
-				if(CheckUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(0))&&CheckUtil.checkNotNullNorEmptyString(object.getNetworkArea().get(0).get(i).get(1))) {
-					ecgi.plmnId(new PlmnId().mcc(object.getNetworkArea().get(0).get(i).get(0)).mnc(object.getNetworkArea().get(0).get(i).get(1)));
+				if(CheckUtil.checkNotNullNorEmptyString(object.getNetworkArea().getFirst().get(i).get(0))&&CheckUtil.checkNotNullNorEmptyString(object.getNetworkArea().getFirst().get(i).get(1))) {
+					ecgi.plmnId(new PlmnId().mcc(object.getNetworkArea().getFirst().get(i).get(0)).mnc(object.getNetworkArea().getFirst().get(i).get(1)));
 				}
-				ecgi.eutraCellId(object.getNetworkArea().get(0).get(i).get(2)).nid(object.getNetworkArea().get(0).get(i).get(3));
+				ecgi.eutraCellId(object.getNetworkArea().getFirst().get(i).get(2)).nid(object.getNetworkArea().getFirst().get(i).get(3));
 				area.addEcgisItem(ecgi);
 			}
 			
@@ -445,7 +447,7 @@ public class CreateSubscriptionRequestBuilder {
 			}
 			eventSub.networkArea(area);
 		}
-		if(object.getQosRequ().size()>0) {
+		if(!object.getQosRequ().isEmpty()) {
 			QosRequirement qosR = new QosRequirement();
 				qosR._5qi(ParserUtil.safeParseInteger(object.getQosRequ().get(0)));
 			qosR.gfbrUl(object.getQosRequ().get(1)).gfbrDl(object.getQosRequ().get(2)).per(object.getQosRequ().get(5));
@@ -453,194 +455,194 @@ public class CreateSubscriptionRequestBuilder {
 			qosR.pdb(ParserUtil.safeParseInteger(object.getQosRequ().get(4)));
 			eventSub.qosRequ(qosR);
 		}
-		if(object.getExptUeBehav().size()>0) {
+		if(!object.getExptUeBehav().isEmpty()) {
 			ExpectedUeBehaviourData expUe = new ExpectedUeBehaviourData();
-			expUe.stationaryIndication(new StationaryIndication().stationaryIndication(StationaryIndicationEnum.fromValue(object.getExptUeBehav().get(0).get(0).get(0).get(0).get(0).get(0))));
-			expUe.communicationDurationTime(ParserUtil.safeParseInteger(object.getExptUeBehav().get(0).get(0).get(0).get(0).get(0).get(1)));
-			expUe.periodicTime(ParserUtil.safeParseInteger(object.getExptUeBehav().get(0).get(0).get(0).get(0).get(0).get(2)));
-			expUe.scheduledCommunicationType(new ScheduledCommunicationType().scheduledCommunicationType(ScheduledCommunicationTypeEnum.fromValue(object.getExptUeBehav().get(0).get(0).get(0).get(0).get(0).get(3))));
-			expUe.trafficProfile(new TrafficProfile().trafficProfile(TrafficProfileEnum.fromValue(object.getExptUeBehav().get(0).get(0).get(0).get(0).get(0).get(4))));
-			expUe.validityTime(ParserUtil.safeParseOffsetDateTime(object.getExptUeBehav().get(0).get(0).get(0).get(0).get(0).get(5) + ZonedDateTime.now().getOffset().getId()));
+			expUe.stationaryIndication(new StationaryIndication().stationaryIndication(StationaryIndicationEnum.fromValue(object.getExptUeBehav().getFirst().getFirst().getFirst().getFirst().getFirst().get(0))));
+			expUe.communicationDurationTime(ParserUtil.safeParseInteger(object.getExptUeBehav().getFirst().getFirst().getFirst().getFirst().getFirst().get(1)));
+			expUe.periodicTime(ParserUtil.safeParseInteger(object.getExptUeBehav().getFirst().getFirst().getFirst().getFirst().getFirst().get(2)));
+			expUe.scheduledCommunicationType(new ScheduledCommunicationType().scheduledCommunicationType(ScheduledCommunicationTypeEnum.fromValue(object.getExptUeBehav().getFirst().getFirst().getFirst().getFirst().getFirst().get(3))));
+			expUe.trafficProfile(new TrafficProfile().trafficProfile(TrafficProfileEnum.fromValue(object.getExptUeBehav().getFirst().getFirst().getFirst().getFirst().getFirst().get(4))));
+			expUe.validityTime(ParserUtil.safeParseOffsetDateTime(object.getExptUeBehav().get(0).getFirst().getFirst().getFirst().getFirst().get(5) + ZonedDateTime.now().getOffset().getId()));
 			ScheduledCommunicationTime1 schTime = new ScheduledCommunicationTime1();
-			if(object.getExptUeBehav().get(1).get(0).get(0).get(0).get(0).size()>0) {
-				for(int i=0;i<object.getExptUeBehav().get(1).get(0).get(0).get(0).get(0).size();i++) {
-				schTime.addDaysOfWeekItem(ParserUtil.safeParseInteger(object.getExptUeBehav().get(1).get(0).get(0).get(0).get(0).get(i)));
+			if(!object.getExptUeBehav().get(1).getFirst().getFirst().getFirst().get(0).isEmpty()) {
+				for(int i = 0; i<object.getExptUeBehav().get(1).getFirst().getFirst().getFirst().getFirst().size(); i++) {
+				schTime.addDaysOfWeekItem(ParserUtil.safeParseInteger(object.getExptUeBehav().get(1).getFirst().getFirst().getFirst().getFirst().get(i)));
 				}
 			}
-		    schTime.timeOfDayStart(object.getExptUeBehav().get(1).get(0).get(0).get(0).get(1).get(0));
-		    schTime.timeOfDayEnd(object.getExptUeBehav().get(1).get(0).get(0).get(0).get(1).get(1));
+		    schTime.timeOfDayStart(object.getExptUeBehav().get(1).getFirst().getFirst().getFirst().get(1).get(0));
+		    schTime.timeOfDayEnd(object.getExptUeBehav().get(1).getFirst().getFirst().getFirst().get(1).get(1));
 		    expUe.scheduledCommunicationTime(schTime);
 		    BatteryIndication bttrInd = new BatteryIndication();
-		    bttrInd.batteryInd(ParserUtil.safeParseBoolean(object.getExptUeBehav().get(2).get(0).get(0).get(0).get(0).get(0)));
-			bttrInd.replaceableInd(ParserUtil.safeParseBoolean(object.getExptUeBehav().get(2).get(0).get(0).get(0).get(0).get(1)));
-		    bttrInd.rechargeableInd(ParserUtil.safeParseBoolean(object.getExptUeBehav().get(2).get(0).get(0).get(0).get(0).get(2)));
+		    bttrInd.batteryInd(ParserUtil.safeParseBoolean(object.getExptUeBehav().get(2).getFirst().getFirst().getFirst().getFirst().get(0)));
+			bttrInd.replaceableInd(ParserUtil.safeParseBoolean(object.getExptUeBehav().get(2).getFirst().getFirst().getFirst().getFirst().get(1)));
+		    bttrInd.rechargeableInd(ParserUtil.safeParseBoolean(object.getExptUeBehav().get(2).getFirst().getFirst().getFirst().getFirst().get(2)));
 		    expUe.batteryIndication(bttrInd);
-		    if(object.getExptUeBehav().get(3).size()>0) {
+		    if(!object.getExptUeBehav().get(3).isEmpty()) {
 		    	for(int n=0;n<object.getExptUeBehav().get(3).size();n++) {
 		    		LocationArea area = new LocationArea();
-		    		if(object.getExptUeBehav().get(3).get(n).get(0).size()>0) {
+		    		if(!object.getExptUeBehav().get(3).get(n).get(0).isEmpty()) {
 		    			NetworkAreaInfo netArea = new NetworkAreaInfo();
-		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(0).get(0).size();i++) {
+		    			for(int i = 0; i<object.getExptUeBehav().get(3).get(n).getFirst().get(0).size(); i++) {
 		    				Ecgi ecgi = new Ecgi();
-		    				if(object.getExptUeBehav().get(3).get(n).get(0).get(0).get(i).get(0)!=null&&object.getExptUeBehav().get(3).get(n).get(0).get(0).get(i).get(1)!=null) {
-		    					ecgi.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).get(0).get(0).get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).get(0).get(0).get(i).get(1)));
+		    				if(object.getExptUeBehav().get(3).get(n).getFirst().getFirst().get(i).get(0)!=null&&object.getExptUeBehav().get(3).get(n).getFirst().getFirst().get(i).get(1)!=null) {
+		    					ecgi.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).getFirst().getFirst().get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).getFirst().getFirst().get(i).get(1)));
 		    				}
-		    				ecgi.eutraCellId(object.getExptUeBehav().get(3).get(n).get(0).get(0).get(i).get(2)).nid(object.getExptUeBehav().get(3).get(n).get(0).get(0).get(i).get(3));
+		    				ecgi.eutraCellId(object.getExptUeBehav().get(3).get(n).getFirst().getFirst().get(i).get(2)).nid(object.getExptUeBehav().get(3).get(n).getFirst().getFirst().get(i).get(3));
 		    				netArea.addEcgisItem(ecgi);
 		    			}
 		    			
-		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(0).get(1).size();i++) {
+		    			for(int i = 0; i<object.getExptUeBehav().get(3).get(n).getFirst().get(1).size(); i++) {
 		    				Ncgi ncgi = new Ncgi();
-		    				if(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(0)!=null&&object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(1)!=null) {
-		    					ncgi.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(1)));
+		    				if(object.getExptUeBehav().get(3).get(n).getFirst().get(1).get(i).get(0)!=null&&object.getExptUeBehav().get(3).get(n).getFirst().get(1).get(i).get(1)!=null) {
+		    					ncgi.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).getFirst().get(1).get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).getFirst().get(1).get(i).get(1)));
 		    				}
-		    				ncgi.nrCellId(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(2)).nid(object.getExptUeBehav().get(3).get(n).get(0).get(1).get(i).get(3));
+		    				ncgi.nrCellId(object.getExptUeBehav().get(3).get(n).getFirst().get(1).get(i).get(2)).nid(object.getExptUeBehav().get(3).get(n).getFirst().get(1).get(i).get(3));
 		    				netArea.addNcgisItem(ncgi);
 		    			}
 		    			
-		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(0).get(2).size();i++) {
+		    			for(int i = 0; i<object.getExptUeBehav().get(3).get(n).getFirst().get(2).size(); i++) {
 		    				GlobalRanNodeId gRanNodeId = new GlobalRanNodeId();
-		    				if(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(0)!=null&&object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(1)!=null) {
-		    					gRanNodeId.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(1)));
+		    				if(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(0)!=null&&object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(1)!=null) {
+		    					gRanNodeId.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(1)));
 		    				}
-		    				gRanNodeId.n3IwfId(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(2)).ngeNbId(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(3))
-		    																	.wagfId(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(4))
-		    																	.tngfId(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(5))
-		    																	.nid(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(6))
-		    																	.eNbId(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(7));
-		    				gRanNodeId.gNbId(new GNbId().bitLength(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(8))).gNBValue(object.getExptUeBehav().get(3).get(n).get(0).get(2).get(i).get(9)));
+		    				gRanNodeId.n3IwfId(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(2)).ngeNbId(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(3))
+		    																	.wagfId(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(4))
+		    																	.tngfId(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(5))
+		    																	.nid(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(6))
+		    																	.eNbId(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(7));
+		    				gRanNodeId.gNbId(new GNbId().bitLength(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(8))).gNBValue(object.getExptUeBehav().get(3).get(n).getFirst().get(2).get(i).get(9)));
 		    				netArea.addGRanNodeIdsItem(gRanNodeId);
 		    			}
 		    			
-		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(0).get(3).size();i++) {
+		    			for(int i = 0; i<object.getExptUeBehav().get(3).get(n).getFirst().get(3).size(); i++) {
 		    				Tai tai = new Tai();
-		    				if(object.getExptUeBehav().get(3).get(n).get(0).get(3).get(i).get(1)!=null&&object.getExptUeBehav().get(3).get(n).get(0).get(3).get(i).get(1)!=null) {
-		    					tai.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).get(0).get(3).get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).get(0).get(3).get(i).get(1)));
+		    				if(object.getExptUeBehav().get(3).get(n).getFirst().get(3).get(i).get(1)!=null&&object.getExptUeBehav().get(3).get(n).getFirst().get(3).get(i).get(1)!=null) {
+		    					tai.plmnId(new PlmnId().mcc(object.getExptUeBehav().get(3).get(n).getFirst().get(3).get(i).get(0)).mnc(object.getExptUeBehav().get(3).get(n).getFirst().get(3).get(i).get(1)));
 		    				}
-		    				tai.tac(object.getExptUeBehav().get(3).get(n).get(0).get(3).get(i).get(2)).nid(object.getExptUeBehav().get(3).get(n).get(0).get(3).get(i).get(3));
+		    				tai.tac(object.getExptUeBehav().get(3).get(n).getFirst().get(3).get(i).get(2)).nid(object.getExptUeBehav().get(3).get(n).getFirst().get(3).get(i).get(3));
 		    				netArea.addTaisItem(tai);
 		    			}
 		    			area.nwAreaInfo(netArea);
 		    		}
-		    		if(object.getExptUeBehav().get(3).get(n).get(1).size()>0) {
+		    		if(!object.getExptUeBehav().get(3).get(n).get(1).isEmpty()) {
 		    			UmtTime t = new UmtTime();
-		    			t.timeOfDay(object.getExptUeBehav().get(3).get(n).get(1).get(0).get(0).get(0));
-		    			t.dayOfWeek(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(1).get(0).get(0).get(1)));
+		    			t.timeOfDay(object.getExptUeBehav().get(3).get(n).get(1).getFirst().getFirst().get(0));
+		    			t.dayOfWeek(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(1).getFirst().getFirst().get(1)));
 		    			area.umtTime(t);
 		    		}
-		    		if(object.getExptUeBehav().get(3).get(n).get(2).size()>0) {
+		    		if(!object.getExptUeBehav().get(3).get(n).get(2).isEmpty()) {
 		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(2).size();i++) {
-		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"Point")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(0),"Point")) {
 		    					Point p=new Point();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("Point")));
-				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
-				    												.lat(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(2))));
+				    			p.point(new GeographicalCoordinates().lon(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(1)))
+				    												.lat(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(2))));
 				    			area.addGeographicAreasItem(p);
 		    				}
-		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointUncertaintyCircle")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).getFirst(),"PointUncertaintyCircle")) {
 		    					PointUncertaintyCircle p=new PointUncertaintyCircle();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("PointUncertaintyCircle")));
-				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
-				    												.lat(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(2))));
-				    			p.uncertainty(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(3)));
+				    			p.point(new GeographicalCoordinates().lon(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(1)))
+				    												.lat(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(2))));
+				    			p.uncertainty(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(3)));
 								area.addGeographicAreasItem(p);
 		    				}
-		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointUncertaintyEllipse")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).getFirst(),"PointUncertaintyEllipse")) {
 		    					PointUncertaintyEllipse p=new PointUncertaintyEllipse();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("PointUncertaintyEllipse")));
-				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
-				    												.lat(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(2))));
-				    			p.confidence(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(3)));
-				    			p.uncertaintyEllipse(new UncertaintyEllipse().orientationMajor(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(4)))
-				    														.semiMajor(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(5)))
-				    														.semiMinor(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(6))));
+				    			p.point(new GeographicalCoordinates().lon(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(1)))
+				    												.lat(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(2))));
+				    			p.confidence(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(3)));
+				    			p.uncertaintyEllipse(new UncertaintyEllipse().orientationMajor(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(4)))
+				    														.semiMajor(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(5)))
+				    														.semiMinor(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(6))));
 				    			area.addGeographicAreasItem(p);
 		    				}
-		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"Polygon")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).getFirst(),"Polygon")) {
 		    					Polygon p = new Polygon();
 		    					p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("Polygon")));
 		    					PointList pl = new PointList();
 		    					for(int j=0;j<object.getExptUeBehav().get(3).get(n).get(2).get(i).get(1).size();j++) {
-		    						pl.add(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(1).get(j)))
-		    															.lat(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(2).get(j))));
+		    						pl.add(new GeographicalCoordinates().lon(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(1).get(j)))
+		    															.lat(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(2).get(j))));
 		    					}
 		    					p.pointList(pl);
 		    					area.addGeographicAreasItem(p);
 		    				}
-		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointAltitude")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).getFirst(),"PointAltitude")) {
 		    					PointAltitude p=new PointAltitude();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("PointAltitude")));
-				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
-				    												.lat(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(2))));
-				    			p.altitude(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(3)));
+				    			p.point(new GeographicalCoordinates().lon(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(1)))
+				    												.lat(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(2))));
+				    			p.altitude(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(3)));
 				    			area.addGeographicAreasItem(p);
 		    				}
-		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"PointAltitudeUncertainty")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).getFirst(),"PointAltitudeUncertainty")) {
 		    					PointAltitudeUncertainty p=new PointAltitudeUncertainty();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("PointAltitudeUncertainty")));
-				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
-				    												.lat(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(2))));
-				    			p.confidence(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(3)));
-				    			p.uncertaintyEllipse(new UncertaintyEllipse().orientationMajor(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(4)))
-				    														.semiMajor(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(5)))
-				    														.semiMinor(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(6))));
-				    			p.altitude(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(7)));
-				    			p.uncertaintyAltitude(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(8)));
+				    			p.point(new GeographicalCoordinates().lon(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(1)))
+				    												.lat(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(2))));
+				    			p.confidence(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(3)));
+				    			p.uncertaintyEllipse(new UncertaintyEllipse().orientationMajor(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(4)))
+				    														.semiMajor(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(5)))
+				    														.semiMinor(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(6))));
+				    			p.altitude(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(7)));
+				    			p.uncertaintyAltitude(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(8)));
 				    			area.addGeographicAreasItem(p);
 		    				}
-		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(0),"EllipsoidArc")) {
+		    				if(CheckUtil.safeCheckEquals(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(0),"EllipsoidArc")) {
 		    					EllipsoidArc p=new EllipsoidArc();
 				    			p.shape(new SupportedGADShapes().supportedGADShapes(SupportedGADShapesEnum.fromValue("EllipsoidArc")));
-				    			p.point(new GeographicalCoordinates().lon(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(1)))
-				    												.lat(ParserUtil.safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(2))));
-				    			p.confidence(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(3)));
-				    			p.innerRadius(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(4)));
-				    			p.uncertaintyRadius(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(5)));
-				    			p.offsetAngle(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(6)));
-				    			p.includedAngle(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).get(0).get(7)));
+				    			p.point(new GeographicalCoordinates().lon(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(1)))
+				    												.lat(safeParseDouble(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(2))));
+				    			p.confidence(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(3)));
+				    			p.innerRadius(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(4)));
+				    			p.uncertaintyRadius(ParserUtil.safeParseFloat(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(5)));
+				    			p.offsetAngle(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(6)));
+				    			p.includedAngle(ParserUtil.safeParseInteger(object.getExptUeBehav().get(3).get(n).get(2).get(i).getFirst().get(7)));
 				    			area.addGeographicAreasItem(p);
 		    				}
 		    				
 		    			}
 		    			
 		    		}
-		    		if(object.getExptUeBehav().get(3).get(n).get(3).get(0).size()>0) {
-		    			for(int i=0;i<object.getExptUeBehav().get(3).get(n).get(3).get(0).size();i++) {
+		    		if(!object.getExptUeBehav().get(3).get(n).get(3).getFirst().isEmpty()) {
+		    			for(int i = 0; i<object.getExptUeBehav().get(3).get(n).get(3).getFirst().size(); i++) {
 			    			CivicAddress civicadd = new CivicAddress();
-			    			civicadd.country(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(0))
-			    			.a1(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(1))
-			    			.a2(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(2))
-			    			.a3(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(3))
-			    			.a4(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(4))
-			    			.a5(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(5))
-			    			.a6(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(6))
-			    			.PRD(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(7))
-			    			.POD(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(8))
-			    			.STS(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(9))
-			    			.HNO(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(10))
-			    			.HNS(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(11))
-			    			.LMK(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(12))
-			    			.LOC(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(13))
-			    			.NAM(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(14))
-			    			.PC(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(15))
-			    			.BLD(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(16))
-			    			.UNIT(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(17))
-			    			.FLR(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(18))
-			    			.ROOM(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(19))
-			    			.PLC(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(20))
-			    			.PCN(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(21))
-			    			.POBOX(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(22))
-			    			.ADDCODE(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(23))
-			    			.SEAT(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(24))
-			    			.RD(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(25))
-			    			.RDSEC(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(26))
-			    			.RDBR(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(27))
-			    			.RDSUBBR(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(28))
-			    			.PRM(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(29))
-			    			.POM(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(30))
-			    			.usageRules(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(31))
-			    			.method(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(32))
-			    			.providedBy(object.getExptUeBehav().get(3).get(n).get(3).get(0).get(i).get(33));
+			    			civicadd.country(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(0))
+			    			.a1(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(1))
+			    			.a2(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(2))
+			    			.a3(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(3))
+			    			.a4(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(4))
+			    			.a5(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(5))
+			    			.a6(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(6))
+			    			.PRD(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(7))
+			    			.POD(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(8))
+			    			.STS(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(9))
+			    			.HNO(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(10))
+			    			.HNS(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(11))
+			    			.LMK(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(12))
+			    			.LOC(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(13))
+			    			.NAM(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(14))
+			    			.PC(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(15))
+			    			.BLD(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(16))
+			    			.UNIT(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(17))
+			    			.FLR(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(18))
+			    			.ROOM(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(19))
+			    			.PLC(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(20))
+			    			.PCN(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(21))
+			    			.POBOX(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(22))
+			    			.ADDCODE(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(23))
+			    			.SEAT(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(24))
+			    			.RD(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(25))
+			    			.RDSEC(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(26))
+			    			.RDBR(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(27))
+			    			.RDSUBBR(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(28))
+			    			.PRM(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(29))
+			    			.POM(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(30))
+			    			.usageRules(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(31))
+			    			.method(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(32))
+			    			.providedBy(object.getExptUeBehav().get(3).get(n).get(3).getFirst().get(i).get(33));
 			    			area.addCivicAddressesItem(civicadd);
 		    			}
 		    		}
@@ -649,7 +651,7 @@ public class CreateSubscriptionRequestBuilder {
 		    }
 		    eventSub.exptUeBehav(expUe);
 		}
-		if(object.getUpfInfo().size()>0) {
+		if(!object.getUpfInfo().isEmpty()) {
 			UpfInformation upfInf = new UpfInformation();
 			upfInf.upfId(object.getUpfInfo().get(0));
 			if(object.getUpfInfo().get(1)!=null||object.getUpfInfo().get(2)!=null||object.getUpfInfo().get(4)!=null) {
@@ -679,7 +681,7 @@ public class CreateSubscriptionRequestBuilder {
 			evtReq.sampRatio(ParserUtil.safeParseInteger(object.getOptionals().get(5)));
 			evtReq.grpRepTime(ParserUtil.safeParseInteger(object.getOptionals().get(6)));
 			evtReq.notifFlag(new NotificationFlag().notifFlag(NotificationFlagEnum.fromValue(object.getOptionals().get(7))));
-		if(object.getPartitionCriteria().size()>0) {
+		if(!object.getPartitionCriteria().isEmpty()) {
 			for(int i=0;i<object.getPartitionCriteria().size();i++) {
 				evtReq.addPartitionCriteriaItem(new PartitioningCriteria().partitionCriteria(PartitioningCriteriaEnum.fromValue(object.getPartitionCriteria().get(i))));
 			}
@@ -690,16 +692,16 @@ public class CreateSubscriptionRequestBuilder {
 			prevSub.producerId(ParserUtil.safeParseUUID(object.getOptionals().get(8)));
 			prevSub.producerSetId(object.getOptionals().get(9));
 			prevSub.subscriptionId(object.getOptionals().get(10));
-		if(object.getNfAnaEvents().size()>0) {
+		if(!object.getNfAnaEvents().isEmpty()) {
 			for(int i=0;i<object.getNfAnaEvents().size();i++) {
 				prevSub.addNfAnaEventsItem(new NwdafEvent().event(NwdafEventEnum.fromValue(object.getNfAnaEvents().get(i))));
 			}
 		}
-		if(object.getUeAnaEvents().size()>0) {
+		if(!object.getUeAnaEvents().isEmpty()) {
 			for(int i=0;i<object.getUeAnaEvents().size();i++) {
 				if(object.getUeAnaEvents().get(i).size()==2) {
 				UeAnalyticsContextDescriptor ueAnaEvent = new UeAnalyticsContextDescriptor();
-				ueAnaEvent.supi(object.getUeAnaEvents().get(i).get(0).get(0));
+				ueAnaEvent.supi(object.getUeAnaEvents().get(i).get(0).getFirst());
 				for(int j=0;j<object.getUeAnaEvents().get(i).get(1).size();j++) {
 					ueAnaEvent.addAnaTypesItem(new NwdafEvent().event(NwdafEventEnum.fromValue(object.getUeAnaEvents().get(i).get(1).get(j))));
 				}
@@ -707,18 +709,18 @@ public class CreateSubscriptionRequestBuilder {
 				}
 			}
 		}
-		if(object.getOptionals().get(8)!=null||object.getOptionals().get(9)!=null||object.getOptionals().get(10)!=null||object.getNfAnaEvents().size()>0||object.getUeAnaEvents().size()>0) {
+		if(object.getOptionals().get(8)!=null||object.getOptionals().get(9)!=null||object.getOptionals().get(10)!=null|| !object.getNfAnaEvents().isEmpty() || !object.getUeAnaEvents().isEmpty()) {
 			sub.prevSub(prevSub);
 		}
 		sub.notifCorrId(object.getOptionals().get(11));
 		consNfInfo.nfId(ParserUtil.safeParseUUID(object.getOptionals().get(12)));
 		consNfInfo.nfSetId(object.getOptionals().get(13));
-		if(object.getTaiList().size()>0) {
+		if(!object.getTaiList().isEmpty()) {
 			for(int i=0;i<object.getTaiList().size();i++) {
 				consNfInfo.addTaiListItem(new Tai().plmnId(new PlmnId().mcc(object.getTaiList().get(i).get(0)).mnc(object.getTaiList().get(i).get(1))).tac(object.getTaiList().get(i).get(2)).nid(object.getTaiList().get(i).get(3)));
 			}
 		}
-		if((object.getOptionals().get(12)!=null)||(object.getOptionals().get(13)!=null)||object.getTaiList().size()>0) {
+		if((object.getOptionals().get(12)!=null)||(object.getOptionals().get(13)!=null)|| !object.getTaiList().isEmpty()) {
 			sub.consNfInfo(consNfInfo);
 		}
 		return sub;

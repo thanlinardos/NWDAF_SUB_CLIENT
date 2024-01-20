@@ -23,7 +23,7 @@
 
 FROM eclipse-temurin:21-jre-alpine
 VOLUME /tmp
-EXPOSE 8080
+EXPOSE 8080 5007
 ARG JAR_FILE=target/NWDAF_SUB_CLIENT.jar
 ARG CERT_FILE=src/main/resources/certificates/local-cert.crt
 ARG SSL_FILE=src/main/resources/certificates/local-ssl.p12
@@ -35,4 +35,4 @@ ADD ${SSL_FILE} src/main/resources/certificates/local-ssl.p12
 ADD ${CLIENT_CERT_FILE} /usr/local/share/ca-certificates/local-client-cert.crt
 ADD ${CLIENT_SSL_FILE} src/main/resources/certificates/local-client-ssl.p12
 RUN chmod 644 /usr/local/share/ca-certificates/local-cert.crt && chmod 644 /usr/local/share/ca-certificates/local-client-cert.crt && update-ca-certificates
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-Xdebug","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007","-jar","/app.jar"]
