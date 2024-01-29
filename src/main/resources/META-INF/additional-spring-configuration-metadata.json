@@ -39,5 +39,10 @@
       "name": "spring.thread-executor",
       "type": "java.lang.String",
       "description": "Description for spring.thread-executor."
-  }
-]}
+    },
+    {
+      "name": "nnwdaf-eventsubscription.secureWithTrustStore",
+      "type": "java.lang.String",
+      "description": "Description for nnwdaf-eventsubscription.secureWithTrustStore."
+    }
+  ]}

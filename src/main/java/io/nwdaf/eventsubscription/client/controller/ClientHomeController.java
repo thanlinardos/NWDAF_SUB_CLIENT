@@ -9,7 +9,6 @@ import io.nwdaf.eventsubscription.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -44,20 +43,28 @@ import static io.nwdaf.eventsubscription.utilities.ParserUtil.safeParseLong;
 
 @Controller
 public class ClientHomeController {
-    private final Environment env;
     private final RestTemplate restTemplate;
     private final Map<Long, NnwdafEventsSubscription> currentSubs = new HashMap<Long, NnwdafEventsSubscription>();
     private final Map<Long, RequestSubscriptionModel> currentSubRequests = new HashMap<Long, RequestSubscriptionModel>();
     private final Map<String, NnwdafEventsSubscriptionNotification> currentSubNotifications = new HashMap<String, NnwdafEventsSubscriptionNotification>();
     private OffsetDateTime lastNotif = null;
     private final Logger logger = LoggerFactory.getLogger(ClientHomeController.class);
+    public final String apiURI;
+    public final String clientUri;
 
 
-    public ClientHomeController(@Value("${trust.store}") Resource trustStore, @Value("${trust.store.password}") String trustStorePassword, Environment env) {
+    public ClientHomeController(@Value("${trust.store}") Resource trustStore,
+                                @Value("${trust.store.password}") String trustStorePassword,
+                                @Value("${nnwdaf-eventsubscription.secureWithTrustStore}") Boolean secure,
+                                @Value("${nnwdaf-eventsubscription.openapi.dev-url}") String apiRoot,
+                                @Value("${nnwdaf-eventsubscription.client.dev-url}") String clientUri) {
         RestTemplateFactoryConfig.setTrustStore(trustStore);
         RestTemplateFactoryConfig.setTrustStorePassword(trustStorePassword);
-        restTemplate = new RestTemplate(Objects.requireNonNull(RestTemplateFactoryConfig.createRestTemplateFactory()));
-        this.env = env;
+        restTemplate = new RestTemplate(Objects
+                .requireNonNull(RestTemplateFactoryConfig
+                        .createRestTemplateFactory(secure)));
+        apiURI = apiRoot + "/nwdaf-eventsubscription/v1/subscriptions";
+        this.clientUri = clientUri;
     }
 
     @GetMapping(value = "/client")
@@ -100,7 +107,7 @@ public class ClientHomeController {
 
             }
         }
-        object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
+        object.setNotificationURI(clientUri);
         model.addAttribute("nnwdafEventsSubscription", object);
         model.put("result", result);
         model.put("notifications", notifications);
@@ -128,7 +135,7 @@ public class ClientHomeController {
             notifications = new ArrayList<>();
             for (int i = 0; i < result.getEventSubscriptions().size(); i++) {
                 NnwdafEventsSubscriptionNotification notification = currentSubNotifications.get(id + "," + i);
-                if(notification != null) {
+                if (notification != null) {
                     notifications.add(notification);
                 }
             }
@@ -145,7 +152,7 @@ public class ClientHomeController {
 
             }
         }
-        object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
+        object.setNotificationURI(clientUri);
         model.addAttribute("nnwdafEventsSubscription", object);
         model.put("result", result);
         long delay;
@@ -162,18 +169,20 @@ public class ClientHomeController {
     }
 
     @PostMapping(value = "/client/formSuccess/{id}", params = {"updateSub"})
-    public String postSub(RequestSubscriptionModel object, ModelMap map, @PathVariable("id") Long id) throws JsonProcessingException {
-        String apiURI = env.getProperty("nnwdaf-eventsubscription.openapi.dev-url") + "/nwdaf-eventsubscription/v1/subscriptions/";
-        object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
+    public String postSub(RequestSubscriptionModel object,
+                          ModelMap map,
+                          @PathVariable("id") Long id) throws JsonProcessingException {
+        object.setNotificationURI(clientUri);
+        String subURI = apiURI;
         if (id != null) {
-            apiURI += id.toString();
+            subURI += "/" + id;
         } else {
             return "form";
         }
         NwdafSubClientApplication.getLogger().info(object.getId().toString());
         object.setAllLists();
         CreateSubscriptionRequestBuilder subBuilder = new CreateSubscriptionRequestBuilder();
-        NnwdafEventsSubscription sub = subBuilder.SubscriptionRequestBuilder(env.getProperty("nnwdaf-eventsubscription.client.dev-url"), object);
+        NnwdafEventsSubscription sub = subBuilder.SubscriptionRequestBuilder(clientUri, object);
 
         for (int i = 0; i < object.getEventList().size(); i++) {
             RequestEventModel e = object.getEventList().get(i);
@@ -182,7 +191,7 @@ public class ClientHomeController {
         }
 
         HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(sub);
-        ResponseEntity<NnwdafEventsSubscription> res = restTemplate.exchange(apiURI, HttpMethod.PUT, req, NnwdafEventsSubscription.class);
+        ResponseEntity<NnwdafEventsSubscription> res = restTemplate.exchange(subURI, HttpMethod.PUT, req, NnwdafEventsSubscription.class);
         if (res.getStatusCode().is2xxSuccessful()) {
             String locationHeader = res.getHeaders().getFirst("Location");
             NnwdafEventsSubscription body = res.getBody();
@@ -209,11 +218,10 @@ public class ClientHomeController {
 
     @PostMapping(value = "/client/form", params = {"createSub"})
     public String post(RequestSubscriptionModel object, ModelMap map) throws JsonProcessingException {
-        String apiURI = env.getProperty("nnwdaf-eventsubscription.openapi.dev-url") + "/nwdaf-eventsubscription/v1/subscriptions";
-        object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
+        object.setNotificationURI(clientUri);
         object.setAllLists();
         CreateSubscriptionRequestBuilder subBuilder = new CreateSubscriptionRequestBuilder();
-        NnwdafEventsSubscription sub = subBuilder.SubscriptionRequestBuilder(env.getProperty("nnwdaf-eventsubscription.client.dev-url"), object);
+        NnwdafEventsSubscription sub = subBuilder.SubscriptionRequestBuilder(clientUri, object);
         sub = subBuilder.AddOptionalsToSubscription(sub, object);
         for (int i = 0; i < object.getEventList().size(); i++) {
             RequestEventModel e = object.getEventList().get(i);
@@ -232,12 +240,14 @@ public class ClientHomeController {
                 id = arr[arr.length - 1];
                 object.setId(Long.parseLong(arr[arr.length - 1]));
                 NnwdafEventsSubscription subRes = OtherUtil.setupShapes(res.getBody());
-                NwdafSubClientApplication.getLogger().info(subRes.toString());
+                if (subRes != null) {
+                    NwdafSubClientApplication.getLogger().info(subRes.toString());
+                }
                 currentSubRequests.put(object.getId(), object);
                 currentSubRequests.put(-1L, object);
                 currentSubs.put(object.getId(), subRes);
                 map.addAttribute("location", locationHeader);
-                map.put("result", subRes.toString());
+                map.put("result", subRes != null ? subRes.toString() : new NnwdafEventsSubscription().toString());
             }
         }
 
@@ -248,10 +258,10 @@ public class ClientHomeController {
 
     @RequestMapping(value = "/client/formSuccess/{id}", params = {"deleteSub"})
     public String deleteSub(RequestSubscriptionModel object, @PathVariable("id") Long id, ModelMap map) {
-        String apiURI = env.getProperty("nnwdaf-eventsubscription.openapi.dev-url") + "/nwdaf-eventsubscription/v1/subscriptions/" + id.toString();
+        String subURI = apiURI + "/" + id.toString();
         HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(null);
         try {
-            restTemplate.delete(apiURI, req);
+            restTemplate.delete(subURI, req);
         } catch (Exception e) {
             return "redirect:/client/formSuccess/" + id;
         }
@@ -295,7 +305,7 @@ public class ClientHomeController {
     // initialize form before every view render
     private void initFormAction(RequestSubscriptionModel object, ModelMap map, Optional<Long> id) {
         object.setAllLists();
-        object.setNotificationURI(env.getProperty("nnwdaf-eventsubscription.client.dev-url"));
+        object.setNotificationURI(clientUri);
         currentSubRequests.put(-1L, object);
         if (id.orElse(-1L) != -1L) {
             currentSubRequests.put(id.orElse(-1L), object);
@@ -305,9 +315,9 @@ public class ClientHomeController {
     }
 
     private void buttonActionMapper(RequestSubscriptionModel object, String command, List<Integer> values) {
-        RequestEventModel e = null;
-        if (object.getEventList().size() > 0 && values.size() > 0) {
-            e = object.getEventList().get(values.get(0));
+        RequestEventModel e;
+        if (!object.getEventList().isEmpty() && !values.isEmpty()) {
+            e = object.getEventList().get(values.getFirst());
         } else {
             e = new RequestEventModel();
         }
@@ -322,27 +332,27 @@ public class ClientHomeController {
                 object.addUeAnaEvents(null);
                 break;
             case "addRowueAnaEventsItem":
-                object.addUeAnaEventsItem(values.get(0));
+                object.addUeAnaEventsItem(values.getFirst());
                 break;
             case "addRownfAnaEvents":
                 object.addNfAnaEvents(null);
                 break;
 
             case "removePartitionCriteria":
-                object.removePartitionCriteria(values.get(0).intValue());
+                object.removePartitionCriteria(values.getFirst());
                 break;
             case "removeRownfAnaEvents":
-                object.removeNfAnaEvents(values.get(0).intValue());
+                object.removeNfAnaEvents(values.getFirst());
                 break;
             case "removeRowtaiList":
-                object.removeTaiList(values.get(0).intValue());
+                object.removeTaiList(values.getFirst());
                 break;
             case "removeRowueAnaEvents":
-                object.removeUeAnaEvents(values.get(0).intValue());
+                object.removeUeAnaEvents(values.getFirst());
                 break;
             case "removeRowueAnaEventsItem":
                 if (object.getUeAnaEvents().get(values.get(0)).size() > 1) {
-                    object.removeUeAnaEvents(values.get(0).intValue(), values.get(1).intValue());
+                    object.removeUeAnaEvents(values.get(0), values.get(1));
                 }
                 break;
             //Event mappings
@@ -350,7 +360,7 @@ public class ClientHomeController {
                 object.addEventList(null);
                 break;
             case "removeEventRow":
-                object.removeEventList(values.get(0).intValue());
+                object.removeEventList(values.getFirst());
                 break;
             case "addAnaMeta":
                 e.addAnaMeta(null);
