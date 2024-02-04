@@ -4,6 +4,7 @@ import java.lang.Exception;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import io.nwdaf.eventsubscription.model.*;
 import org.slf4j.Logger;
@@ -65,11 +66,38 @@ public class ClientHomeController {
                         .createRestTemplateFactory(secure)));
         apiURI = apiRoot + "/nwdaf-eventsubscription/v1/subscriptions";
         this.clientUri = clientUri;
+
+        try {
+            logger.info(apiURI + "?notificationUri=" + clientUri);
+            List<NnwdafEventsSubscription> eventsSubscriptions = Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(apiURI + "?notificationUri=" + clientUri, NnwdafEventsSubscription[].class)));
+            this.currentSubs.putAll(eventsSubscriptions.stream().collect(Collectors.toMap(NnwdafEventsSubscription::getId, obj -> obj)));
+            this.currentSubs.put(-1L, eventsSubscriptions.getFirst());
+            this.currentSubRequests.putAll(eventsSubscriptions.stream().collect(Collectors.toMap(NnwdafEventsSubscription::getId, obj -> new RequestSubscriptionModel().fromSubObject(obj))));
+            this.currentSubRequests.put(-1L, new RequestSubscriptionModel().fromSubObject(eventsSubscriptions.getFirst()));
+        } catch (Exception e) {
+            logger.error("Failed to fetch subscriptions from NWDAF on startup");
+        }
     }
 
     @GetMapping(value = "/client")
     public String client() {
         return "client";
+    }
+
+    @GetMapping(value = "/client/subscriptions")
+    public String getSubscriptions(ModelMap model) {
+        List<NnwdafEventsSubscription> eventsSubscriptions = Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(apiURI + "?notificationUri=" + clientUri, NnwdafEventsSubscription[].class)));
+        this.currentSubs.putAll(eventsSubscriptions.stream().collect(Collectors.toMap(NnwdafEventsSubscription::getId, obj -> obj)));
+        this.currentSubs.put(-1L, eventsSubscriptions.getFirst());
+        this.currentSubRequests.putAll(eventsSubscriptions.stream().collect(Collectors.toMap(NnwdafEventsSubscription::getId, obj -> new RequestSubscriptionModel().fromSubObject(obj))));
+        this.currentSubRequests.put(-1L, new RequestSubscriptionModel().fromSubObject(eventsSubscriptions.getFirst()));
+
+        model.addAttribute("subscriptions", this.currentSubs);
+        Map<Long, List<String>> eventMap = new HashMap<>();
+        this.currentSubs.forEach((k, v) -> eventMap.put(k, v.getEventSubscriptions().stream().map(e -> e.getEvent().getEvent().toString()).distinct().toList()));
+        model.addAttribute("serverTime", OffsetDateTime.now());
+        model.addAttribute("eventMap", eventMap);
+        return "subscriptions";
     }
 
     @GetMapping(value = "/client/form")
@@ -130,6 +158,15 @@ public class ClientHomeController {
             result = null;
             notifications = null;
         } else {
+            if (currentSubRequests.get(id) == null) {
+                try {
+                    NnwdafEventsSubscription subscription = restTemplate.getForObject(apiURI + "/" + id, NnwdafEventsSubscription.class);
+                    currentSubRequests.put(id, new RequestSubscriptionModel().fromSubObject(subscription));
+                    currentSubs.put(id, subscription);
+                } catch (Exception e) {
+                    logger.error("Failed to fetch subscription from NWDAF with id: " + id);
+                }
+            }
             object = currentSubRequests.get(id);
             result = currentSubs.get(id);
             notifications = new ArrayList<>();
@@ -166,6 +203,46 @@ public class ClientHomeController {
         model.addAttribute("serverTime", OffsetDateTime.now());
         return "formSuccess";
 
+    }
+
+    @PostMapping(value = "/client/form", params = {"createSub"})
+    public String post(RequestSubscriptionModel object, ModelMap map) throws JsonProcessingException {
+        object.setNotificationURI(clientUri);
+        object.setAllLists();
+        CreateSubscriptionRequestBuilder subBuilder = new CreateSubscriptionRequestBuilder();
+        NnwdafEventsSubscription sub = subBuilder.SubscriptionRequestBuilder(clientUri, object);
+        sub = subBuilder.AddOptionalsToSubscription(sub, object);
+        for (int i = 0; i < object.getEventList().size(); i++) {
+            RequestEventModel e = object.getEventList().get(i);
+            e.setAllLists();
+            sub = subBuilder.AddEventToSubscription(sub, e);
+        }
+        HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(sub);
+        ResponseEntity<NnwdafEventsSubscription> res = restTemplate.postForEntity(apiURI, req, NnwdafEventsSubscription.class);
+
+        String id = "";
+        if (res.getStatusCode().is2xxSuccessful()) {
+            String locationHeader = res.getHeaders().getFirst("Location");
+            if (locationHeader != null) {
+                System.out.println("Location:" + locationHeader);
+                String[] arr = locationHeader.split("/");
+                id = arr[arr.length - 1];
+                object.setId(Long.parseLong(arr[arr.length - 1]));
+                NnwdafEventsSubscription subRes = OtherUtil.setupShapes(res.getBody());
+                if (subRes != null) {
+                    NwdafSubClientApplication.getLogger().info(subRes.toString());
+                }
+                currentSubRequests.put(object.getId(), object);
+                currentSubRequests.put(-1L, object);
+                currentSubs.put(object.getId(), subRes);
+                map.addAttribute("location", locationHeader);
+                map.put("result", subRes != null ? subRes.toString() : new NnwdafEventsSubscription().toString());
+            }
+        }
+
+        map.addAttribute("nnwdafEventsSubscription", object);
+        map.addAttribute("serverTime", OffsetDateTime.now());
+        return "redirect:/client/formSuccess/" + id;
     }
 
     @PostMapping(value = "/client/formSuccess/{id}", params = {"updateSub"})
@@ -214,46 +291,6 @@ public class ClientHomeController {
         map.addAttribute("nnwdafEventsSubscription", object);
         map.addAttribute("serverTime", OffsetDateTime.now());
         return "formSuccess";
-    }
-
-    @PostMapping(value = "/client/form", params = {"createSub"})
-    public String post(RequestSubscriptionModel object, ModelMap map) throws JsonProcessingException {
-        object.setNotificationURI(clientUri);
-        object.setAllLists();
-        CreateSubscriptionRequestBuilder subBuilder = new CreateSubscriptionRequestBuilder();
-        NnwdafEventsSubscription sub = subBuilder.SubscriptionRequestBuilder(clientUri, object);
-        sub = subBuilder.AddOptionalsToSubscription(sub, object);
-        for (int i = 0; i < object.getEventList().size(); i++) {
-            RequestEventModel e = object.getEventList().get(i);
-            e.setAllLists();
-            sub = subBuilder.AddEventToSubscription(sub, e);
-        }
-        HttpEntity<NnwdafEventsSubscription> req = new HttpEntity<>(sub);
-        ResponseEntity<NnwdafEventsSubscription> res = restTemplate.postForEntity(apiURI, req, NnwdafEventsSubscription.class);
-
-        String id = "";
-        if (res.getStatusCode().is2xxSuccessful()) {
-            String locationHeader = res.getHeaders().getFirst("Location");
-            if (locationHeader != null) {
-                System.out.println("Location:" + locationHeader);
-                String[] arr = locationHeader.split("/");
-                id = arr[arr.length - 1];
-                object.setId(Long.parseLong(arr[arr.length - 1]));
-                NnwdafEventsSubscription subRes = OtherUtil.setupShapes(res.getBody());
-                if (subRes != null) {
-                    NwdafSubClientApplication.getLogger().info(subRes.toString());
-                }
-                currentSubRequests.put(object.getId(), object);
-                currentSubRequests.put(-1L, object);
-                currentSubs.put(object.getId(), subRes);
-                map.addAttribute("location", locationHeader);
-                map.put("result", subRes != null ? subRes.toString() : new NnwdafEventsSubscription().toString());
-            }
-        }
-
-        map.addAttribute("nnwdafEventsSubscription", object);
-        map.addAttribute("serverTime", OffsetDateTime.now());
-        return "redirect:/client/formSuccess/" + id;
     }
 
     @RequestMapping(value = "/client/formSuccess/{id}", params = {"deleteSub"})

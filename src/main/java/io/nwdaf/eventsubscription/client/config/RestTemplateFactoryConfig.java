@@ -5,19 +5,21 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import javax.net.ssl.SSLContext;
 
+import io.nwdaf.eventsubscription.client.NwdafSubClientApplication;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
 import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
-import org.apache.hc.client5.http.ssl.TrustAllStrategy;
 import org.apache.hc.core5.http.config.Registry;
 import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
+import org.apache.hc.core5.ssl.TrustStrategy;
 import org.springframework.core.io.Resource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -36,7 +38,6 @@ public class RestTemplateFactoryConfig {
         SSLContext sslContext;
         SSLContext insecureSslContext;
         SSLConnectionSocketFactory sslConFactory;
-        //if there is no trust store configured use http instead
         if (trustStore == null || trustStorePassword == null) {
             return new HttpComponentsClientHttpRequestFactory();
         }
@@ -44,12 +45,13 @@ public class RestTemplateFactoryConfig {
             sslContext = new SSLContextBuilder()
                     .loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray()).build();
 
+            TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
             insecureSslContext = new SSLContextBuilder()
-                    .loadTrustMaterial(TrustAllStrategy.INSTANCE).build();
+                    .loadTrustMaterial(acceptingTrustStrategy).build();
             if (secure) {
                 sslConFactory = new SSLConnectionSocketFactory(sslContext);
             } else {
-                sslConFactory = new SSLConnectionSocketFactory(insecureSslContext);
+                sslConFactory = new SSLConnectionSocketFactory(insecureSslContext, (s, sslSession) -> true);
             }
             Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
                     .register("https", sslConFactory)
@@ -59,11 +61,10 @@ public class RestTemplateFactoryConfig {
             connectionManager.setMaxTotal(2000);
             connectionManager.setDefaultMaxPerRoute(2000);
             CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(connectionManager).build();
-            ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
-            return requestFactory;
+            return new HttpComponentsClientHttpRequestFactory(httpClient);
         } catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException | CertificateException
                  | IOException e) {
-            e.printStackTrace();
+            NwdafSubClientApplication.getLogger().error("Error creating RestTemplateFactory: " + e.getMessage());
         }
         return null;
     }
